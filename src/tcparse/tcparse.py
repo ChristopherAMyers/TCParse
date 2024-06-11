@@ -105,6 +105,13 @@ class TCParcer():
         self._tc_output_file_path = os.path.split(tc_output_file)[0]
         self._file = open(tc_output_file)
         self._atoms = None
+        self._current_frame = 0
+        self._job_type = 'energy'
+
+        self._vels_univ = None
+        self._coords_univ = None
+
+        self._data = {}
 
     def __del__(self):
         self._file.close()
@@ -260,29 +267,43 @@ class TCParcer():
                 #   this is the end of the CIS section, so leave the function
                 return
 
-    def parse_data(self, positions: list, vels: list=None, end_phrase=None):
+    def add_frame_to_data(self):
+        if self._current_frame not in self._data:
+            self._data[self._current_frame] = {
+                    'atoms': self._atoms,
+                    'geom': None,
+                    'energy': []
+                }
+
+    def parse_data(self, list=None, end_phrase=None):
 
         n_atoms = len(self._atoms)
 
-        data = {
-            'atoms': self._atoms,
-            'geom': positions
-        }
-        if vels is not None:
-            data['velocities'] = vels
-        data['energy'] = []
+        # data = {
+        #     'atoms': self._atoms,
+        #     'geom': positions
+        # }
+        # if vels is not None:
+        #     data['velocities'] = vels
+        # data['energy'] = []
+
+        self.add_frame_to_data()
+        data = self._data[self._current_frame]
 
         prev_line = ''
         for line in self._file:
 
             if end_phrase is not None:
                 if end_phrase in line:
+                    print(self._current_frame)
+                    self._current_frame += 1
+                    self.add_frame_to_data()
+                    data = self._data[self._current_frame]
                     # print("PHARASE FOUND: ", data.keys())
                     # input()
-                    break
+                    # break
         
             if 'Current Geometry' in line:
-                print("CURRENT")
                 #    overwrite geometry with these coordinates instead
                 line = next(self._file)
                 coords = []
@@ -290,6 +311,7 @@ class TCParcer():
                     sp = next(self._file).split()
                     coords.append([float(x) for x in sp[1:4]])
                 data['geom'] = coords
+                
 
             if 'FINAL ENERGY' in line:
                 data['energy'].append(float(line.split()[2]))
@@ -320,20 +342,14 @@ class TCParcer():
             prev_line = line
 
         return data
+    
 
     def parse_file(self, data_output_file=None):
 
-        # tc_output_file = os.path.abspath('ex_1_high_res/tc.out')
-        # data_output_file = os.path.abspath('ex_1_high_res/data.json')
-
         is_md = False
         is_num_dipole = False
-        frame_data = {}
-        props = {}
         coords_univ = None
         vels_file = None
-        # atoms = None
-        # with open(tc_output_file) as file:
         n_atoms = None
         for line in self._file:
             if 'Total atoms:' in line:
@@ -342,6 +358,7 @@ class TCParcer():
             elif 'XYZ coordinates' in line:
                 coords_file = os.path.join(self._tc_output_file_path, line.split()[2])
                 coords_univ = mda.Universe(coords_file)
+                self._atoms = coords_univ.atoms.elements.tolist()
                 
             elif 'Scratch directory:' in line:
                 print(self._tc_output_file_path, line.split()[2])
@@ -354,44 +371,50 @@ class TCParcer():
                 vels_file = os.path.join(scr_dir, 'velocities.xyz')
                 vels_univ = mda.Universe(vels_file)
             elif 'NUMERICAL DIPOLE DERIVATIVES' in line:
+                self._current_frame = -1
+                self._data[-1] = {}
                 is_num_dipole = True
 
-
             if n_atoms is not None:
-                self._atoms = coords_univ.atoms.elements.tolist()
                 coords = coords_univ.atoms.positions.tolist()
 
                 #   MD trajectories have multiple parses
                 if is_md:
-                    vels = vels_univ.atoms.positions.tolist()
-                    data = self.parse_data(coords, vels, "MD STEP")
-                    frame_data[coords_univ.trajectory.frame] = data
-                    # print(json.dumps(data, indent=4))
-                    if coords_univ.trajectory.frame == coords_univ.trajectory.n_frames - 1:
-                        break
-                    coords_univ.trajectory.next()
-                    vels_univ.trajectory.next()
-                    print(coords_univ.trajectory.frame)
+                    self.parse_data(coords, "MD STEP")
+  
                 elif is_num_dipole:
-                    data = self.parse_data(coords, end_phrase="Current Geometry")
-                    frame_data[len(frame_data)] = data
+                    self.parse_data(coords, end_phrase="Current Geometry")
 
                 #   single jobs need to be parsed only once
                 else:
-                    data = self.parse_data(coords)
+                    self.parse_data(coords)
+                    self._data[self._current_frame]['geom'] = coords
+
+        #   frame number -1 is only used so that "Current Geometry" section
+        #   can increase the frame number THEN start reading data
+        if -1 in self._data:
+            self._data.pop(-1)
+
+        #   update coordinate and velocity information from traj files
+        if is_md:
+            coords_file = os.path.join(scr_dir, 'coors.xyz')
+            coords_univ = mda.Universe(coords_file)
+            vels_file = os.path.join(scr_dir, 'velocities.xyz')
+            vels_univ = mda.Universe(vels_file)
+            for n in range(len(self._data)):
+                self._data[coords_univ.trajectory.frame]['geom'] = coords_univ.atoms.positions.tolist()
+                self._data[coords_univ.trajectory.frame]['velocities'] = vels_univ.atoms.positions.tolist()
 
         if data_output_file is not None:
             print("Writing data to ", data_output_file)
             with open(data_output_file, 'w') as file:
                 if is_md or is_num_dipole:
-                    json.dump(frame_data, file, indent=4)
+                    json.dump(self._data, file, indent=4)
                 else:
-                    json.dump(data, file, indent=4)
+                    json.dump(self._data[0], file, indent=4)
         
-        if is_md:
-            return frame_data
-        else:
-            return data
+        return self._data
+
 
 def main():
     parser = TCParcer(sys.argv[1])
