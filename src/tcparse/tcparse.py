@@ -1,9 +1,6 @@
-from tcpb import TCProtobufClient
 import MDAnalysis as mda
-import pickle
 import os
 import json
-import time
 import numpy as np
 import sys
 
@@ -177,6 +174,46 @@ class TCParcer():
             'resp_dipole': resp_dipole_au.tolist()
         }
 
+
+    def parse_cas_section(self, n_atoms, data: dict):
+        n_states = 0
+        coefficients = []
+        for line in self._file:
+            # if '' in line:
+            #     return
+            
+            if 'Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)' in line:
+                line = next(self._file)
+                line = next(self._file)
+                while len(line.split()) > 0:
+                    n_states += 1
+                    energy = float(line.split()[2])
+                    data['energy'].append(energy)
+                    line = next(self._file)
+                data['cas_states'] = n_states
+            
+            elif 'Singlet state dipole moments' in line:
+                dipoles = []
+                for i in range(3): next(self._file)
+                for i in range(n_states):
+                    line = next(self._file)
+                    dip = [float(x)*DEBYE_2_AU for x in line.split()[1:4]]
+                    dipoles.append(dip)
+                data['cas_dipoles'] = dipoles
+
+            elif 'Singlet state electronic transitions:' in line:
+                data['cas_transition_dipoles'] = []
+                for i in range(3): next(self._file)
+                line = next(self._file)
+                while len(line.split()) > 0:
+                    dip = [float(x) for x in line.split()[3:6]]
+                    data['cas_transition_dipoles'].append(dip)
+                    line = next(self._file)
+
+                #   this is the last CAS section that we can read,
+                #   so leave the function
+                return
+
     def parse_cis_section(self, n_atoms, data: dict):
         n_states = 0
         coefficients = []
@@ -279,14 +316,6 @@ class TCParcer():
 
         n_atoms = len(self._atoms)
 
-        # data = {
-        #     'atoms': self._atoms,
-        #     'geom': positions
-        # }
-        # if vels is not None:
-        #     data['velocities'] = vels
-        # data['energy'] = []
-
         self.add_frame_to_data()
         data = self._data[self._current_frame]
 
@@ -295,13 +324,12 @@ class TCParcer():
 
             if end_phrase is not None:
                 if end_phrase in line:
-                    print(self._current_frame)
+                    if self._current_frame % 100 == 0:
+                        print("Parsing frame ", self._current_frame)
                     self._current_frame += 1
                     self.add_frame_to_data()
                     data = self._data[self._current_frame]
-                    # print("PHARASE FOUND: ", data.keys())
-                    # input()
-                    # break
+
         
             if 'Current Geometry' in line:
                 #    overwrite geometry with these coordinates instead
@@ -327,14 +355,14 @@ class TCParcer():
             elif 'CIS Parameters' in line:
                 self.parse_cis_section(n_atoms, data)
 
+            elif 'CAS Parameters' in line:
+                self.parse_cas_section(n_atoms, data)
+
+            elif 'Dipole Derivative X' in line:
+                pass
+
             elif 'Gradient units are Hartree/Bohr' in line:
-                next(self._file)
-                next(self._file)
-                grad = []
-                for i in range(n_atoms):
-                    sp = next(self._file).split()
-                    grad.append([float(x) for x in sp])
-                data['gradient'] = grad
+                data['gradient'] = self._parse_gradient()
 
             elif 'Running Resp charge analysis...' in line:
                 self.parse_charge_info(data, n_atoms, prev_line)
@@ -343,6 +371,18 @@ class TCParcer():
 
         return data
     
+    # def _parse_dipole_deriv(self, n_states):
+    #     dip_derivs = {}
+    #     while current_line
+    
+    def _parse_gradient(self):
+        next(self._file)
+        next(self._file)
+        grad = []
+        for i in range(len(self._atoms)):
+            sp = next(self._file).split()
+            grad.append([float(x) for x in sp])
+        return grad
 
     def parse_file(self, data_output_file=None):
 
@@ -357,11 +397,14 @@ class TCParcer():
 
             elif 'XYZ coordinates' in line:
                 coords_file = os.path.join(self._tc_output_file_path, line.split()[2])
+                # if not os.path.isfile(coords_file):
+                #     print("Could not find ", coords_file)
+                #     print("    Coordinates will not be imported")
+
                 coords_univ = mda.Universe(coords_file)
                 self._atoms = coords_univ.atoms.elements.tolist()
                 
             elif 'Scratch directory:' in line:
-                print(self._tc_output_file_path, line.split()[2])
                 scr_dir = os.path.join(self._tc_output_file_path, line.split()[2])
                 
             if 'RUNNING AB INITIO MOLECULAR DYNAMICS' in line:
@@ -383,6 +426,7 @@ class TCParcer():
                     self.parse_data(coords, "MD STEP")
   
                 elif is_num_dipole:
+                    print("Parsing Numerical Dipole job")
                     self.parse_data(coords, end_phrase="Current Geometry")
 
                 #   single jobs need to be parsed only once
@@ -419,7 +463,6 @@ class TCParcer():
 def main():
     parser = TCParcer(sys.argv[1])
     parser.parse_file(sys.argv[2])
-    # parse_file(sys.argv[1], sys.argv[2])
 
 if __name__ == '__main__':
     main()
