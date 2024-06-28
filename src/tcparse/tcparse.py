@@ -185,6 +185,7 @@ class TCParcer():
             if 'Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)' in line:
                 line = next(self._file)
                 line = next(self._file)
+                data['energy'] = []
                 while len(line.split()) > 0:
                     n_states += 1
                     energy = float(line.split()[2])
@@ -358,8 +359,8 @@ class TCParcer():
             elif 'CAS Parameters' in line:
                 self.parse_cas_section(n_atoms, data)
 
-            elif 'Dipole Derivative X' in line:
-                pass
+            elif 'Dipole Derivative' in line:
+                self._parse_dipole_deriv(data, line)
 
             elif 'Gradient units are Hartree/Bohr' in line:
                 data['gradient'] = self._parse_gradient()
@@ -369,11 +370,52 @@ class TCParcer():
 
             prev_line = line
 
+        self._post_process_data(data)
+
         return data
     
-    # def _parse_dipole_deriv(self, n_states):
-    #     dip_derivs = {}
-    #     while current_line
+    def _post_process_data(self, data: dict):
+        n_states = len(data['energy'])
+        if 'num_dipole_derivatives' in data:
+            old_data = data['num_dipole_derivatives']
+            new_data = []
+            for i in range(int(n_states*(n_states+1)/2)):
+                dMu_X = old_data.pop(0)
+                dMu_Y = old_data.pop(0)
+                dMu_Z = old_data.pop(0)
+                new_data.append([dMu_X, dMu_Y, dMu_Z])
+            data['num_dipole_derivatives'] = new_data
+
+    def _parse_dipole_deriv(self, data, current_line):
+        #   add entry to data if not present
+        if 'num_dipole_derivatives' not in data:
+            data['num_dipole_derivatives'] = []
+        section = data['num_dipole_derivatives']
+        derivatives = []
+  
+        #   figure out what derivatives these are
+        sp = current_line.split()
+        idx = sp.index('State')
+        state_1 = int(sp[idx+1].replace(':', ''))
+        for j in range(idx+1):
+            sp.pop(0)
+        if 'State' in sp:
+            idx = sp.index('State')
+            state_2 = int(sp[idx+1].replace(':', ''))
+        else:
+            state_2 = state_1
+        direction = sp[-1]
+
+        #   read in derivatives
+        while 'dE' not in current_line:
+            current_line = next(self._file)
+        current_line = next(self._file)
+        while '---' not in current_line:
+            derivatives.append([float(x) for x in current_line.split()])
+            current_line = next(self._file)
+
+        data['num_dipole_derivatives'].append(derivatives)
+        
     
     def _parse_gradient(self):
         next(self._file)
@@ -413,6 +455,7 @@ class TCParcer():
                 coords_univ = mda.Universe(coords_file)
                 vels_file = os.path.join(scr_dir, 'velocities.xyz')
                 vels_univ = mda.Universe(vels_file)
+
             elif 'NUMERICAL DIPOLE DERIVATIVES' in line:
                 self._current_frame = -1
                 self._data[-1] = {}
