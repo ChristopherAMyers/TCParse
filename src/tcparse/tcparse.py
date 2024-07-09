@@ -518,13 +518,24 @@ class TCParcer():
                     if not os.path.isfile(coords_file):
                         print("Could not find ", coords_file)
                         print("    Coordinates will not be imported")
-                    coords_univ = XYZFile(coords_file)
-                    self._atoms = coords_univ.get_atoms()
-                    coords = coords_univ.get_coords()
-                    print("CURRENT FRAME ", self._current_frame, self._data.keys())
-                    self._data[self._current_frame]['geom'] = coords
+                    else:
+                        coords_univ = XYZFile(coords_file)
+                        self._atoms = coords_univ.get_atoms()
+                        coords = coords_univ.get_coords()
+                        self._data[self._current_frame]['geom'] = coords
                 else:
                     print("Could not import geometry")
+            
+            elif 'Velocities file:' in line:
+                vels_file = os.path.join(self._tc_output_file_path, line.split()[2])
+                if not os.path.isfile(vels_file):
+                    print("Could not find ", vels_file)
+                    print("    Velocities will not be imported")
+                else:
+                    vels_univ = XYZFile(vels_file)
+                    self._atoms = vels_univ.get_atoms()
+                    vels = vels_univ.get_coords()
+                    self._data[self._current_frame]['velocities'] = vels
                 
             elif 'Scratch directory:' in line:
                 if self._tc_output_file_path is not None:
@@ -533,7 +544,6 @@ class TCParcer():
 
             if 'RUNNING AB INITIO MOLECULAR DYNAMICS' in line:
                 is_md = True
-                print("IS MD")
             elif 'NUMERICAL DIPOLE DERIVATIVES' in line:
                 self._current_frame = -1
                 self._data[-1] = {}
@@ -566,12 +576,7 @@ class TCParcer():
                 coords_file = os.path.join(scr_dir, 'coors.xyz')
                 coords_univ = XYZFile(coords_file)
                 vels_file = os.path.join(scr_dir, 'velocities.xyz')
-                # vels_univ = mda.Universe(vels_file)
                 vels_univ = XYZFile(vels_file)
-                # for n in range(len(self._data)):
-                # for ts_c in coords_univ.trajectory:
-                #     print("GEOM: ", ts_c.frame)
-                #     self._data[ts_c.frame+1]['geom'] = coords_univ.atoms.positions.tolist()
 
                 for n in range(coords_univ.n_frames):
                     frame = coords_univ.get_frame_num_from_comment(n)
