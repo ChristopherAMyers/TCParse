@@ -8,7 +8,6 @@ version = "0.1.0"
 dependencies = [
   "numpy>=1.23",
   "pandas>=2.1.1",
-  "mdanalysis>=2.6"
 ]
 requires-python = ">=3.9"
 authors = [
@@ -28,7 +27,3 @@ classifiers = [
 
 [project.scripts]
 tcparse = "tcparse.tcparse:main"
-
-# [tool.setuptools.packages.find]
-# where = ["pysces"]
-# exclude = ["examples", "debug", "__pycache__"]
