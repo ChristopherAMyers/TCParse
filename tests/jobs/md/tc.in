@@ -1,0 +1,19 @@
+run md
+method camb3lyp
+basis 6-31G*
+charge 0
+coordinates geom.xyz
+velocities vels.xyz
+dftd d3
+
+#cis yes
+#cisnumstates 3
+#cistarget 3
+
+#   MD parameters
+rescalefreq 10000000
+nstep   20
+md_outputfreq       2
+timestep            0.5
+restartmdfreq       100
+end
