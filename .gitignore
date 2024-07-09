@@ -2,3 +2,4 @@
 src/tcparse/debug
 *.pyc
 debug*
+tests

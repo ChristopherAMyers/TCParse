@@ -1,12 +1,59 @@
-import MDAnalysis as mda
 import os
 import json
 import numpy as np
 import sys
+import io
 
 DEBYE_2_AU = 0.3934303
 ANG_2_BOHR = 1.8897259886
 BOHR_2_ANG = 1.0/ANG_2_BOHR
+
+class XYZFile():
+    def __init__(self, file_loc) -> None:
+        self._atom_data = []
+        self._coord_data = []
+        self._comment_data = []
+        self._current_frame = 0
+
+        self._n_atoms = 0
+        with open(file_loc) as file:
+            for line in file:
+                #   sometimes a blank line is inserted between each frame
+                if len(line.split()) == 0:
+                    continue
+                if self._n_atoms == 0:
+                    self._n_atoms = int(line)
+                line = next(file)
+                self._comment_data.append(line)
+                atoms = []
+                coords = []
+                for n in range(self._n_atoms):
+                    line = next(file)
+                    sp = line.split()
+                    atoms.append(sp[0])
+                    coords.append([float(x) for x in sp[1:]])
+                self._atom_data.append(atoms)
+                self._coord_data.append(coords)
+
+
+    @property
+    def n_frames(self):
+        return len(self._comment_data)
+    
+    def get_atoms(self, frame=0):
+        return self._atom_data[frame]
+    def get_coords(self, frame=0):
+        return self._coord_data[frame]
+    def get_comment(self, frame=0):
+        return self._comment_data[frame]
+    
+    def get_frame_num_from_comment(self, frame):
+        line = self._comment_data[frame]
+        sp = line.split()
+        where = sp.index('frame')
+        comment_frame = int(sp[where + 1])
+        return comment_frame
+
 
 def reorder_charge_info(data):
     ''' Never finished this function!!!!!'''
@@ -98,10 +145,12 @@ def correct_cis_signs(data, compare_vecs=None):
             count += 1
     
 class TCParcer():
-    def __init__(self, tc_output_file) -> None:
-        self._tc_output_file_path = os.path.split(tc_output_file)[0]
-        self._file = open(tc_output_file)
+    def __init__(self) -> None:
+        self._tc_output_file_path = None
+        self._coords = None
+
         self._atoms = None
+        self._n_atoms = None
         self._current_frame = 0
         self._job_type = 'energy'
 
@@ -109,11 +158,12 @@ class TCParcer():
         self._coords_univ = None
 
         self._data = {}
+        self._add_frame_to_data()
 
     def __del__(self):
         self._file.close()
 
-    def parse_charge_info(self, data, n_atoms, previous_line):
+    def _parse_charge_info(self, data, n_atoms, previous_line):
 
         chg_line = previous_line
         sp = chg_line.split()
@@ -175,7 +225,7 @@ class TCParcer():
         }
 
 
-    def parse_cas_section(self, n_atoms, data: dict):
+    def _parse_cas_section(self, n_atoms, data: dict):
         n_states = 0
         coefficients = []
         for line in self._file:
@@ -215,7 +265,7 @@ class TCParcer():
                 #   so leave the function
                 return
 
-    def parse_cis_section(self, n_atoms, data: dict):
+    def _parse_cis_section(self, n_atoms, data: dict):
         n_states = 0
         coefficients = []
         for line in self._file:
@@ -305,7 +355,7 @@ class TCParcer():
                 #   this is the end of the CIS section, so leave the function
                 return
 
-    def add_frame_to_data(self):
+    def _add_frame_to_data(self):
         if self._current_frame not in self._data:
             self._data[self._current_frame] = {
                     'atoms': self._atoms,
@@ -313,11 +363,11 @@ class TCParcer():
                     'energy': []
                 }
 
-    def parse_data(self, list=None, end_phrase=None):
+    def _parse_data(self, list=None, end_phrase=None):
 
-        n_atoms = len(self._atoms)
+        n_atoms = self._n_atoms
 
-        self.add_frame_to_data()
+        self._add_frame_to_data()
         data = self._data[self._current_frame]
 
         prev_line = ''
@@ -328,7 +378,7 @@ class TCParcer():
                     if self._current_frame % 100 == 0:
                         print("Parsing frame ", self._current_frame)
                     self._current_frame += 1
-                    self.add_frame_to_data()
+                    self._add_frame_to_data()
                     data = self._data[self._current_frame]
 
         
@@ -354,10 +404,10 @@ class TCParcer():
                 data['dipole_vector'] = dip
 
             elif 'CIS Parameters' in line:
-                self.parse_cis_section(n_atoms, data)
+                self._parse_cis_section(n_atoms, data)
 
             elif 'CAS Parameters' in line:
-                self.parse_cas_section(n_atoms, data)
+                self._parse_cas_section(n_atoms, data)
 
             elif 'Dipole Derivative' in line:
                 self._parse_dipole_deriv(data, line)
@@ -366,7 +416,7 @@ class TCParcer():
                 data['gradient'] = self._parse_gradient()
 
             elif 'Running Resp charge analysis...' in line:
-                self.parse_charge_info(data, n_atoms, prev_line)
+                self._parse_charge_info(data, n_atoms, prev_line)
 
             prev_line = line
 
@@ -426,56 +476,84 @@ class TCParcer():
             grad.append([float(x) for x in sp])
         return grad
 
-    def parse_file(self, data_output_file=None):
+    def parse_from_list(self, file_lines: list[str], data_output_file=None):
+        #   create temporary file
+        ram_file = io.StringIO()
+        for line in file_lines:
+            if len(line) == 0:
+                line = '\n'
+            elif line[-1] != '\n':
+                line += '\n'
+            ram_file.write(line)
+        ram_file.seek(0)
+        self._file = ram_file
+        return self._parse_all(data_output_file)
+    
+    def parse_from_file(self, tc_output_file: str, data_output_file=None):
+        self._tc_output_file_path = os.path.split(tc_output_file)[0]
+        self._file = open(tc_output_file)
+        return self._parse_all(data_output_file)
+
+    def _parse_all(self, data_output_file=None):
 
         is_md = False
         is_num_dipole = False
         coords_univ = None
         vels_file = None
-        n_atoms = None
+        n_atoms_job = None
+        scr_dir = None
         for line in self._file:
             if 'Total atoms:' in line:
-                n_atoms = int(line.split()[2])
+                n_atoms_job = int(line.split()[2])
+                if self._n_atoms is not None and self._n_atoms != n_atoms_job:
+                    raise ValueError('Number of supplied atoms does not equal the amount specified in job output')
+                self._n_atoms = n_atoms_job
+
 
             elif 'XYZ coordinates' in line:
-                coords_file = os.path.join(self._tc_output_file_path, line.split()[2])
-                # if not os.path.isfile(coords_file):
-                #     print("Could not find ", coords_file)
-                #     print("    Coordinates will not be imported")
-
-                coords_univ = mda.Universe(coords_file)
-                self._atoms = coords_univ.atoms.elements.tolist()
+                if self._coords is not None:
+                    self._data[self._current_frame]['geom'] = self._coords
+                elif self._tc_output_file_path is not None:
+                    coords_file = os.path.join(self._tc_output_file_path, line.split()[2])
+                    if not os.path.isfile(coords_file):
+                        print("Could not find ", coords_file)
+                        print("    Coordinates will not be imported")
+                    coords_univ = XYZFile(coords_file)
+                    self._atoms = coords_univ.get_atoms()
+                    coords = coords_univ.get_coords()
+                    print("CURRENT FRAME ", self._current_frame, self._data.keys())
+                    self._data[self._current_frame]['geom'] = coords
+                else:
+                    print("Could not import geometry")
                 
             elif 'Scratch directory:' in line:
-                scr_dir = os.path.join(self._tc_output_file_path, line.split()[2])
-                
+                if self._tc_output_file_path is not None:
+                    scr_dir = os.path.join(self._tc_output_file_path, line.split()[2])
+
+
             if 'RUNNING AB INITIO MOLECULAR DYNAMICS' in line:
                 is_md = True
-                coords_file = os.path.join(scr_dir, 'coors.xyz')
-                coords_univ = mda.Universe(coords_file)
-                vels_file = os.path.join(scr_dir, 'velocities.xyz')
-                vels_univ = mda.Universe(vels_file)
-
+                print("IS MD")
             elif 'NUMERICAL DIPOLE DERIVATIVES' in line:
                 self._current_frame = -1
                 self._data[-1] = {}
                 is_num_dipole = True
 
-            if n_atoms is not None:
-                coords = coords_univ.atoms.positions.tolist()
 
+            if n_atoms_job is not None:
                 #   MD trajectories have multiple parses
                 if is_md:
-                    self.parse_data(coords, "MD STEP")
+                    print("PARSING STEP")
+                    self._parse_data(end_phrase="MD STEP")
   
                 elif is_num_dipole:
                     print("Parsing Numerical Dipole job")
-                    self.parse_data(coords, end_phrase="Current Geometry")
+                    self._parse_data(end_phrase="Current Geometry")
 
                 #   single jobs need to be parsed only once
                 else:
-                    self.parse_data(coords)
-                    self._data[self._current_frame]['geom'] = coords
+                    self._parse_data()
+                    
 
         #   frame number -1 is only used so that "Current Geometry" section
         #   can increase the frame number THEN start reading data
@@ -484,13 +562,30 @@ class TCParcer():
 
         #   update coordinate and velocity information from traj files
         if is_md:
-            coords_file = os.path.join(scr_dir, 'coors.xyz')
-            coords_univ = mda.Universe(coords_file)
-            vels_file = os.path.join(scr_dir, 'velocities.xyz')
-            vels_univ = mda.Universe(vels_file)
-            for n in range(len(self._data)):
-                self._data[coords_univ.trajectory.frame]['geom'] = coords_univ.atoms.positions.tolist()
-                self._data[coords_univ.trajectory.frame]['velocities'] = vels_univ.atoms.positions.tolist()
+            if scr_dir is not None:
+                coords_file = os.path.join(scr_dir, 'coors.xyz')
+                coords_univ = XYZFile(coords_file)
+                vels_file = os.path.join(scr_dir, 'velocities.xyz')
+                # vels_univ = mda.Universe(vels_file)
+                vels_univ = XYZFile(vels_file)
+                # for n in range(len(self._data)):
+                # for ts_c in coords_univ.trajectory:
+                #     print("GEOM: ", ts_c.frame)
+                #     self._data[ts_c.frame+1]['geom'] = coords_univ.atoms.positions.tolist()
+
+                for n in range(coords_univ.n_frames):
+                    frame = coords_univ.get_frame_num_from_comment(n)
+                    self._data[frame + 1]['geom'] = coords_univ.get_coords(n)
+
+                for n in range(vels_univ.n_frames):
+                    frame = vels_univ.get_frame_num_from_comment(n)
+                    self._data[frame + 1]['velocities'] = vels_univ.get_coords(n)
+                for frame in self._data:
+                    if 'velocities' not in self._data[frame]:
+                        self._data[frame]['velocities'] = None
+
+            else:
+                print("Scratch directory not found: cannot import coordinates and velocities")
 
         if data_output_file is not None:
             print("Writing data to ", data_output_file)
@@ -504,8 +599,8 @@ class TCParcer():
 
 
 def main():
-    parser = TCParcer(sys.argv[1])
-    parser.parse_file(sys.argv[2])
+    parser = TCParcer()
+    parser.parse_from_file(sys.argv[1], sys.argv[2])
 
 if __name__ == '__main__':
     main()
