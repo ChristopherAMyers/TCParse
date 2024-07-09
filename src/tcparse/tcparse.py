@@ -523,6 +523,7 @@ class TCParcer():
                         self._atoms = coords_univ.get_atoms()
                         coords = coords_univ.get_coords()
                         self._data[self._current_frame]['geom'] = coords
+                        self._data[self._current_frame]['atoms'] = self._atoms 
                 else:
                     print("Could not import geometry")
             
