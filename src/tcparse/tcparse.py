@@ -471,7 +471,7 @@ class TCParcer():
         next(self._file)
         next(self._file)
         grad = []
-        for i in range(len(self._atoms)):
+        for i in range(self._n_atoms):
             sp = next(self._file).split()
             grad.append([float(x) for x in sp])
         return grad
