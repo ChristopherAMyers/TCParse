@@ -261,8 +261,28 @@ class TCParcer():
                     data['cas_transition_dipoles'].append(dip)
                     line = next(self._file)
 
-                #   this is the last CAS section that we can read,
-                #   so leave the function
+            elif 'Singlet state electric transition quadrupole moments' in line:
+                #   this is the last CAS section that we can read
+                #   read past this part, we don't save the info (yet)
+                line = next(self._file)
+                line = next(self._file)
+                while len(line.split()) > 0:
+                    line = next(self._file)
+                line = next(self._file)
+
+                #   check to see if the overlaps are printed, and save them if so
+                if len(line.split()) > 0:
+                    #   first it prints the raw wavefunction overlaps
+                    for i in range(n_states):
+                        line = next(self._file)
+                    #   then it prints the sign corercted overlaps
+                    overlaps = []
+                    for i in range(n_states):
+                        line = next(self._file)
+                        overlaps.append([float(x) for x in line.split()])
+                    data['ci_overlap'] = overlaps
+
+                #   leave the function
                 return
 
     def _parse_cis_section(self, n_atoms, data: dict):
@@ -497,7 +517,7 @@ class TCParcer():
     def _parse_all(self, data_output_file=None):
 
         is_md = False
-        is_num_dipole = False
+        is_num_deriv = False
         coords_univ = None
         vels_file = None
         n_atoms_job = None
@@ -525,7 +545,8 @@ class TCParcer():
                         self._data[self._current_frame]['geom'] = coords
                         self._data[self._current_frame]['atoms'] = self._atoms 
                 else:
-                    print("Could not import geometry")
+                    pass
+                    # print("Could not import geometry")
             
             elif 'Velocities file:' in line:
                 vels_file = os.path.join(self._tc_output_file_path, line.split()[2])
@@ -545,10 +566,10 @@ class TCParcer():
 
             if 'RUNNING AB INITIO MOLECULAR DYNAMICS' in line:
                 is_md = True
-            elif 'NUMERICAL DIPOLE DERIVATIVES' in line:
+            elif 'NUMERICAL DIPOLE' in line or 'NUMERICAL NONADIABATIC' in line:
                 self._current_frame = -1
                 self._data[-1] = {}
-                is_num_dipole = True
+                is_num_deriv = True
 
 
             if n_atoms_job is not None:
@@ -557,8 +578,8 @@ class TCParcer():
                     print("PARSING STEP")
                     self._parse_data(end_phrase="MD STEP")
   
-                elif is_num_dipole:
-                    print("Parsing Numerical Dipole job")
+                elif is_num_deriv:
+                    print("Parsing Numerical Derivative job")
                     self._parse_data(end_phrase="Current Geometry")
 
                 #   single jobs need to be parsed only once
@@ -596,12 +617,13 @@ class TCParcer():
         if data_output_file is not None:
             print("Writing data to ", data_output_file)
             with open(data_output_file, 'w') as file:
-                if is_md or is_num_dipole:
+                if is_md or is_num_deriv:
                     json.dump(self._data, file, indent=4)
                 else:
                     json.dump(self._data[0], file, indent=4)
         
-        return self._data
+        if is_md or is_num_deriv: return self._data
+        else: return self._data[0]
 
 
 def main():
