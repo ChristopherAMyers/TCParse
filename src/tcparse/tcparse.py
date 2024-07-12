@@ -272,6 +272,9 @@ class TCParcer():
 
                 #   check to see if the overlaps are printed, and save them if so
                 if len(line.split()) > 0:
+                    if not line.split()[0].isnumeric():
+                        #   if it's not a number, then this is not an overlap
+                        return
                     #   first it prints the raw wavefunction overlaps
                     for i in range(n_states):
                         line = next(self._file)
