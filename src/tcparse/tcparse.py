@@ -363,6 +363,9 @@ class TCParcer():
                 coefficients.append(coeff)
                 if root == n_states - 1:
                     data['cis_excitations'] = coefficients
+            
+            elif 'Running Resp charge analysis...' in line:
+                self._parse_charge_info(data, n_atoms, prev_line)
 
             elif 'Final Excited State Results' in line:
                 for i in range(3): next(self._file)
@@ -377,6 +380,8 @@ class TCParcer():
 
                 #   this is the end of the CIS section, so leave the function
                 return
+            
+            prev_line = line
 
     def _add_frame_to_data(self):
         if self._current_frame not in self._data:
@@ -499,7 +504,15 @@ class TCParcer():
             grad.append([float(x) for x in sp])
         return grad
 
-    def parse_from_list(self, file_lines: list[str], data_output_file=None):
+    def parse_from_list(self, file_lines: list[str], data_output_file: str=None):
+        '''
+            Parse a list lines taken from a TeraChem output.
+
+            Parameters
+            ---------
+            file_lines: List if strings of each line in the output
+            data_output_file: final json file to write the parsed data to
+        '''
         #   create temporary file
         ram_file = io.StringIO()
         for line in file_lines:
