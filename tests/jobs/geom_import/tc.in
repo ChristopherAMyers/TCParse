@@ -1,0 +1,5 @@
+run energy
+method camb3lyp
+basis 6-31G*
+coordinates geom.xyz
+charge 0

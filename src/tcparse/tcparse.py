@@ -3,6 +3,7 @@ import json
 import numpy as np
 import sys
 import io
+import argparse
 
 DEBYE_2_AU = 0.3934303
 ANG_2_BOHR = 1.8897259886
@@ -504,15 +505,21 @@ class TCParcer():
             grad.append([float(x) for x in sp])
         return grad
 
-    def parse_from_list(self, file_lines: list[str], data_output_file: str=None):
+    def parse_from_list(self, file_lines: list[str], coords_file: str=None, data_output_file: str=None):
         '''
             Parse a list lines taken from a TeraChem output.
 
             Parameters
             ---------
-            file_lines: List if strings of each line in the output
-            data_output_file: final json file to write the parsed data to
+            file_lines: list
+                List if strings of each line in the output.
+            coords_file: str
+                location of the coordinate file. If not supplied, TCParse will try to
+                use the location specified in the TeraChem output.
+            data_output_file: str
+                final json file location to write the parsed data to.
         '''
+
         #   create temporary file
         ram_file = io.StringIO()
         for line in file_lines:
@@ -523,14 +530,37 @@ class TCParcer():
             ram_file.write(line)
         ram_file.seek(0)
         self._file = ram_file
-        return self._parse_all(data_output_file)
+        return self._parse_all(coords_file, data_output_file)
     
-    def parse_from_file(self, tc_output_file: str, data_output_file=None):
+    def parse_from_file(self, tc_output_file: str, coords_file : str=None, data_output_file=None):
+        '''
+            Parse a list lines taken from a TeraChem output.
+
+            Parameters
+            ---------
+            tc_output_file: str
+                lcoation of the terachem output file.
+            coords_file: str
+                location of the coordinate file. If not supplied, TCParse will try to
+                use the location specified in the TeraChem output.
+            data_output_file: str
+                final json file location to write the parsed data to.
+        '''
         self._tc_output_file_path = os.path.split(tc_output_file)[0]
         self._file = open(tc_output_file)
-        return self._parse_all(data_output_file)
+        return self._parse_all(coords_file, data_output_file)
 
-    def _parse_all(self, data_output_file=None):
+    def _parse_coords(self, coords_file):
+        if not os.path.isfile(coords_file):
+            raise FileNotFoundError(f'Could not find coordinate file {coords_file}')
+        else:
+            coords_univ = XYZFile(coords_file)
+            self._atoms = coords_univ.get_atoms()
+            coords = coords_univ.get_coords()
+            self._data[self._current_frame]['geom'] = coords
+            self._data[self._current_frame]['atoms'] = self._atoms 
+
+    def _parse_all(self, coords_file=None, data_output_file=None):
 
         is_md = False
         is_num_deriv = False
@@ -538,6 +568,10 @@ class TCParcer():
         vels_file = None
         n_atoms_job = None
         scr_dir = None
+
+        if coords_file is not None:
+            self._parse_coords(coords_file)
+
         for line in self._file:
             if 'Total atoms:' in line:
                 n_atoms_job = int(line.split()[2])
@@ -546,20 +580,21 @@ class TCParcer():
                 self._n_atoms = n_atoms_job
 
 
-            elif 'XYZ coordinates' in line:
+            elif 'XYZ coordinates' in line and coords_file is None:
                 if self._coords is not None:
                     self._data[self._current_frame]['geom'] = self._coords
                 elif self._tc_output_file_path is not None:
                     coords_file = os.path.join(self._tc_output_file_path, line.split()[2])
-                    if not os.path.isfile(coords_file):
-                        print("Could not find ", coords_file)
-                        print("    Coordinates will not be imported")
-                    else:
-                        coords_univ = XYZFile(coords_file)
-                        self._atoms = coords_univ.get_atoms()
-                        coords = coords_univ.get_coords()
-                        self._data[self._current_frame]['geom'] = coords
-                        self._data[self._current_frame]['atoms'] = self._atoms 
+                    self._parse_coords(coords_file)
+                    # if not os.path.isfile(coords_file):
+                    #     print("Could not find ", coords_file)
+                    #     print("    Coordinates will not be imported")
+                    # else:
+                    #     coords_univ = XYZFile(coords_file)
+                    #     self._atoms = coords_univ.get_atoms()
+                    #     coords = coords_univ.get_coords()
+                    #     self._data[self._current_frame]['geom'] = coords
+                    #     self._data[self._current_frame]['atoms'] = self._atoms 
                 else:
                     pass
                     # print("Could not import geometry")
@@ -643,8 +678,14 @@ class TCParcer():
 
 
 def main():
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('-t', type=str, required=True,  default=None, help='TeraChem output file')
+    arg_parser.add_argument('-j', type=str, required=True,  default=None, help='.json file to save parsed output to')
+    arg_parser.add_argument('-x', type=str, required=False, default=None, help='.xyz coordinate file')
+    args = arg_parser.parse_args()
+
     parser = TCParcer()
-    parser.parse_from_file(sys.argv[1], sys.argv[2])
+    parser.parse_from_file(args.t, args.x, args.j)
 
 if __name__ == '__main__':
     main()
