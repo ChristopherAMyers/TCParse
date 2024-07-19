@@ -94,7 +94,7 @@ def reorder_charge_info(data):
     unrelaxed_dipoles = data['cis_unrelaxed_dipoles']
     tr_dipoles = data['cis_transition_dipoles']
 
-def correct_cis_signs(data, compare_vecs=None):
+def correct_cis_signs(data: dict, compare_vecs=None):
     energies = data['energy']
     n_states = len(energies)
 
