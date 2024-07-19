@@ -391,7 +391,7 @@ class TCParcer():
                     'geom': None,
                     'energy': []
                 }
-
+            
     def _parse_data(self, list=None, end_phrase=None):
 
         n_atoms = self._n_atoms
@@ -425,6 +425,12 @@ class TCParcer():
                 data['energy'].append(float(line.split()[2]))
 
             elif 'DIPOLE MOMENT' in line:
+                #   as of now, we don't parse dipoles with point charges
+                if line.split()[0] in ['MM', 'TOT']:
+                    continue
+                line = line.replace('QM', '')
+
+                #   replace brackets so we can split by white space
                 for x in ['{', '}', ',', '(', ')']:
                     line = line.replace(x, ' ')
                 dip = [float(x) for x in line.split()[2:5]]
