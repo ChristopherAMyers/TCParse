@@ -75,3 +75,15 @@ class TestParser(unittest.TestCase):
 
         self._test_single_job(ref_data, tst_data)
 
+    def test_cis_import(self):
+        os.chdir(self._orig_dir)
+        os.chdir('jobs/cis')
+        parser = TCParcer()
+        tst_data = parser.parse_from_file('tc.out')
+        tst_data = json.loads(json.dumps(tst_data))
+        with open('tc.json') as file:
+            ref_data = json.load(file)
+
+        self._test_single_job(ref_data, tst_data)
+
+

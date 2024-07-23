@@ -1,0 +1,3454 @@
+| Startfile from command line: analytical_deriv.in
+
+
+|       ***********************************************************
+|       *                 TeraChem v1.9-2023.09-dev               *
+|       *                   Development Version                   *
+|       *           Chemistry at the Speed of Graphics!           *
+|       ***********************************************************
+|       * This program may only be used in connection with        *
+|       * a valid license from PetaChem, LLC. Use of this program *
+|       * or results thereof indicates acceptance of all terms    *
+|       * and conditions stated in the license and that a valid   *
+|       * license agreement between the user and PetaChem, LLC    *
+|       * exists. PetaChem, LLC does not warrant the correctness  *
+|       * of results or their suitability for any purpose.        *
+|       * Please email bugs, suggestions, and comments to         *
+|       *                  help@petachem.com                      *
+|       *                                                         *
+|       ***********************************************************
+
+
+|       ***********************************************************
+|       *  Compiled by root         Fri Sep  8 02:45:55 UTC 2023  *
+|       *  Supported architecture SMs: 52 61 70 80 89             *
+|       *  Build cuda_11.8.r11.8/compiler.31833905_0              *
+|       *  Git Version: 48f1c4b24460eb111f0d752b6dea2ab9d1eb956f  *
+|       ***********************************************************
+
+
+| Job started   Tue Jul 23 10:56:01 2024
+| On gnode001.cluster (available memory: 12342 MB)
+
+| ######################################### RUNTIME INFO ##########################################
+| terachem  analytical_deriv.in 
+
+|  NVRM version: NVIDIA UNIX x86_64 Kernel Module  555.42.02  Mon May 13 17:24:29 UTC 2024
+|  GCC version:  gcc version 8.5.0 20210514 (Red Hat 8.5.0-22) (GCC) 
+
+|  	linux-vdso.so.1 (0x00007ffe42b6c000)
+|  	libcurl.so.4 => /lib/x86_64-linux-gnu/libcurl.so.4 (0x000014814dd23000)
+|  	libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x000014814dd07000)
+|  	libmpi.so.12 => /opt/terachem/lib/libmpi.so.12 (0x000014814c400000)
+|  	libdftbplus.so => /opt/terachem/lib/libdftbplus.so (0x000014814c0c8000)
+|  	libfsockets.so => /opt/terachem/lib/libfsockets.so (0x000014814dcfe000)
+|  	libxmlf90.so => /opt/terachem/lib/libxmlf90.so (0x000014814dcd7000)
+|  	libthcbox.so.1 => /opt/terachem/lib/libthcbox.so.1 (0x000014814a2e8000)
+|  	libOpenMM.so => /opt/terachem/lib/libOpenMM.so (0x0000148149e8e000)
+|  	libnvToolsExt.so.1 => /opt/terachem/lib/libnvToolsExt.so.1 (0x0000148149c00000)
+|  	libgpubox.so.1 => /opt/terachem/lib/libgpubox.so.1 (0x000014814dccc000)
+|  	libtensorbox.so.1 => /opt/terachem/lib/libtensorbox.so.1 (0x000014814dcaf000)
+|  	libiobox.so.1 => /opt/terachem/lib/libiobox.so.1 (0x000014814dca9000)
+|  	libintbox.so.1 => /opt/terachem/lib/libintbox.so.1 (0x00001480f7ad5000)
+|  	libsqmbox.so.1 => /opt/terachem/lib/libsqmbox.so.1 (0x00001480f7729000)
+|  	libgridbox.so.1 => /opt/terachem/lib/libgridbox.so.1 (0x00001480f6bf1000)
+|  	libdftbox.so.1 => /opt/terachem/lib/libdftbox.so.1 (0x00001480f6b02000)
+|  	libcibox.so.1 => /opt/terachem/lib/libcibox.so.1 (0x00001480f64bd000)
+|  	libccbox.so.1 => /opt/terachem/lib/libccbox.so.1 (0x00001480f602d000)
+|  	libsimbox.so.1 => /opt/terachem/lib/libsimbox.so.1 (0x000014814dc8a000)
+|  	liboptbox.so.1 => /opt/terachem/lib/liboptbox.so.1 (0x000014814dc55000)
+|  	libprotobuf.so.25 => /opt/terachem/lib/libprotobuf.so.25 (0x00001480f5bc4000)
+|  	libcommbox.so.1 => /opt/terachem/lib/libcommbox.so.1 (0x0000148149e2e000)
+|  	libssl.so.3 => /lib/x86_64-linux-gnu/libssl.so.3 (0x00001480f5b20000)
+|  	libcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x00001480f56de000)
+|  	libcuda.so.1 => /.singularity.d/libs/libcuda.so.1 (0x00001480f3bab000)
+|  	libcudart.so.11.0 => /opt/terachem/lib/libcudart.so.11.0 (0x00001480f3800000)
+|  	libcublas.so.11 => /opt/terachem/lib/libcublas.so.11 (0x00001480eda00000)
+|  	libcufft.so.10 => /opt/terachem/lib/libcufft.so.10 (0x00001480dca00000)
+|  	libcusparse.so.11 => /opt/terachem/lib/libcusparse.so.11 (0x00001480cbc00000)
+|  	libcusolver.so.11 => /opt/terachem/lib/libcusolver.so.11 (0x00001480b9800000)
+|  	libcublasLt.so.11 => /opt/terachem/lib/libcublasLt.so.11 (0x0000148095200000)
+|  	libimf.so => /opt/terachem/lib/libimf.so (0x0000148094a00000)
+|  	libsvml.so => /opt/terachem/lib/libsvml.so (0x0000148092a00000)
+|  	libirng.so => /opt/terachem/lib/libirng.so (0x0000148092600000)
+|  	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00001480923d6000)
+|  	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00001480f3719000)
+|  	libiomp5.so => /opt/terachem/lib/libiomp5.so (0x0000148091e00000)
+|  	libcilkrts.so.5 => /opt/terachem/lib/libcilkrts.so.5 (0x0000148091a00000)
+|  	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000148149e0e000)
+|  	libintlc.so.5 => /opt/terachem/lib/libintlc.so.5 (0x0000148091600000)
+|  	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00001480913d8000)
+|  	/lib64/ld-linux-x86-64.so.2 (0x000014814ddce000)
+|  	libnghttp2.so.14 => /lib/x86_64-linux-gnu/libnghttp2.so.14 (0x00001480f3add000)
+|  	libidn2.so.0 => /lib/x86_64-linux-gnu/libidn2.so.0 (0x00001480f3abc000)
+|  	librtmp.so.1 => /lib/x86_64-linux-gnu/librtmp.so.1 (0x00001480f36fa000)
+|  	libssh.so.4 => /lib/x86_64-linux-gnu/libssh.so.4 (0x00001480f368d000)
+|  	libpsl.so.5 => /lib/x86_64-linux-gnu/libpsl.so.5 (0x000014814dc3d000)
+|  	libgssapi_krb5.so.2 => /lib/x86_64-linux-gnu/libgssapi_krb5.so.2 (0x00001480ed9ac000)
+|  	libldap-2.5.so.0 => /lib/x86_64-linux-gnu/libldap-2.5.so.0 (0x00001480ed94d000)
+|  	liblber-2.5.so.0 => /lib/x86_64-linux-gnu/liblber-2.5.so.0 (0x00001480f3aab000)
+|  	libzstd.so.1 => /lib/x86_64-linux-gnu/libzstd.so.1 (0x00001480dc931000)
+|  	libbrotlidec.so.1 => /lib/x86_64-linux-gnu/libbrotlidec.so.1 (0x00001480f367f000)
+|  	librt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x000014814dc38000)
+|  	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00001480f367a000)
+|  	libifport.so.5 => /opt/terachem/lib/libifport.so.5 (0x0000148091000000)
+|  	libifcoremt.so.5 => /opt/terachem/lib/libifcoremt.so.5 (0x0000148092240000)
+|  	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00001480f3675000)
+|  	libunistring.so.2 => /lib/x86_64-linux-gnu/libunistring.so.2 (0x0000148091c56000)
+|  	libgnutls.so.30 => /lib/x86_64-linux-gnu/libgnutls.so.30 (0x0000148090e15000)
+|  	libhogweed.so.6 => /lib/x86_64-linux-gnu/libhogweed.so.6 (0x00001480ed905000)
+|  	libnettle.so.8 => /lib/x86_64-linux-gnu/libnettle.so.8 (0x00001480cbbba000)
+|  	libgmp.so.10 => /lib/x86_64-linux-gnu/libgmp.so.10 (0x00001480cbb38000)
+|  	libkrb5.so.3 => /lib/x86_64-linux-gnu/libkrb5.so.3 (0x0000148095135000)
+|  	libk5crypto.so.3 => /lib/x86_64-linux-gnu/libk5crypto.so.3 (0x00001480dc902000)
+|  	libcom_err.so.2 => /lib/x86_64-linux-gnu/libcom_err.so.2 (0x00001480f366f000)
+|  	libkrb5support.so.0 => /lib/x86_64-linux-gnu/libkrb5support.so.0 (0x00001480f3661000)
+|  	libsasl2.so.2 => /lib/x86_64-linux-gnu/libsasl2.so.2 (0x00001480ed8ea000)
+|  	libbrotlicommon.so.1 => /lib/x86_64-linux-gnu/libbrotlicommon.so.1 (0x00001480cbb15000)
+|  	libp11-kit.so.0 => /lib/x86_64-linux-gnu/libp11-kit.so.0 (0x00001480918c5000)
+|  	libtasn1.so.6 => /lib/x86_64-linux-gnu/libtasn1.so.6 (0x00001480cbafd000)
+|  	libkeyutils.so.1 => /lib/x86_64-linux-gnu/libkeyutils.so.1 (0x00001480ed8e3000)
+|  	libresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00001480cbae9000)
+|  	libffi.so.8 => /lib/x86_64-linux-gnu/libffi.so.8 (0x00001480cbadc000)
+| #################################################################################################
+
+| Checking Amazon Cloud instance ID...   Not found
+| Cannot find license.dat file /opt/terachem/license.dat
+
+
+| TRYING THE NETWORK LICENSE...
+| Connecting to license server '54.208.252.40' port '8877'...
+| Connected!
+| Checking your license...
+
+| **************************************************************
+|  Greetings, Martinez Group! You have 1000 licenses in total
+|  IN USE: 21
+|  AVAILABLE: 979
+| **************************************************************
+
+-----------------------------------
+Processed Input file:
+                      run energy
+                    basis 6-31g*
+                   method camb3lyp
+                     dftd d3
+              coordinates geom.xyz
+                   charge 0
+                  timings yes
+                      cis yes
+             cisnumstates 2
+               cischarges yes
+                     resp yes
+         dipolederivative yes
+      cistransdipolederiv yes
+           cisrelaxdipole yes
+           cisdipolederiv yes
+-----------------------------------
+Jobname: geom
+Scratch data will be generated
+Scratch directory: ./scr.geom
+| Random number seed: 626330829
+
+XYZ coordinates geom.xyz
+Molden File Output: ./scr.geom/geom.molden
+Using basis set: 6-31gs
+dmrgstart not found
+Spin multiplicity: 1
+DIIS will use up to 10 vectors.
+Condition number limit for the DIIS overlap matrix is            0
+WF convergence threshold: 3.00e-05
+Using DIIS algorithm to converge WF
+Maximum number of SCF iterations: 100
+Incremental fock with rebuild every 8 iterations
+Will switch to conventional Fock if diffuse functions are detected
+X-matrix tolerance: 1.00e-04
+PRECISION: DYNAMIC
+TeraChem will select linear algebra engine
+DFT Functional requested: camb3lyp
+Method: CAM-B3LYP  with dispersion correction
+  Slater exchange functional:           0.35 
+  Full range Becke 1988 exchange:       0.35 
+  Full range Hartree-Fock exchange:     0.19 
+  SR Becke 1988 exchange functional:    0.46 
+  LR Hartree-Fock exchange:             0.46 
+  Range Correction Scaling:             0.330 a.u. 
+  Lee-Yang-Parr correlation functional: 0.81 
+  VWN(V) correlation functional:        0.19 
+Wavefunction: RESTRICTED
+
+ DFT-D code reimplemented following the
+ code by S.Grimme, University Bonn 
+ based on DFTD3 V3.2 Rev 0         
+ 
+Please cite DFT-D3 work done with this code as:
+S. Grimme, J. Antony, S. Ehrlich and H. Krieg,
+J. Chem. Phys. 132 (2010), 154104
+If used with BJ-damping cite also
+S. Grimme, S. Ehrlich and L. Goerigk,
+J. Comput. Chem. 32 (2011), 1456-1465
+For DFT-D2 the reference is
+S. Grimme, J. Comput. Chem., 27 (2006), 1787-1799
+DFT grid type: 1
+Using dynamic DFT grids.
+Initial guess generated by maximum overlap
+
+********************************************
+***** SINGLE POINT ENERGY CALCULATIONS *****
+********************************************
+Starting TensorBox...
+| TeraChem will select linear algebra engine
+| Using cuSolver for matrix diagonalization
+
+| using 2 out of 2 CUDA devices
+|   Device 0: NVIDIA A100-PCIE-40GB, 40446MB, CC 8.0 -- CPU THREAD 0
+|   Device 1: NVIDIA A100-PCIE-40GB, 40446MB, CC 8.0 -- CPU THREAD 1
+| -------------------------------------------------------------------
+| CPU Memory Available: 32137.62 MegaWords 
+| GPU Memory Available: 4799.80 MegaWords 
+| Maximum recommended basis set size: 26600 basis functions
+|  (limited by GPU memory)
+| -------------------------------------------------------------------
+| Initialize GPUBox with 128 MW of memory
+
+
+Basis set:       6-31gs
+Total atoms:     21
+Total charge:    0
+Total electrons: 98 (49-alpha, 49-beta)
+Number electrons modeled by ECPs: 0
+Total orbitals:  224
+Total AO shells: 98 (56 S-shells; 28 P-shells; 14 D-shells; 0 F-shells; 0 G-shells)
+Spin multiplicity: 1
+Nuclear repulsion energy (QM atoms): 863.267341961540 a.u.
+
+DFTD Energy:    -0.0203554 hartree
+Setting up the DFT grid...
+| time to set the grid = 0.00 s
+DFT grid points: 20681 (984 points/atom)
+Setting up the DFT grid...
+| time to set the grid = 0.00 s
+DFT grid points: 58179 (2770 points/atom)
+
+                      *** Start SCF Iterations ***
+
+ Iter     DIIS Error       Energy change      Electrons        XC Energy      J    K   LA  DFT          Energy        Time(s)
+-------------------------------------------------------------------------------------------------------------------------------
+| Purifying guess...
+| Purification run on GPU (mixed precision)  using TC2 purification.
+| Density matrix purification finished after a total of 0 matrix multiplies
+| THRESPDP set to 1.00e+00
+|                 >>> SWITCHING TO GRID 1 <<<
+|    1     0.3574119632    -677.1711085197    98.0004745444   -63.6751493492  0.12 0.40 0.03 0.08    -677.1711085197     0.63  
+|                 >>> SWITCHING TO GRID 0 <<<
+|    2     0.2140577802      -2.5435345256    98.0061037840   -67.2888818308  0.02 0.03 0.02 0.04    -679.7146430453     0.10  
+|    3     0.1164563171      -1.1301520107    98.0076073571   -65.9463367311  0.01 0.03 0.01 0.04    -680.8447950560     0.08  
+|    4     0.0504628499      -0.2071670659    98.0065974264   -65.9079008298  0.01 0.02 0.01 0.03    -681.0519621219     0.07  
+|    5     0.0082915355      -0.0397359259    98.0069392075   -65.9904125057  0.01 0.02 0.01 0.03    -681.0916980478     0.06  
+|                 >>> SWITCHING TO GRID 1 <<<
+|    6     0.0062630277      +0.0053408313    98.0005095524   -65.9911931294  0.01 0.02 0.01 0.06    -681.0863572165     0.09  
+|    7     0.0011313928      -0.0003682304    98.0005095047   -65.9861436201  0.01 0.02 0.01 0.07    -681.0867254469     0.10  
+| THRESPDP set to 3.55e-03
+|    8     0.0005881631      +0.0000225401    98.0005132857   -65.9866533041  0.01 0.02 0.01 0.06    -681.0867029068     0.10  
+|    9     0.0001928083      -0.0000076636    98.0005133669   -65.9867652141  0.01 0.02 0.02 0.06    -681.0867105704     0.10  
+|   10     0.0000583798      -0.0000011282    98.0005134090   -65.9864780403  0.01 0.02 0.01 0.06    -681.0867116986     0.10  
+|   11     0.0000219956      +0.0000000607    98.0005134144   -65.9865774366  0.01 0.02 0.01 0.06    -681.0867116379     0.10  
+-------------------------------------------------------------------------------------------------------------------------------
+FINAL ENERGY: -681.0867116379 a.u.
+| WARNING: Final energy is higher than the lowest energy by    0.0049864.
+DISPERSION CONTRIBUTION TO ENERGY: -0.0203553878 a.u.
+HOMO-LUMO GAP: 5.358 eV
+CENTER OF MASS: {-0.968958, 3.395444, 9.438105} ANGS
+DIPOLE MOMENT: {3.012571, 2.556046, -1.290151} (|D| = 4.156133) DEBYE
+
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.044495     0.1433
+   N  -1.495956   6.518798  20.197143  -0.052368     0.0546
+   C   0.616305   8.021710  23.567413  -0.204449     0.1809
+   N  -2.799647   5.806170  15.735786  -0.026548     0.0410
+   C   1.746793   9.033834  21.441150  -0.207309     0.1502
+   C   0.418411   8.090116  19.323746   0.115896     0.0580
+   C   0.724653   8.502870  16.756509  -0.173927     0.1365
+   C  -0.846149   7.391078  14.980124   0.119390     0.0648
+   C  -0.887532   7.544157  12.313721  -0.222408     0.1672
+   C  -2.866445   6.049887  11.491198  -0.183275     0.1672
+   C  -3.993302   5.012893  13.667750  -0.071897     0.1468
+   B  -3.448301   5.063672  18.520372   0.412166     0.0000
+   F  -3.156530   2.493342  18.833763  -0.318141     0.4141
+   F  -5.860056   5.836673  19.128411  -0.317820     0.3965
+   H  -2.708092   5.371396  23.793382   0.174890     0.3032
+   H   1.128639   8.332369  25.518796   0.158201     0.3564
+   H   3.341514  10.309543  21.361735   0.167353     0.3457
+   H   2.232483   9.737526  16.118172   0.172168     0.2819
+   H   0.408436   8.639565  11.174649   0.170417     0.3404
+   H  -3.459421   5.716240   9.566662   0.153434     0.3564
+   H  -5.590091   3.746232  13.813661   0.178724     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):0.0941
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.032341     0.1433
+   N  -1.495956   6.518798  20.197143   0.000297     0.0546
+   C   0.616305   8.021710  23.567413  -0.219672     0.1809
+   N  -2.799647   5.806170  15.735786   0.009617     0.0410
+   C   1.746793   9.033834  21.441150  -0.161763     0.1502
+   C   0.418411   8.090116  19.323746   0.000329     0.0580
+   C   0.724653   8.502870  16.756509  -0.027016     0.1365
+   C  -0.846149   7.391078  14.980124   0.000366     0.0648
+   C  -0.887532   7.544157  12.313721  -0.165692     0.1672
+   C  -2.866445   6.049887  11.491198  -0.211326     0.1672
+   C  -3.993302   5.012893  13.667750  -0.040117     0.1468
+   B  -3.448301   5.063672  18.520372   0.357069     0.0000
+   F  -3.156530   2.493342  18.833763  -0.308543     0.4141
+   F  -5.860056   5.836673  19.128411  -0.307967     0.3965
+   H  -2.708092   5.371396  23.793382   0.168418     0.3032
+   H   1.128639   8.332369  25.518796   0.158620     0.3564
+   H   3.341514  10.309543  21.361735   0.157470     0.3457
+   H   2.232483   9.737526  16.118172   0.140381     0.2819
+   H   0.408436   8.639565  11.174649   0.157970     0.3404
+   H  -3.459421   5.716240   9.566662   0.155861     0.3564
+   H  -5.590091   3.746232  13.813661   0.168036     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):0.0897
+
+ Generating 2nd functional diffs
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     16.930031034794         0.09
+    2     21.996879967215         0.08
+    3      1.918793459042         0.08
+    4      0.572539606612         0.08
+    5      0.276073971810         0.08
+    6      0.146334229076         0.08
+    7      0.056088855537         0.08
+    8      0.013435229313         0.09
+    9      0.007092845366         0.08
+   10      0.002106923564         0.08
+   11      0.000873078903         0.08
+   12      0.000391166079         0.08
+   13      0.000123986437         0.08
+   14      0.000045196025         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.14 sec
+| K Time:           0.33 sec
+| Fxc Time:         0.65 sec
+| Total Time:       1.13 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     14.696941443151         0.08
+    2     17.923360405457         0.08
+    3      2.139426872248         0.08
+    4      0.411845072368         0.08
+    5      0.208649725752         0.08
+    6      0.094665205043         0.08
+    7      0.042520112451         0.08
+    8      0.010253680482         0.08
+    9      0.005021426691         0.08
+   10      0.001386051428         0.08
+   11      0.000629438448         0.08
+   12      0.000283267150         0.08
+   13      0.000098650170         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.13 sec
+| K Time:           0.30 sec
+| Fxc Time:         0.60 sec
+| Total Time:       1.04 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     23.837058971238         0.08
+    2     30.637135290666         0.08
+    3      2.140089530040         0.08
+    4      1.433624791254         0.08
+    5      0.597810530370         0.08
+    6      0.245797123532         0.08
+    7      0.068760557746         0.08
+    8      0.033678284668         0.08
+    9      0.013989334188         0.08
+   10      0.003421627372         0.08
+   11      0.001378949837         0.08
+   12      0.000699970910         0.08
+   13      0.000210192032         0.08
+   14      0.000072444988         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.14 sec
+| K Time:           0.33 sec
+| Fxc Time:         0.65 sec
+| Total Time:       1.11 sec
+|----------------------------
+
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.01 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.01 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.01 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+
+Ground state dipole moment derivatives:
+
+ Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       0.1986810736       0.1311531796      -0.0358273608
+    2      -0.6442763446      -0.3250492786      -0.2190198584
+    3      -0.0786659820       0.0976222250       0.0006482683
+    4      -0.0121260481       0.1361964212       0.4009570496
+    5       0.0419588853       0.1138085296       0.2002495987
+    6       0.0832522884       0.0847383988      -0.5272335534
+    7       0.4209529877       0.2680207035       0.7540493711
+    8      -0.4378127353      -0.3127658046      -0.6765303400
+    9       0.2827050179       0.2799508769       0.4775182523
+   10      -0.5956349460      -0.3295617834       0.2765507891
+   11       0.0798559305       0.0820561163      -0.6567199260
+   12       1.5336212885       0.1025926038      -0.2589110420
+   13      -0.4165645346      -0.0771668041       0.0578326606
+   14      -0.9379983744       0.1117805272       0.1824678433
+   15       0.0645430810      -0.0502599008       0.0080651453
+   16       0.1084751152      -0.0313491086      -0.0373931291
+   17       0.0356616583      -0.0835157872       0.0244930055
+   18       0.0427664622      -0.0515578304       0.0235313085
+   19       0.0596928879      -0.0637057509       0.0262498803
+   20       0.1013050267      -0.0360180089      -0.0404603466
+   21       0.0696072628      -0.0469695273       0.0194823888
+
+ Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       0.1617964372       0.1604082964       0.0413878774
+    2      -0.3033353838      -0.4511593672      -0.2172445448
+    3       0.0266070656      -0.1782377359       0.0147210163
+    4       0.1143835509      -0.1560737139       0.3438262458
+    5       0.1177368548      -0.0265164292       0.0550845858
+    6       0.0461389184       0.0718348899      -0.2565934711
+    7       0.2673843103       0.2009039118       0.4051930989
+    8      -0.2707480930      -0.1662342462      -0.4177374108
+    9       0.2760678238       0.0798528043       0.2927902503
+   10      -0.2606436549      -0.4165358795       0.1773164041
+   11       0.0496011606       0.1061059072      -0.4652934656
+   12       0.1026924264       1.5353216455      -0.1555236919
+   13       0.0100103887      -0.9767562211       0.1093941858
+   14       0.0254525655      -0.4317252448       0.0169768895
+   15      -0.0504591695       0.0870260678       0.0085936651
+   16      -0.0319094002       0.1260833805      -0.0194676590
+   17      -0.0811746367       0.0726538644       0.0214636151
+   18      -0.0515891762       0.0645386752       0.0197738658
+   19      -0.0661277512       0.0848677578       0.0257311835
+   20      -0.0353012602       0.1239313084      -0.0191142137
+   21      -0.0465829768       0.0897103237       0.0187215760
+
+ Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.4716180986      -0.3225636171      -0.9462730866
+    2      -0.5681242038      -0.4815118686       0.3565516553
+    3       1.0589520339       0.8538975585      -0.3524522903
+    4       0.7456946570       0.6087050847      -0.5732370859
+    5       0.1099269693      -0.0052104059       1.4924133840
+    6       0.1211267976       0.2471846736      -2.4735819478
+    7       0.7564718398       0.4052554114       2.8923508595
+    8      -1.3214723854      -0.9234521090      -1.7127549648
+    9       0.5645400815       0.3540896231       1.1443827687
+   10      -0.7838638037      -0.6554772954       0.4011887258
+   11      -0.2145928852      -0.1099504332      -0.7714659694
+   12      -0.2548587571      -0.1584930283       0.8204284791
+   13       0.0426229076       0.1356992556      -0.2986087194
+   14       0.1930983130      -0.0059122221      -0.3201580027
+   15       0.0111077777       0.0115789630       0.0851126183
+   16      -0.0291974200      -0.0131336426      -0.0405250987
+   17      -0.0112579176      -0.0073221920       0.1011202329
+   18       0.0211914561       0.0223377587       0.0845511251
+   19       0.0622757791       0.0542844075       0.0650600272
+   20      -0.0482168728      -0.0259484394      -0.0311842923
+   21       0.0161937356       0.0159425196       0.0770815797
+
+Polarizability Tensor (Angs^3)
+
+     14.431122        5.857288        5.201066
+      5.857290       11.065063        2.345251
+      5.201066        2.345246       33.912758
+
+Writing out molden info
+
+Running Mulliken population analysis...
+
+
+  Restricted CIS Parameters
+--------------------------------------------
+Number of occupied orbitals:            49
+Number of virtual orbitals:            175
+Number of molecular orbitals:          224
+Number of basis functions:             224
+Multiplicity of target state:      singlet
+
+ Generating 2nd functional diffs
+      Davidson Diagonalization Parameters
+-----------------------------------------------
+Number of roots to find:                    2
+Number of guess vectors:                    2
+Maximum subspace size:                     20
+Number of vectors to save:                  2
+Collapse vectors per root:                  2
+Number of CSFs:                          8575
+Maximum Davidson iterations:               20
+Residual convergence:                 1.0e-04
+Orthogonality tolerance:              1.0e-12
+Use incremental sigma vectors:             No
+
+  Nonsymmetric Davidson Dynamic Precision Parameters
+------------------------------------------------------
+SP Residual convergence:              1.0e-04
+Sigma vector THRESPDP:                5.2e-04
+
+Davidson memory usage:   2.83 MB
+
+Guess Vectors:
+  49 ->  50 : D -> V :     0.196901
+  48 ->  50 : D -> V :     0.251337
+
+Vec: 1  J:     0.01s  K:     0.03s  F:     0.05s  
+Vec: 2  J:     0.01s  K:     0.03s  F:     0.05s  
+
+|       Guess Formation
+|----------------------------
+| J Time:           0.01 sec
+| K Time:           0.06 sec
+| Fxc Time:         0.09 sec
+| Total Time:       0.17 sec
+|----------------------------
+
+  Root           Eigenvalue       Energy Change        Residual
+-------------------------------------------------------------------
+Iteration:    0   Subspace Size:    2
+Root: 1:         0.15497073         0.15497073         0.14706457  J:     0.01s  K:     0.04s  F:     0.05s  
+Root: 2:         0.17941082         0.17941082         0.16164815  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.20 sec
+
+Iteration:    1   Subspace Size:    4
+Root: 1:         0.13102351        -0.02394721         0.03069462  J:     0.01s  K:     0.04s  F:     0.05s  
+Root: 2:         0.15795034        -0.02146048         0.02211616  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.18 sec
+
+Iteration:    2   Subspace Size:    6
+Root: 1:         0.12960054        -0.00142298         0.00724713  J:     0.01s  K:     0.04s  F:     0.05s  
+Root: 2:         0.15729278        -0.00065757         0.00746304  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.18 sec
+
+Iteration:    3   Subspace Size:    8
+Root: 1:         0.12954247        -0.00005807         0.00214797  J:     0.01s  K:     0.04s  F:     0.05s  
+Root: 2:         0.15723206        -0.00006072         0.00196274  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.18 sec
+
+Iteration:    4   Subspace Size:   10
+Root: 1:         0.12953852        -0.00000394         0.00060685  J:     0.01s  K:     0.04s  F:     0.05s  
+Root: 2:         0.15722677        -0.00000529         0.00066666  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.18 sec
+
+Iteration:    5   Subspace Size:   12
+Root: 1:         0.12953823        -0.00000029         0.00011976  J:     0.01s  K:     0.04s  F:     0.05s  
+Root: 2:         0.15722634        -0.00000043         0.00025617  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.18 sec
+
+Iteration:    6   Subspace Size:   14
+Root: 1:         0.12953821        -0.00000002         0.00003409  Converged
+Root: 2:         0.15722625        -0.00000009         0.00011535  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.09 sec
+
+Iteration:    7   Subspace Size:   15
+Root: 1:         0.12953821        -0.00000000         0.00003331  Converged
+Root: 2:         0.15722620        -0.00000005         0.00015798  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.09 sec
+
+Iteration:    8   Subspace Size:   16
+Root: 1:         0.12953821        -0.00000000         0.00003121  Converged
+Root: 2:         0.15722613        -0.00000007         0.00018905  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.09 sec
+
+Iteration:    9   Subspace Size:   17
+Root: 1:         0.12953821        -0.00000000         0.00003020  Converged
+Root: 2:         0.15722607        -0.00000006         0.00010690  J:     0.01s  K:     0.04s  F:     0.05s  
+Total Iteration Time:       0.09 sec
+
+Iteration:   10   Subspace Size:   18
+Root: 1:         0.12953821        -0.00000000         0.00003043  Converged
+Root: 2:         0.15722606        -0.00000001         0.00002881  Converged
+Total Iteration Time:       0.00 sec
+
+Davidson has converged in single precision
+Collapsing subspace to 2 vectors
+Rebuilding sigma vectors in mixed precision
+Vec: 1  J:     0.01s  K:     0.03s  F:     0.05s  
+Vec: 2  J:     0.01s  K:     0.03s  F:     0.05s  
+Total Iteration Time:       0.18 sec
+
+Iteration:   11   Subspace Size:    2
+Root: 1:         0.12953823         0.00000002         0.00003101  Converged
+Root: 2:         0.15722603        -0.00000003         0.00002912  Converged
+Total Iteration Time:       0.00 sec
+
+Davidson converged in 11 iterations
+20 sigma vectors were formed
+18 sigma vectors were formed in single precision
+2 sigma vectors were formed in mixed precision
+
+|     Total Davidson Time
+|----------------------------
+| J Time:           0.17 sec
+| K Time:           0.71 sec
+| Fxc Time:         0.92 sec
+| Total Time:       1.84 sec
+|----------------------------
+
+TrESP Charges for State 1
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510   0.220128     0.1433
+   N  -1.495956   6.518798  20.197143  -0.024884     0.0546
+   C   0.616305   8.021710  23.567413   0.064786     0.1809
+   N  -2.799647   5.806170  15.735786   0.027293     0.0410
+   C   1.746793   9.033834  21.441150  -0.035733     0.1502
+   C   0.418411   8.090116  19.323746   0.078144     0.0580
+   C   0.724653   8.502870  16.756509   0.011624     0.1365
+   C  -0.846149   7.391078  14.980124  -0.094832     0.0648
+   C  -0.887532   7.544157  12.313721   0.042833     0.1672
+   C  -2.866445   6.049887  11.491198  -0.064858     0.1672
+   C  -3.993302   5.012893  13.667750  -0.221659     0.1468
+   B  -3.448301   5.063672  18.520372   0.004632     0.0000
+   F  -3.156530   2.493342  18.833763  -0.001132     0.4141
+   F  -5.860056   5.836673  19.128411  -0.001148     0.3965
+   H  -2.708092   5.371396  23.793382  -0.022495     0.3032
+   H   1.128639   8.332369  25.518796  -0.000330     0.3564
+   H   3.341514  10.309543  21.361735   0.020911     0.3457
+   H   2.232483   9.737526  16.118172  -0.002226     0.2819
+   H   0.408436   8.639565  11.174649  -0.023277     0.3404
+   H  -3.459421   5.716240   9.566662   0.000410     0.3564
+   H  -5.590091   3.746232  13.813661   0.021810     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):0.0409
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510   0.207635     0.1433
+   N  -1.495956   6.518798  20.197143  -0.000102     0.0546
+   C   0.616305   8.021710  23.567413   0.049870     0.1809
+   N  -2.799647   5.806170  15.735786   0.000157     0.0410
+   C   1.746793   9.033834  21.441150  -0.000089     0.1502
+   C   0.418411   8.090116  19.323746   0.047755     0.0580
+   C   0.724653   8.502870  16.756509   0.000158     0.1365
+   C  -0.846149   7.391078  14.980124  -0.046597     0.0648
+   C  -0.887532   7.544157  12.313721   0.000046     0.1672
+   C  -2.866445   6.049887  11.491198  -0.047422     0.1672
+   C  -3.993302   5.012893  13.667750  -0.211784     0.1468
+   B  -3.448301   5.063672  18.520372   0.000241     0.0000
+   F  -3.156530   2.493342  18.833763   0.000287     0.4141
+   F  -5.860056   5.836673  19.128411   0.000311     0.3965
+   H  -2.708092   5.371396  23.793382  -0.018120     0.3032
+   H   1.128639   8.332369  25.518796   0.003503     0.3564
+   H   3.341514  10.309543  21.361735   0.011163     0.3457
+   H   2.232483   9.737526  16.118172   0.000134     0.2819
+   H   0.408436   8.639565  11.174649  -0.012141     0.3404
+   H  -3.459421   5.716240   9.566662  -0.003542     0.3564
+   H  -5.590091   3.746232  13.813661   0.018538     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):0.0379
+
+TrESP Charges for State 2
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510   0.181516     0.1433
+   N  -1.495956   6.518798  20.197143  -0.107958     0.0546
+   C   0.616305   8.021710  23.567413  -0.145712     0.1809
+   N  -2.799647   5.806170  15.735786   0.109836     0.0410
+   C   1.746793   9.033834  21.441150   0.296926     0.1502
+   C   0.418411   8.090116  19.323746  -0.069910     0.0580
+   C   0.724653   8.502870  16.756509   0.016169     0.1365
+   C  -0.846149   7.391078  14.980124   0.046607     0.0648
+   C  -0.887532   7.544157  12.313721  -0.284284     0.1672
+   C  -2.866445   6.049887  11.491198   0.143367     0.1672
+   C  -3.993302   5.012893  13.667750  -0.178053     0.1468
+   B  -3.448301   5.063672  18.520372  -0.000037     0.0000
+   F  -3.156530   2.493342  18.833763  -0.000096     0.4141
+   F  -5.860056   5.836673  19.128411  -0.000457     0.3965
+   H  -2.708092   5.371396  23.793382  -0.009076     0.3032
+   H   1.128639   8.332369  25.518796   0.015549     0.3564
+   H   3.341514  10.309543  21.361735  -0.027008     0.3457
+   H   2.232483   9.737526  16.118172  -0.003369     0.2819
+   H   0.408436   8.639565  11.174649   0.024485     0.3404
+   H  -3.459421   5.716240   9.566662  -0.016548     0.3564
+   H  -5.590091   3.746232  13.813661   0.008053     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):0.0718
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510   0.061180     0.1433
+   N  -1.495956   6.518798  20.197143  -0.044932     0.0546
+   C   0.616305   8.021710  23.567413  -0.027618     0.1809
+   N  -2.799647   5.806170  15.735786   0.038236     0.0410
+   C   1.746793   9.033834  21.441150   0.180067     0.1502
+   C   0.418411   8.090116  19.323746  -0.000570     0.0580
+   C   0.724653   8.502870  16.756509   0.000175     0.1365
+   C  -0.846149   7.391078  14.980124   0.000653     0.0648
+   C  -0.887532   7.544157  12.313721  -0.170236     0.1672
+   C  -2.866445   6.049887  11.491198   0.020713     0.1672
+   C  -3.993302   5.012893  13.667750  -0.055531     0.1468
+   B  -3.448301   5.063672  18.520372   0.000086     0.0000
+   F  -3.156530   2.493342  18.833763   0.000130     0.4141
+   F  -5.860056   5.836673  19.128411   0.000176     0.3965
+   H  -2.708092   5.371396  23.793382   0.018618     0.3032
+   H   1.128639   8.332369  25.518796  -0.009119     0.3564
+   H   3.341514  10.309543  21.361735   0.000589     0.3457
+   H   2.232483   9.737526  16.118172  -0.000331     0.2819
+   H   0.408436   8.639565  11.174649  -0.002465     0.3404
+   H  -3.459421   5.716240   9.566662   0.009487     0.3564
+   H  -5.590091   3.746232  13.813661  -0.019308     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):0.0591
+
+TrVecESP Charges for State 1 -> 2
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510   0.159644     0.1433
+   N  -1.495956   6.518798  20.197143  -0.157961     0.0546
+   C   0.616305   8.021710  23.567413  -0.175029     0.1809
+   N  -2.799647   5.806170  15.735786  -0.153844     0.0410
+   C   1.746793   9.033834  21.441150   0.033663     0.1502
+   C   0.418411   8.090116  19.323746   0.131918     0.0580
+   C   0.724653   8.502870  16.756509   0.004145     0.1365
+   C  -0.846149   7.391078  14.980124   0.125355     0.0648
+   C  -0.887532   7.544157  12.313721   0.039033     0.1672
+   C  -2.866445   6.049887  11.491198  -0.171584     0.1672
+   C  -3.993302   5.012893  13.667750   0.158889     0.1468
+   B  -3.448301   5.063672  18.520372   0.013382     0.0000
+   F  -3.156530   2.493342  18.833763  -0.001714     0.4141
+   F  -5.860056   5.836673  19.128411  -0.001600     0.3965
+   H  -2.708092   5.371396  23.793382  -0.015601     0.3032
+   H   1.128639   8.332369  25.518796   0.022805     0.3564
+   H   3.341514  10.309543  21.361735  -0.004494     0.3457
+   H   2.232483   9.737526  16.118172  -0.007461     0.2819
+   H   0.408436   8.639565  11.174649  -0.005834     0.3404
+   H  -3.459421   5.716240   9.566662   0.022041     0.3564
+   H  -5.590091   3.746232  13.813661  -0.015753     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.213
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510   0.080299     0.1433
+   N  -1.495956   6.518798  20.197143  -0.094246     0.0546
+   C   0.616305   8.021710  23.567413  -0.096970     0.1809
+   N  -2.799647   5.806170  15.735786  -0.086007     0.0410
+   C   1.746793   9.033834  21.441150   0.003048     0.1502
+   C   0.418411   8.090116  19.323746   0.089743     0.0580
+   C   0.724653   8.502870  16.756509   0.039605     0.1365
+   C  -0.846149   7.391078  14.980124   0.084512     0.0648
+   C  -0.887532   7.544157  12.313721   0.003812     0.1672
+   C  -2.866445   6.049887  11.491198  -0.090885     0.1672
+   C  -3.993302   5.012893  13.667750   0.076578     0.1468
+   B  -3.448301   5.063672  18.520372  -0.019365     0.0000
+   F  -3.156530   2.493342  18.833763   0.000738     0.4141
+   F  -5.860056   5.836673  19.128411   0.000182     0.3965
+   H  -2.708092   5.371396  23.793382   0.004097     0.3032
+   H   1.128639   8.332369  25.518796   0.001202     0.3564
+   H   3.341514  10.309543  21.361735   0.001653     0.3457
+   H   2.232483   9.737526  16.118172  -0.004064     0.2819
+   H   0.408436   8.639565  11.174649   0.001518     0.3404
+   H  -3.459421   5.716240   9.566662   0.000426     0.3564
+   H  -5.590091   3.746232  13.813661   0.004124     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.183
+
+Smallest diagonal element: 9.0623e-02
+No shift will be applied
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      2.899176535137         0.10
+    2      1.149108630127         0.10
+    3      1.024234388295         0.10
+    4      0.664059514969         0.10
+    5      0.582378254552         0.10
+    6      0.273521290563         0.10
+    7      0.143007098094         0.10
+    8      0.068815507665         0.10
+    9      0.026245040146         0.10
+   10      0.010777266042         0.10
+   11      0.004896502468         0.10
+   12      0.001944028533         0.10
+   13      0.000691721761         0.10
+   14      0.000183705227         0.10
+   15      0.000073028576         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.14 sec
+| K Time:           0.63 sec
+| Fxc Time:         0.69 sec
+| Total Time:       1.47 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      2.059693448069         0.10
+    2      0.792842621485         0.10
+    3      0.678151569135         0.10
+    4      0.432339248412         0.10
+    5      0.378012538534         0.10
+    6      0.171935095503         0.10
+    7      0.090462561452         0.10
+    8      0.043155347435         0.10
+    9      0.018359445293         0.10
+   10      0.009254428878         0.10
+   11      0.003639263459         0.10
+   12      0.001382567742         0.10
+   13      0.000505146316         0.10
+   14      0.000128090896         0.10
+   15      0.000048995974         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.14 sec
+| K Time:           0.62 sec
+| Fxc Time:         0.70 sec
+| Total Time:       1.46 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      6.942935688568         0.10
+    2      2.908495586802         0.10
+    3      2.882229516253         0.10
+    4      1.260147041985         0.10
+    5      0.797699686190         0.10
+    6      0.568895153318         0.10
+    7      0.421688812211         0.10
+    8      0.182069327512         0.10
+    9      0.035582453166         0.10
+   10      0.008869484028         0.10
+   11      0.004486658322         0.10
+   12      0.001790409024         0.10
+   13      0.000714935018         0.10
+   14      0.000361494195         0.10
+   15      0.000159481443         0.10
+   16      0.000065565806         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.70 sec
+| Fxc Time:         0.74 sec
+| Total Time:       1.60 sec
+|----------------------------
+
+Building X multipliers...
+
+|       Total X Time
+|----------------------------
+| J Time:           0.08 sec
+| K Time:           0.29 sec
+| Fxc Time:         0.42 sec
+| Total Time:       1.76 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     22.854862165049         0.08
+    2     27.176803199737         0.08
+    3      2.273482856226         0.08
+    4      0.938251492620         0.08
+    5      0.502967324427         0.08
+    6      0.224382151595         0.08
+    7      0.062538904947         0.08
+    8      0.021711299801         0.08
+    9      0.011023815360         0.08
+   10      0.002430147567         0.08
+   11      0.001086622383         0.08
+   12      0.000562705814         0.08
+   13      0.000107898205         0.08
+   14      0.000056004236         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.14 sec
+| K Time:           0.33 sec
+| Fxc Time:         0.64 sec
+| Total Time:       1.11 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     14.815445383463         0.08
+    2     16.619369404029         0.08
+    3      1.935096889742         0.08
+    4      0.552508771922         0.08
+    5      0.364126657539         0.08
+    6      0.146718358177         0.08
+    7      0.050896799433         0.08
+    8      0.016369319260         0.08
+    9      0.007488180736         0.08
+   10      0.001869675878         0.08
+   11      0.000867788712         0.08
+   12      0.000418717434         0.08
+   13      0.000079298281         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.13 sec
+| K Time:           0.30 sec
+| Fxc Time:         0.60 sec
+| Total Time:       1.02 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     73.469790178200         0.08
+    2     89.868454429465         0.08
+    3      5.756073957397         0.08
+    4      2.962564285773         0.08
+    5      0.724536450338         0.08
+    6      0.404356818622         0.08
+    7      0.066181884525         0.08
+    8      0.042364675233         0.08
+    9      0.011039852943         0.08
+   10      0.004339132933         0.08
+   11      0.002105356524         0.08
+   12      0.000709387361         0.08
+   13      0.000260823144         0.08
+   14      0.000096189900         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.14 sec
+| K Time:           0.33 sec
+| Fxc Time:         0.64 sec
+| Total Time:       1.12 sec
+|----------------------------
+
+Building relaxed X multipliers...
+
+|       Total Relaxed X Time
+|----------------------------
+| J Time:           0.03 sec
+| K Time:           0.13 sec
+| Fxc Time:         0.14 sec
+| Total Time:       0.30 sec
+|----------------------------
+
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+Smallest diagonal element: 3.2303e-03
+No shift will be applied
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      9.552658162160         0.10
+    2    100.288131604032         0.10
+    3     13.525693902909         0.10
+    4     10.218755916425         0.10
+    5     11.350088417556         0.10
+    6      7.130058801015         0.10
+    7      4.284462538829         0.10
+    8      2.981670964915         0.10
+    9      4.130155427563         0.11
+   10      3.506307757080         0.11
+   11      0.577901297154         0.11
+   12      0.156769966065         0.11
+   13      0.287426110162         0.11
+   14      0.016475758721         0.11
+   15      0.019267069517         0.11
+   16      0.030044621654         0.11
+   17      0.003253425783         0.10
+   18      0.003912642633         0.10
+   19      0.001519448308         0.10
+   20      0.000543469452         0.10
+   21      0.000011365330         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.21 sec
+| K Time:           0.97 sec
+| Fxc Time:         0.99 sec
+| Total Time:       2.18 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      7.435498849158         0.10
+    2     79.931112597760         0.10
+    3     10.882560535515         0.10
+    4      7.641537636005         0.10
+    5      7.954608898756         0.10
+    6      4.463098453044         0.10
+    7      2.780404088695         0.10
+    8      3.387725454996         0.10
+    9      3.374424466380         0.10
+   10      3.075261437460         0.10
+   11      0.354155070359         0.10
+   12      0.113617463205         0.10
+   13      0.186412734739         0.10
+   14      0.045466370243         0.10
+   15      0.005721646518         0.10
+   16      0.025996996801         0.10
+   17      0.002554656877         0.10
+   18      0.002388740344         0.10
+   19      0.001684521855         0.10
+   20      0.000430550265         0.10
+   21      0.000052775252         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.20 sec
+| K Time:           0.94 sec
+| Fxc Time:         0.97 sec
+| Total Time:       2.12 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     11.076906619396         0.10
+    2     54.087895764973         0.10
+    3     14.878517356517         0.10
+    4      9.795312526273         0.10
+    5     11.927073346637         0.10
+    6     25.102332517377         0.11
+    7     22.983910709046         0.11
+    8      3.243440903456         0.11
+    9     13.341115698340         0.11
+   10      3.101967757751         0.11
+   11      1.483903627573         0.11
+   12      0.437057998003         0.11
+   13      0.424851066115         0.11
+   14      0.046385106091         0.11
+   15      0.015089445732         0.11
+   16      0.020230080407         0.11
+   17      0.002485557482         0.11
+   18      0.003644609955         0.11
+   19      0.001395493269         0.11
+   20      0.001211476811         0.11
+   21      0.000102096947         0.11
+   22      0.000039651846         0.11
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.23 sec
+| K Time:           1.09 sec
+| Fxc Time:         1.02 sec
+| Total Time:       2.34 sec
+|----------------------------
+
+Building X multipliers...
+
+|       Total X Time
+|----------------------------
+| J Time:           0.08 sec
+| K Time:           0.32 sec
+| Fxc Time:         0.42 sec
+| Total Time:       1.80 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1    267.847963197690         0.08
+    2    337.548862311148         0.08
+    3     18.249909715956         0.08
+    4      3.564483842139         0.08
+    5      2.224364269556         0.08
+    6      0.983290768224         0.08
+    7      0.195297844590         0.08
+    8      0.129965285257         0.08
+    9      0.044298443157         0.08
+   10      0.013071343018         0.08
+   11      0.005197777258         0.08
+   12      0.002439310623         0.08
+   13      0.000768962694         0.08
+   14      0.000171938853         0.08
+   15      0.000089817160         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.16 sec
+| K Time:           0.38 sec
+| Fxc Time:         0.69 sec
+| Total Time:       1.23 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1    150.937966005243         0.08
+    2    190.118756924172         0.08
+    3     10.375075836127         0.08
+    4      2.041764548308         0.08
+    5      1.309206352369         0.08
+    6      0.582785885758         0.08
+    7      0.127629701422         0.08
+    8      0.074082907732         0.08
+    9      0.029094741379         0.08
+   10      0.007433444427         0.08
+   11      0.003025303321         0.08
+   12      0.001663333049         0.08
+   13      0.000480078597         0.08
+   14      0.000122099448         0.08
+   15      0.000057484606         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.37 sec
+| Fxc Time:         0.69 sec
+| Total Time:       1.22 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1    928.804793586923         0.09
+    2    1170.696825654706         0.08
+    3     62.939220970260         0.08
+    4     12.226940841889         0.08
+    5      7.381930356291         0.08
+    6      3.208147823477         0.08
+    7      0.560858275644         0.08
+    8      0.194398559275         0.08
+    9      0.106701837879         0.08
+   10      0.028118957226         0.08
+   11      0.021767240759         0.08
+   12      0.006374887161         0.08
+   13      0.001342852558         0.08
+   14      0.000689126309         0.08
+   15      0.000165416016         0.08
+   16      0.000064392440         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.17 sec
+| K Time:           0.44 sec
+| Fxc Time:         0.74 sec
+| Total Time:       1.35 sec
+|----------------------------
+
+Building relaxed X multipliers...
+
+|       Total Relaxed X Time
+|----------------------------
+| J Time:           0.03 sec
+| K Time:           0.15 sec
+| Fxc Time:         0.14 sec
+| Total Time:       0.32 sec
+|----------------------------
+
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+Smallest diagonal element: 9.0623e-02
+No shift will be applied
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      4.185243230954         0.11
+    2      3.126164622014         0.10
+    3      1.677063519852         0.10
+    4      0.789878164024         0.10
+    5      0.358184433781         0.10
+    6      0.235310051707         0.10
+    7      0.101789745773         0.11
+    8      0.061692479174         0.10
+    9      0.029531540574         0.10
+   10      0.015788019693         0.10
+   11      0.005404615981         0.10
+   12      0.002016253132         0.10
+   13      0.000617337233         0.10
+   14      0.000310771352         0.10
+   15      0.000082343799         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.68 sec
+| Fxc Time:         0.70 sec
+| Total Time:       1.54 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      3.335147268197         0.10
+    2      2.141813985019         0.10
+    3      0.985339276931         0.10
+    4      0.470175024448         0.10
+    5      0.270410452165         0.10
+    6      0.182243276681         0.10
+    7      0.087262597149         0.10
+    8      0.050168452163         0.10
+    9      0.021547044419         0.10
+   10      0.011731782881         0.10
+   11      0.003909528984         0.10
+   12      0.001568623381         0.11
+   13      0.000549416836         0.10
+   14      0.000217281911         0.10
+   15      0.000056883389         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.66 sec
+| Fxc Time:         0.70 sec
+| Total Time:       1.52 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      7.735520157894         0.10
+    2      8.343143099070         0.10
+    3      6.072379607538         0.10
+    4      1.332257309767         0.10
+    5      0.792039990290         0.10
+    6      0.285477840823         0.10
+    7      0.102014225935         0.10
+    8      0.036007793271         0.10
+    9      0.015036395677         0.10
+   10      0.011860113942         0.10
+   11      0.005846292642         0.10
+   12      0.002949845323         0.10
+   13      0.000702139210         0.10
+   14      0.000154983795         0.10
+   15      0.000077700410         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.67 sec
+| Fxc Time:         0.69 sec
+| Total Time:       1.53 sec
+|----------------------------
+
+Building X multipliers...
+
+|       Total X Time
+|----------------------------
+| J Time:           0.08 sec
+| K Time:           0.31 sec
+| Fxc Time:         0.41 sec
+| Total Time:       1.77 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      9.635108295759         0.08
+    2     11.488215143186         0.08
+    3      0.916247527856         0.08
+    4      0.208744233994         0.08
+    5      0.120279748927         0.08
+    6      0.042545946136         0.08
+    7      0.012378048758         0.08
+    8      0.008237113809         0.08
+    9      0.002086217938         0.08
+   10      0.000913271348         0.08
+   11      0.000380444079         0.08
+   12      0.000146165275         0.08
+   13      0.000062586509         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.13 sec
+| K Time:           0.29 sec
+| Fxc Time:         0.60 sec
+| Total Time:       1.02 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      7.186083047699         0.08
+    2      8.623617423998         0.08
+    3      0.645231274537         0.08
+    4      0.144979008759         0.08
+    5      0.079236248572         0.08
+    6      0.032904097032         0.08
+    7      0.008468487868         0.08
+    8      0.006333219347         0.08
+    9      0.001501564871         0.08
+   10      0.000638475418         0.08
+   11      0.000268678003         0.08
+   12      0.000097747738         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.12 sec
+| K Time:           0.27 sec
+| Fxc Time:         0.55 sec
+| Total Time:       0.94 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     19.220838749269         0.08
+    2     22.069998170585         0.08
+    3      2.305849049726         0.08
+    4      0.562225755882         0.08
+    5      0.247743604817         0.08
+    6      0.094340594864         0.08
+    7      0.029539320439         0.08
+    8      0.011185535774         0.08
+    9      0.002661669879         0.08
+   10      0.001019412626         0.08
+   11      0.000468041251         0.08
+   12      0.000163252819         0.08
+   13      0.000067617229         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.13 sec
+| K Time:           0.31 sec
+| Fxc Time:         0.60 sec
+| Total Time:       1.04 sec
+|----------------------------
+
+Building relaxed X multipliers...
+
+|       Total Relaxed X Time
+|----------------------------
+| J Time:           0.03 sec
+| K Time:           0.13 sec
+| Fxc Time:         0.14 sec
+| Total Time:       0.30 sec
+|----------------------------
+
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+Smallest diagonal element: 3.2303e-03
+No shift will be applied
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     69.664641799764         0.11
+    2    652.124396878718         0.11
+    3     50.831010957956         0.10
+    4      4.293194157643         0.10
+    5     10.165672588840         0.10
+    6      1.338542093527         0.10
+    7      0.757757137303         0.10
+    8      0.903122501409         0.10
+    9      4.207012985529         0.10
+   10      0.255357935788         0.10
+   11      0.139117376257         0.10
+   12      0.335884032721         0.10
+   13      0.014858272779         0.10
+   14      0.019842365266         0.10
+   15      0.018737408282         0.10
+   16      0.011667262321         0.10
+   17      0.002485528210         0.10
+   18      0.001574313549         0.10
+   19      0.000909443279         0.10
+   20      0.000044410184         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.21 sec
+| K Time:           0.93 sec
+| Fxc Time:         0.93 sec
+| Total Time:       2.08 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     39.232069802386         0.10
+    2    366.410628561116         0.11
+    3     28.227707213378         0.10
+    4      1.239612894027         0.10
+    5      5.258561461316         0.10
+    6      1.540048975894         0.10
+    7      0.790834108736         0.10
+    8      0.612974323219         0.10
+    9      4.063415795699         0.10
+   10      0.229761028987         0.10
+   11      0.066048720435         0.10
+   12      0.301117726327         0.10
+   13      0.037699178643         0.10
+   14      0.020312560129         0.10
+   15      0.005555138899         0.10
+   16      0.008079853069         0.10
+   17      0.000772691823         0.10
+   18      0.001194789092         0.10
+   19      0.000816593179         0.10
+   20      0.000216196385         0.10
+   21      0.000047203318         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.22 sec
+| K Time:           0.96 sec
+| Fxc Time:         0.97 sec
+| Total Time:       2.16 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1    240.653332072599         0.11
+    2    2254.993219826397         0.12
+    3    179.351840474111         0.11
+    4     28.601401897003         0.11
+    5     39.715349790725         0.11
+    6      4.218528136610         0.10
+    7      2.099726705174         0.10
+    8      0.746586465097         0.10
+    9      0.748686248081         0.10
+   10      0.270682250139         0.10
+   11      0.487263486060         0.10
+   12      0.141868116231         0.10
+   13      0.043992787425         0.10
+   14      0.042464309380         0.10
+   15      0.005214312779         0.11
+   16      0.003811511862         0.10
+   17      0.004018373931         0.10
+   18      0.003261338061         0.11
+   19      0.001313032869         0.11
+   20      0.000309097467         0.11
+   21      0.000047675084         0.11
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.23 sec
+| K Time:           1.01 sec
+| Fxc Time:         0.98 sec
+| Total Time:       2.23 sec
+|----------------------------
+
+Building X multipliers...
+
+|       Total X Time
+|----------------------------
+| J Time:           0.09 sec
+| K Time:           0.32 sec
+| Fxc Time:         0.42 sec
+| Total Time:       1.81 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     66.121558300071         0.08
+    2     82.887540075916         0.08
+    3      4.806899706439         0.08
+    4      0.862710446916         0.08
+    5      0.552992842605         0.08
+    6      0.237605858279         0.08
+    7      0.048473684229         0.08
+    8      0.029533624246         0.08
+    9      0.010048591730         0.08
+   10      0.003684049908         0.08
+   11      0.001352370668         0.08
+   12      0.000494837965         0.08
+   13      0.000299214727         0.08
+   14      0.000046182882         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.35 sec
+| Fxc Time:         0.64 sec
+| Total Time:       1.15 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     54.436697434720         0.08
+    2     68.306310056782         0.08
+    3      3.916476870737         0.08
+    4      0.683722389006         0.08
+    5      0.438668440019         0.08
+    6      0.193238384210         0.08
+    7      0.036931567515         0.08
+    8      0.019602783855         0.08
+    9      0.008425268174         0.08
+   10      0.002900372472         0.08
+   11      0.001056725302         0.08
+   12      0.000385088431         0.08
+   13      0.000206672622         0.08
+   14      0.000036188153         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.35 sec
+| Fxc Time:         0.65 sec
+| Total Time:       1.14 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     43.906992805307         0.08
+    2     52.854579695275         0.08
+    3      4.473736192446         0.08
+    4      1.354718740900         0.08
+    5      0.671248924477         0.08
+    6      0.183106871239         0.08
+    7      0.063746374752         0.08
+    8      0.036551488125         0.08
+    9      0.007270534327         0.08
+   10      0.003582138767         0.08
+   11      0.001248511343         0.08
+   12      0.000494406142         0.08
+   13      0.000264533067         0.08
+   14      0.000100001385         0.08
+   15      0.000033050102         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.36 sec
+| Fxc Time:         0.69 sec
+| Total Time:       1.20 sec
+|----------------------------
+
+Building relaxed X multipliers...
+
+|       Total Relaxed X Time
+|----------------------------
+| J Time:           0.03 sec
+| K Time:           0.14 sec
+| Fxc Time:         0.14 sec
+| Total Time:       0.31 sec
+|----------------------------
+
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.01 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+Smallest diagonal element: 9.0623e-02
+No shift will be applied
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      1.447736591506         0.11
+    2      0.893568980196         0.10
+    3      0.698490991905         0.10
+    4      0.448856493262         0.10
+    5      0.389385771251         0.10
+    6      0.216886776025         0.10
+    7      0.091617621655         0.10
+    8      0.025369409927         0.10
+    9      0.015391042131         0.10
+   10      0.007177897891         0.10
+   11      0.002060018831         0.10
+   12      0.001032403041         0.10
+   13      0.000235092015         0.10
+   14      0.000114544050         0.10
+   15      0.000031055099         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.65 sec
+| Fxc Time:         0.70 sec
+| Total Time:       1.51 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      1.001721782201         0.10
+    2      0.639311666979         0.10
+    3      0.425905440589         0.10
+    4      0.277609690122         0.10
+    5      0.240422871730         0.10
+    6      0.146916682636         0.10
+    7      0.061863496579         0.10
+    8      0.019825498070         0.10
+    9      0.011405028234         0.10
+   10      0.005602036561         0.10
+   11      0.001554547446         0.10
+   12      0.000763816316         0.10
+   13      0.000195595365         0.10
+   14      0.000088011963         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.13 sec
+| K Time:           0.58 sec
+| Fxc Time:         0.64 sec
+| Total Time:       1.37 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      3.864267106190         0.10
+    2      2.181359481530         0.10
+    3      2.308116314235         0.10
+    4      0.916941897952         0.10
+    5      0.557124505947         0.10
+    6      0.334093837297         0.10
+    7      0.168850367252         0.10
+    8      0.035317374919         0.10
+    9      0.017524712433         0.10
+   10      0.006457454450         0.10
+   11      0.002650028803         0.10
+   12      0.001522049194         0.10
+   13      0.000479112189         0.10
+   14      0.000190402124         0.10
+   15      0.000050364577         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.67 sec
+| Fxc Time:         0.69 sec
+| Total Time:       1.52 sec
+|----------------------------
+
+Smallest diagonal element: 3.2303e-03
+No shift will be applied
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     27.734388510916         0.10
+    2    268.602307568050         0.11
+    3      9.381006209978         0.10
+    4      1.091944673873         0.10
+    5      9.570946169315         0.10
+    6      2.337838046941         0.10
+    7      0.720052570860         0.10
+    8      0.613584119879         0.10
+    9      1.649132603746         0.10
+   10      0.491043934214         0.10
+   11      0.308755090721         0.10
+   12      0.224493278819         0.10
+   13      0.043836885693         0.10
+   14      0.013956780115         0.10
+   15      0.028414961870         0.10
+   16      0.009989963995         0.10
+   17      0.003120228506         0.10
+   18      0.001483774377         0.10
+   19      0.000103485592         0.10
+   20      0.000061906513         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.20 sec
+| K Time:           0.89 sec
+| Fxc Time:         0.92 sec
+| Total Time:       2.03 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     22.358829462050         0.10
+    2    216.555682861572         0.11
+    3      7.687119862201         0.10
+    4      0.703764218350         0.10
+    5      7.343736875405         0.10
+    6      1.413325862490         0.10
+    7      0.389080665293         0.10
+    8      0.342839355249         0.10
+    9      0.780893328735         0.10
+   10      0.133360945201         0.10
+   11      0.265834599531         0.10
+   12      0.087376820897         0.10
+   13      0.026134920382         0.10
+   14      0.011518100923         0.10
+   15      0.018083996055         0.10
+   16      0.007201426741         0.10
+   17      0.003447900812         0.10
+   18      0.001022118722         0.10
+   19      0.000113868777         0.10
+   20      0.000112053553         0.10
+   21      0.000338756320         0.10
+   22      0.000051898489         0.10
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.22 sec
+| K Time:           0.96 sec
+| Fxc Time:         1.01 sec
+| Total Time:       2.21 sec
+|----------------------------
+
+Solving CPCIS equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     11.672923445725         0.10
+    2    104.653942968377         0.11
+    3      3.749117396512         0.10
+    4      3.734025212779         0.10
+    5      4.325834783341         0.10
+    6      3.100350970487         0.10
+    7      1.878815460651         0.10
+    8      5.846282320163         0.10
+    9     12.808267046170         0.10
+   10      3.319447277263         0.11
+   11      1.413738324589         0.11
+   12      1.549017200978         0.11
+   13      0.129798503216         0.11
+   14      0.005843454387         0.11
+   15      0.014221942395         0.11
+   16      0.004250183021         0.11
+   17      0.003859407881         0.11
+   18      0.003329694843         0.11
+   19      0.000505263204         0.11
+   20      0.000509699654         0.11
+   21      0.000018387493         0.11
+
+CPCIS converged
+
+|       Total CPCIS Time
+|----------------------------
+| J Time:           0.22 sec
+| K Time:           0.98 sec
+| Fxc Time:         0.97 sec
+| Total Time:       2.19 sec
+|----------------------------
+
+Building X multipliers...
+
+|       Total X Time
+|----------------------------
+| J Time:           0.17 sec
+| K Time:           0.61 sec
+| Fxc Time:         0.82 sec
+| Total Time:       3.53 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     68.576306229663         0.09
+    2     85.592343257884         0.08
+    3      5.131441650789         0.08
+    4      0.759623736048         0.08
+    5      0.574920645313         0.08
+    6      0.271260795770         0.08
+    7      0.062682773653         0.08
+    8      0.039072005060         0.08
+    9      0.007817373915         0.08
+   10      0.002894630374         0.08
+   11      0.000723165032         0.08
+   12      0.000288511334         0.08
+   13      0.000175987695         0.08
+   14      0.000037762361         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.15 sec
+| K Time:           0.35 sec
+| Fxc Time:         0.65 sec
+| Total Time:       1.15 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1     38.861596027730         0.08
+    2     48.580011755712         0.08
+    3      2.951024780885         0.08
+    4      0.451646334246         0.08
+    5      0.362232406170         0.08
+    6      0.153065034310         0.08
+    7      0.037502000958         0.08
+    8      0.022292662850         0.08
+    9      0.004353138799         0.08
+   10      0.001704343663         0.08
+   11      0.000408948968         0.08
+   12      0.000187952494         0.08
+   13      0.000106704367         0.08
+   14      0.000024162145         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.14 sec
+| K Time:           0.34 sec
+| Fxc Time:         0.64 sec
+| Total Time:       1.12 sec
+|----------------------------
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1    234.483948033291         0.09
+    2    292.235781644265         0.08
+    3     17.293434047813         0.08
+    4      2.463959972408         0.08
+    5      1.592445420898         0.08
+    6      0.841486179236         0.08
+    7      0.157360784518         0.08
+    8      0.066505107508         0.08
+    9      0.026818508093         0.08
+   10      0.010477427754         0.08
+   11      0.002757349715         0.08
+   12      0.000799570384         0.08
+   13      0.000365609048         0.08
+   14      0.000103543720         0.08
+   15      0.000031551362         0.08
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.16 sec
+| K Time:           0.40 sec
+| Fxc Time:         0.69 sec
+| Total Time:       1.25 sec
+|----------------------------
+
+Building relaxed X multipliers...
+
+|       Total Relaxed X Time
+|----------------------------
+| J Time:           0.03 sec
+| K Time:           0.14 sec
+| Fxc Time:         0.14 sec
+| Total Time:       0.32 sec
+|----------------------------
+
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute density: 0.01 sec
+ Gradient (XC): Time to compute functional: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+ Gradient (XC): Time to pack points: 0.00 sec
+ Gradient (XC): Time to compute grid gradient: 0.00 sec
+ Gradient (XC): Time to repack points: 0.00 sec
+ Gradient (XC): Time to compute gradient: 0.02 sec
+Transition dipole moment derivatives:
+
+   1 ->    2
+
+ Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.1371394645      -0.0730299705      -2.4294203175
+    2      -1.7833805879      -1.3240442798       0.3304815372
+    3       2.1327123723       1.9349458072      -2.1261112717
+    4       0.9551387494       0.8796336616      -0.8546089369
+    5      -0.1238159085      -0.3257533632       3.8228580948
+    6      -0.0406876033      -0.0032068092      -1.9683869445
+    7       0.8233093974       0.4761188414       2.7737347864
+    8      -0.6005957021      -0.4638050350      -1.4797918083
+    9       1.9928157539       1.3684345868       2.5757598896
+   10      -3.0002874663      -2.2508553227       0.2245890431
+   11      -0.6592244545      -0.4498252338      -2.1925859817
+   12       0.8758923794       0.4661454281       2.7436317722
+   13      -0.2110299461      -0.1148690411      -0.6905482782
+   14      -0.2215387164      -0.1035373370      -0.6775585953
+   15      -0.0708795477      -0.0459199930       0.0022462751
+   16       0.0062105897      -0.0137011635       0.0091243670
+   17      -0.0163926900      -0.0149721770      -0.0134769623
+   18      -0.0008081334       0.0057860650       0.0025537741
+   19       0.0176752922       0.0106144737      -0.0165244068
+   20       0.0246679406       0.0002097237       0.0062576094
+   21       0.0373577515       0.0416311382      -0.0422236393
+
+ Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.1078149361       0.1031839095      -1.3806929037
+    2      -0.9905236602      -0.9153518309       0.2115343231
+    3       1.2772271230       0.9258269907      -1.2175833293
+    4       0.5528104627       0.3318571155      -0.4633000008
+    5      -0.0712686480      -0.1589777964       2.1845189034
+    6      -0.0712763204       0.1244602904      -1.1432814626
+    7       0.4853621690       0.2596860933       1.5648438534
+    8      -0.3784501236      -0.1309708214      -0.8199952709
+    9       1.1054134836       0.7859945772       1.4213743350
+   10      -1.6076093455      -1.4216956742       0.1498195056
+   11      -0.4044069702      -0.1128842792      -1.2528670703
+   12       0.4512218677       0.3522163311       1.5473940832
+   13      -0.0955436261      -0.0783983894      -0.3941563897
+   14      -0.1228227600      -0.0839084135      -0.3795721940
+   15      -0.0327748361      -0.0373508633       0.0012247469
+   16      -0.0120815119       0.0134237484       0.0052759907
+   17      -0.0127988912      -0.0036568822      -0.0089282089
+   18       0.0003765389       0.0025323475       0.0013215786
+   19       0.0074205580       0.0110963373      -0.0079653551
+   20      -0.0006577379       0.0209718460       0.0050873788
+   21       0.0281971644       0.0119453562      -0.0240525039
+
+ Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -1.3445221819      -0.6434363914      -7.9418900939
+    2      -4.9251382570      -3.8987596912       0.5250317601
+    3       8.0192313453       6.7571742604      -7.1921557851
+    4       4.5051027311       3.6671877095      -3.2649474220
+    5      -0.6538378872      -1.2239949964      12.6828518824
+    6      -0.7130835490      -0.1886046812      -6.1499962695
+    7       2.7402567066       1.5114181577       9.5507331119
+    8      -2.8163426546      -1.8567841368      -5.2433960007
+    9       6.9078867822       4.7659899870       9.3749747956
+   10      -9.7990647326      -7.7172467928       0.2896191770
+   11      -3.1695603117      -1.9566480961      -7.2461732165
+   12       2.6901035691       1.5668044087       9.5078991276
+   13      -0.6693503306      -0.3663890460      -2.3899433551
+   14      -0.7081170867      -0.4010015594      -2.3322626155
+   15      -0.2091199930      -0.1642458104      -0.0018264225
+   16      -0.0226756088      -0.0179019780       0.0476876131
+   17      -0.0670652901      -0.0463284062      -0.0228499409
+   18      -0.0052259294       0.0149333098       0.0101354600
+   19       0.0396872156       0.0339839626      -0.0710019077
+   20       0.0381980885       0.0258836481       0.0215209860
+   21       0.1626373838       0.1379661386      -0.1540108902
+
+ESP Charges for Excited State 1
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.131160     0.1433
+   N  -1.495956   6.518798  20.197143  -0.074972     0.0546
+   C   0.616305   8.021710  23.567413   0.007466     0.1809
+   N  -2.799647   5.806170  15.735786  -0.050804     0.0410
+   C   1.746793   9.033834  21.441150  -0.421657     0.1502
+   C   0.418411   8.090116  19.323746   0.446901     0.0580
+   C   0.724653   8.502870  16.756509  -0.672504     0.1365
+   C  -0.846149   7.391078  14.980124   0.458049     0.0648
+   C  -0.887532   7.544157  12.313721  -0.443385     0.1672
+   C  -2.866445   6.049887  11.491198   0.033588     0.1672
+   C  -3.993302   5.012893  13.667750  -0.159044     0.1468
+   B  -3.448301   5.063672  18.520372   0.425848     0.0000
+   F  -3.156530   2.493342  18.833763  -0.321553     0.4141
+   F  -5.860056   5.836673  19.128411  -0.321043     0.3965
+   H  -2.708092   5.371396  23.793382   0.179957     0.3032
+   H   1.128639   8.332369  25.518796   0.135867     0.3564
+   H   3.341514  10.309543  21.361735   0.184235     0.3457
+   H   2.232483   9.737526  16.118172   0.221425     0.2819
+   H   0.408436   8.639565  11.174649   0.188696     0.3404
+   H  -3.459421   5.716240   9.566662   0.130181     0.3564
+   H  -5.590091   3.746232  13.813661   0.183910     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):  0.12
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.114742     0.1433
+   N  -1.495956   6.518798  20.197143   0.000736     0.0546
+   C   0.616305   8.021710  23.567413  -0.016928     0.1809
+   N  -2.799647   5.806170  15.735786   0.019408     0.0410
+   C   1.746793   9.033834  21.441150  -0.350556     0.1502
+   C   0.418411   8.090116  19.323746   0.271001     0.0580
+   C   0.724653   8.502870  16.756509  -0.454806     0.1365
+   C  -0.846149   7.391078  14.980124   0.272649     0.0648
+   C  -0.887532   7.544157  12.313721  -0.360409     0.1672
+   C  -2.866445   6.049887  11.491198  -0.002443     0.1672
+   C  -3.993302   5.012893  13.667750  -0.129303     0.1468
+   B  -3.448301   5.063672  18.520372   0.358353     0.0000
+   F  -3.156530   2.493342  18.833763  -0.312743     0.4141
+   F  -5.860056   5.836673  19.128411  -0.312135     0.3965
+   H  -2.708092   5.371396  23.793382   0.171791     0.3032
+   H   1.128639   8.332369  25.518796   0.137349     0.3564
+   H   3.341514  10.309543  21.361735   0.168899     0.3457
+   H   2.232483   9.737526  16.118172   0.176615     0.2819
+   H   0.408436   8.639565  11.174649   0.171017     0.3404
+   H  -3.459421   5.716240   9.566662   0.133808     0.3564
+   H  -5.590091   3.746232  13.813661   0.172440     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.114
+
+ESP Charges for Excited State 2
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.172230     0.1433
+   N  -1.495956   6.518798  20.197143   0.093281     0.0546
+   C   0.616305   8.021710  23.567413  -0.218543     0.1809
+   N  -2.799647   5.806170  15.735786   0.107322     0.0410
+   C   1.746793   9.033834  21.441150  -0.001073     0.1502
+   C   0.418411   8.090116  19.323746   0.153927     0.0580
+   C   0.724653   8.502870  16.756509  -0.702988     0.1365
+   C  -0.846149   7.391078  14.980124   0.166937     0.0648
+   C  -0.887532   7.544157  12.313721  -0.032751     0.1672
+   C  -2.866445   6.049887  11.491198  -0.201130     0.1672
+   C  -3.993302   5.012893  13.667750  -0.200352     0.1468
+   B  -3.448301   5.063672  18.520372   0.413801     0.0000
+   F  -3.156530   2.493342  18.833763  -0.304005     0.4141
+   F  -5.860056   5.836673  19.128411  -0.303908     0.3965
+   H  -2.708092   5.371396  23.793382   0.186998     0.3032
+   H   1.128639   8.332369  25.518796   0.161545     0.3564
+   H   3.341514  10.309543  21.361735   0.135220     0.3457
+   H   2.232483   9.737526  16.118172   0.227748     0.2819
+   H   0.408436   8.639565  11.174649   0.140412     0.3404
+   H  -3.459421   5.716240   9.566662   0.158247     0.3564
+   H  -5.590091   3.746232  13.813661   0.191542     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.114
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.168413     0.1433
+   N  -1.495956   6.518798  20.197143   0.131284     0.0546
+   C   0.616305   8.021710  23.567413  -0.197195     0.1809
+   N  -2.799647   5.806170  15.735786   0.143586     0.0410
+   C   1.746793   9.033834  21.441150   0.001443     0.1502
+   C   0.418411   8.090116  19.323746   0.056869     0.0580
+   C   0.724653   8.502870  16.756509  -0.545545     0.1365
+   C  -0.846149   7.391078  14.980124   0.045989     0.0648
+   C  -0.887532   7.544157  12.313721   0.000176     0.1672
+   C  -2.866445   6.049887  11.491198  -0.203000     0.1672
+   C  -3.993302   5.012893  13.667750  -0.179355     0.1468
+   B  -3.448301   5.063672  18.520372   0.371486     0.0000
+   F  -3.156530   2.493342  18.833763  -0.295733     0.4141
+   F  -5.860056   5.836673  19.128411  -0.295443     0.3965
+   H  -2.708092   5.371396  23.793382   0.181025     0.3032
+   H   1.128639   8.332369  25.518796   0.152048     0.3564
+   H   3.341514  10.309543  21.361735   0.137835     0.3457
+   H   2.232483   9.737526  16.118172   0.192465     0.2819
+   H   0.408436   8.639565  11.174649   0.135505     0.3404
+   H  -3.459421   5.716240   9.566662   0.153631     0.3564
+   H  -5.590091   3.746232  13.813661   0.181340     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.111
+
+Computing orbital relaxation for Root 1
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      0.251077384188         0.07
+    2      0.287445549073         0.07
+    3      0.034881624735         0.07
+    4      0.006646649259         0.07
+    5      0.003944524409         0.07
+    6      0.000936288931         0.07
+    7      0.000245129742         0.07
+    8      0.000097725826         0.07
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.06 sec
+| K Time:           0.14 sec
+| Fxc Time:         0.36 sec
+| Total Time:       0.56 sec
+|----------------------------
+
+ESP Charges for Excited State 1
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.111724     0.1433
+   N  -1.495956   6.518798  20.197143  -0.069355     0.0546
+   C   0.616305   8.021710  23.567413  -0.111852     0.1809
+   N  -2.799647   5.806170  15.735786  -0.043221     0.0410
+   C   1.746793   9.033834  21.441150  -0.288662     0.1502
+   C   0.418411   8.090116  19.323746   0.267606     0.0580
+   C   0.724653   8.502870  16.756509  -0.367425     0.1365
+   C  -0.846149   7.391078  14.980124   0.276678     0.0648
+   C  -0.887532   7.544157  12.313721  -0.309470     0.1672
+   C  -2.866445   6.049887  11.491198  -0.086477     0.1672
+   C  -3.993302   5.012893  13.667750  -0.141600     0.1468
+   B  -3.448301   5.063672  18.520372   0.423403     0.0000
+   F  -3.156530   2.493342  18.833763  -0.319684     0.4141
+   F  -5.860056   5.836673  19.128411  -0.319210     0.3965
+   H  -2.708092   5.371396  23.793382   0.181895     0.3032
+   H   1.128639   8.332369  25.518796   0.150828     0.3564
+   H   3.341514  10.309543  21.361735   0.172408     0.3457
+   H   2.232483   9.737526  16.118172   0.187666     0.2819
+   H   0.408436   8.639565  11.174649   0.176682     0.3404
+   H  -3.459421   5.716240   9.566662   0.145438     0.3564
+   H  -5.590091   3.746232  13.813661   0.186075     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.103
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.092035     0.1433
+   N  -1.495956   6.518798  20.197143   0.000973     0.0546
+   C   0.616305   8.021710  23.567413  -0.137518     0.1809
+   N  -2.799647   5.806170  15.735786   0.025546     0.0410
+   C   1.746793   9.033834  21.441150  -0.217400     0.1502
+   C   0.418411   8.090116  19.323746   0.094544     0.0580
+   C   0.724653   8.502870  16.756509  -0.152395     0.1365
+   C  -0.846149   7.391078  14.980124   0.095065     0.0648
+   C  -0.887532   7.544157  12.313721  -0.230267     0.1672
+   C  -2.866445   6.049887  11.491198  -0.118780     0.1672
+   C  -3.993302   5.012893  13.667750  -0.114105     0.1468
+   B  -3.448301   5.063672  18.520372   0.360305     0.0000
+   F  -3.156530   2.493342  18.833763  -0.311540     0.4141
+   F  -5.860056   5.836673  19.128411  -0.310963     0.3965
+   H  -2.708092   5.371396  23.793382   0.172905     0.3032
+   H   1.128639   8.332369  25.518796   0.152506     0.3564
+   H   3.341514  10.309543  21.361735   0.156972     0.3457
+   H   2.232483   9.737526  16.118172   0.143223     0.2819
+   H   0.408436   8.639565  11.174649   0.159850     0.3404
+   H  -3.459421   5.716240   9.566662   0.148146     0.3564
+   H  -5.590091   3.746232  13.813661   0.174968     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS):0.0981
+
+Computing orbital relaxation for Root 2
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual          Time (s)  
+------  --------------------  ------------
+    1      0.292844706033         0.07
+    2      0.363518476927         0.07
+    3      0.028677256915         0.07
+    4      0.004534779981         0.07
+    5      0.003051407973         0.07
+    6      0.000946864131         0.07
+    7      0.000356026417         0.07
+    8      0.000084033999         0.07
+
+CPSCF converged
+
+|       Total CPSCF Time
+|----------------------------
+| J Time:           0.06 sec
+| K Time:           0.14 sec
+| Fxc Time:         0.37 sec
+| Total Time:       0.57 sec
+|----------------------------
+
+ESP Charges for Excited State 2
+Running Resp charge analysis...
+Total number of ESP grid points from 4 layers: 999
+Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+ESP unrestraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.162742     0.1433
+   N  -1.495956   6.518798  20.197143   0.032402     0.0546
+   C   0.616305   8.021710  23.567413  -0.182538     0.1809
+   N  -2.799647   5.806170  15.735786   0.050833     0.0410
+   C   1.746793   9.033834  21.441150  -0.128614     0.1502
+   C   0.418411   8.090116  19.323746   0.157315     0.0580
+   C   0.724653   8.502870  16.756509  -0.438040     0.1365
+   C  -0.846149   7.391078  14.980124   0.169248     0.0648
+   C  -0.887532   7.544157  12.313721  -0.151582     0.1672
+   C  -2.866445   6.049887  11.491198  -0.164473     0.1672
+   C  -3.993302   5.012893  13.667750  -0.187718     0.1468
+   B  -3.448301   5.063672  18.520372   0.407231     0.0000
+   F  -3.156530   2.493342  18.833763  -0.302116     0.4141
+   F  -5.860056   5.836673  19.128411  -0.301912     0.3965
+   H  -2.708092   5.371396  23.793382   0.186932     0.3032
+   H   1.128639   8.332369  25.518796   0.160891     0.3564
+   H   3.341514  10.309543  21.361735   0.155965     0.3457
+   H   2.232483   9.737526  16.118172   0.191986     0.2819
+   H   0.408436   8.639565  11.174649   0.159422     0.3404
+   H  -3.459421   5.716240   9.566662   0.156994     0.3564
+   H  -5.590091   3.746232  13.813661   0.190516     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.107
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restraint charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   C  -1.378447   6.481752  22.709510  -0.134598     0.1433
+   N  -1.495956   6.518798  20.197143   0.083875     0.0546
+   C   0.616305   8.021710  23.567413  -0.210091     0.1809
+   N  -2.799647   5.806170  15.735786   0.108818     0.0410
+   C   1.746793   9.033834  21.441150  -0.061712     0.1502
+   C   0.418411   8.090116  19.323746   0.002059     0.0580
+   C   0.724653   8.502870  16.756509  -0.239135     0.1365
+   C  -0.846149   7.391078  14.980124   0.002948     0.0648
+   C  -0.887532   7.544157  12.313721  -0.078351     0.1672
+   C  -2.866445   6.049887  11.491198  -0.194956     0.1672
+   C  -3.993302   5.012893  13.667750  -0.158919     0.1468
+   B  -3.448301   5.063672  18.520372   0.360124     0.0000
+   F  -3.156530   2.493342  18.833763  -0.296285     0.4141
+   F  -5.860056   5.836673  19.128411  -0.295916     0.3965
+   H  -2.708092   5.371396  23.793382   0.175872     0.3032
+   H   1.128639   8.332369  25.518796   0.162948     0.3564
+   H   3.341514  10.309543  21.361735   0.141307     0.3457
+   H   2.232483   9.737526  16.118172   0.149932     0.2819
+   H   0.408436   8.639565  11.174649   0.143863     0.3404
+   H  -3.459421   5.716240   9.566662   0.159499     0.3564
+   H  -5.590091   3.746232  13.813661   0.178720     0.3085
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.104
+
+  Root   Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)     Ex. Energy (nm)
+-----------------------------------------------------------------------------------------
+     1       -680.95717341          0.12953823          3.52491397        351.73686983
+     2       -680.92948560          0.15722603          4.27833736        289.79533441
+
+Unrelaxed excited state dipole moments:
+
+  Root       Dx         Dy         Dz         |D|  (Debye)
+------------------------------------------------------------
+     1     1.8915     1.6518    -0.8487     2.6507
+     2     2.1997     1.8805    -0.7156     2.9811
+
+Relaxed excited state dipole moments:
+
+  Root       Dx         Dy         Dz         |D|  (Debye)
+------------------------------------------------------------
+     1     2.8511     2.4287    -1.2331     3.9431
+     2     2.6756     2.2733    -1.0492     3.6643
+
+Transition dipole moments:
+
+  Root       Tx         Ty         Tz         |T| (a.u.)
+----------------------------------------------------------
+     1     0.7784     0.4366     2.6908     2.8350
+     2     0.4995     0.2842     1.7075     1.8017
+
+Transition dipole moments between excited states:
+
+    Transition       Tx         Ty         Tz         |T| (a.u.)
+------------------------------------------------------------------
+     1 ->    2     0.1875     0.1524    -0.1052     0.2636
+
+Dipole moment derivatives:
+
+State    1
+
+ Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.2042338219      -0.1179238759       0.0369163994
+    2      -0.6829093447      -0.3500080575      -0.0130531409
+    3       0.0559631437       0.0036740753       0.2211565543
+    4      -0.4640286071      -0.2074812798       0.5667352809
+    5      -0.3438029633       0.0849506598      -0.8112990647
+    6       0.7323858924       0.1942894713       1.3265142384
+    7      -1.0749066063      -0.2971500733      -1.8838018811
+    8       1.2565025977       0.5427036150       2.1163066960
+    9      -1.3062362261      -0.5876293379      -1.8775886160
+   10       1.1801402028       0.8845548125       0.1665760948
+   11       0.1807320498       0.1738149266       0.1566452868
+   12       1.5530641195       0.1302747048      -0.2823880795
+   13      -0.4306254354      -0.1098378820       0.0694135935
+   14      -0.9719463599       0.1029519134       0.1956899633
+   15       0.0743546908      -0.0562003947       0.0054717385
+   16       0.0972573468      -0.0210493358      -0.0337887313
+   17       0.0516958374      -0.0980280579       0.0230729438
+   18       0.0802059134      -0.0933700189      -0.0025344558
+   19       0.0646265216      -0.0861731413       0.0145462396
+   20       0.0940363580      -0.0202706648      -0.0368567935
+   21       0.0577246847      -0.0720920590       0.0422657362
+
+ Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.0886576056      -0.1296046604      -0.0078528126
+    2      -0.3630117359      -0.5354674726      -0.0505374142
+    3       0.1154344567       0.1270406300       0.0334683337
+    4      -0.1905539815      -0.4266001068       0.4377000450
+    5       0.0629990683      -0.3233842834      -0.2940099169
+    6       0.1945356697       0.4994857459       0.6251647194
+    7      -0.3036651883      -0.6916207223      -1.0575297447
+    8       0.5464027563       0.7265113003       1.2851665473
+    9      -0.5700760293      -0.7545108985      -1.2093303677
+   10       0.7703726587       0.6348747434       0.0894418651
+   11       0.1458382903       0.0472995398       0.1160449252
+   12       0.1278608900       1.5470578988      -0.1725065102
+   13      -0.0033965682      -1.0056623909       0.1190835187
+   14      -0.0007129596      -0.4379107543       0.0267638302
+   15      -0.0600549492       0.0970029807       0.0071474418
+   16      -0.0206798819       0.1096116377      -0.0187893697
+   17      -0.0964997338       0.0950722493       0.0239525388
+   18      -0.0889526335       0.1187002468       0.0097668735
+   19      -0.0882404515       0.1026632051       0.0198304174
+   20      -0.0218644419       0.1104239209      -0.0184035021
+   21      -0.0670776315       0.0890171833       0.0354285846
+
+ Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.4215713147      -0.3666880013       0.5913693746
+    2       0.2304680214       0.1413803957       0.2723004689
+    3      -1.5507283260      -1.3532207335       2.2927160711
+    4       0.3269780939       0.2460707452      -0.0523665122
+    5      -0.4021881707      -0.0115616571      -5.8095568723
+    6       1.3199032914       0.6478784079       6.8723948769
+    7      -1.8930599848      -1.0489305832      -7.0296680525
+    8       2.1141507064       1.2833036557       6.1145967754
+    9      -2.2646266171      -1.4960017921      -4.3935170102
+   10       1.9170496667       1.4585534969       0.6600538451
+   11       0.6185897148       0.4754965856       0.0207058768
+   12      -0.2783294642      -0.1741166178       0.7862553836
+   13       0.0506626675       0.1492685087      -0.2942781877
+   14       0.2110752603      -0.0012044079      -0.3232011532
+   15       0.0683077463       0.0558654521       0.0901400087
+   16      -0.0309946327      -0.0214458601      -0.0277620201
+   17      -0.0067331347       0.0017052585       0.0726298761
+   18       0.0047831391       0.0005528753       0.0172029186
+   19       0.0438228227       0.0433865886       0.0520295001
+   20      -0.0379710112      -0.0173991989      -0.0253949056
+   21      -0.0195884696      -0.0128931169       0.1133497411
+
+State    2
+
+ Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       2.5491478558       1.4989920851      11.0910785101
+    2       6.7907971210       5.6559871273      -4.2541879296
+    3      -8.8938508111      -7.3150209294       6.7948002996
+    4      -7.9935238201      -6.1972326098       1.5855111944
+    5       0.9031127737       1.3247110547     -11.1685580323
+    6      -2.0608119836      -2.2213476564       7.5705957812
+    7      -4.3392655777      -2.0364186345     -13.5243222352
+    8       5.9120270564       4.1821274345       5.2364155725
+    9      -5.7070482669      -3.8943443235      -8.4928753675
+   10      10.2208001548       8.2390680206      -1.3557673221
+   11       3.4035945006       1.9325679710      11.3100502931
+   12      -1.5360495206      -1.5724755603     -10.0329407451
+   13       0.3159418144       0.2937831846       2.5876257611
+   14      -0.1601037244       0.4743407747       2.6507341813
+   15       0.2971339449       0.1094729048      -0.0243484748
+   16       0.1232429379      -0.0043781233      -0.0946961423
+   17       0.1325044928       0.0093561961       0.0331064129
+   18       0.0890521442      -0.1215647152      -0.0362613324
+   19      -0.0543661531      -0.1365229042       0.1090401967
+   20       0.0727233216      -0.0393216226      -0.1031732126
+   21      -0.0650582710      -0.1817796852       0.1181725981
+
+ Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       1.4250835608       0.7270429492       6.1984271156
+    2       3.8748434511       3.0744912218      -2.3589261832
+    3      -4.8945150731      -4.2663580257       3.8302586678
+    4      -4.4513034163      -3.6111048557       0.8719077763
+    5       0.5850641519       0.8575565950      -6.2920586559
+    6      -1.3186682347      -1.1317793601       4.1451561966
+    7      -2.0537463276      -1.7199738415      -7.6287913447
+    8       3.2395050117       2.5108873054       3.0832433263
+    9      -3.1474897701      -2.1062621594      -4.8440959094
+   10       5.8579399666       4.4789050368      -0.7772999045
+   11       1.9414747048       0.9924407356       6.4306448033
+   12      -1.4956979359       0.3216310327      -5.6508876018
+   13       0.3440451247      -0.7106558367       1.5457037181
+   14       0.4295609297      -0.1482377698       1.4053761340
+   15       0.0650436703       0.2103290903      -0.0085738083
+   16      -0.0071632260       0.1304514300      -0.0515225935
+   17      -0.0071974329       0.0963768807       0.0271754627
+   18      -0.0969652840       0.1200986463      -0.0081976568
+   19      -0.1136028192       0.0173079491       0.0701041233
+   20      -0.0375796051       0.1109772276      -0.0594441582
+   21      -0.1386314502       0.0458757462       0.0718005057
+
+ Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       9.8839828864       5.7866396449      39.0550007528
+    2      24.0069722395      19.7075935219     -15.3899650361
+    3     -30.5167272678     -25.5572424342      23.3489508825
+    4     -27.0246238677     -21.2684683287       5.6409325295
+    5       1.5642862231       3.4427372835     -38.4920307720
+    6      -6.7555456628      -7.0584038654      28.1493535288
+    7     -13.5741812690      -7.5996986405     -47.2687423372
+    8      19.7776652323      14.5209697014      16.2908326394
+    9     -21.0831524770     -14.5255992447     -28.5391822779
+   10      35.8871647851      28.4463378707      -4.6734848572
+   11      12.3708684793       6.9893142631      38.1740029041
+   12      -9.9196888432      -5.8478985212     -33.4221222774
+   13       2.5117247401       1.4989487890       8.4954594169
+   14       2.8198415576       1.4907957414       8.2508536382
+   15       0.6738072559       0.5368128590      -0.0215320426
+   16      -0.0236915062      -0.0048477676      -0.2562385576
+   17       0.3978652900       0.2894165369       0.0891974459
+   18       0.0057505379      -0.0664161606      -0.0950388005
+   19      -0.2537947753      -0.2114538596       0.3563302107
+   20      -0.1729874234      -0.1044251842      -0.1876228264
+   21      -0.5755361351      -0.4651122130       0.4950458562
+
+Transition dipole moment derivatives:
+
+   0 ->    1
+
+ Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       0.3327172657       0.1501625770      -0.2175871613
+    2       0.2324537621       0.1445454762      -0.1446749263
+    3       0.2907458585       0.1988471368      -0.2960425014
+    4      -0.1569705276      -0.0652885052      -0.0973179027
+    5       0.0004249052      -0.0674663487       0.9568446556
+    6      -0.5337414975      -0.4292474489      -0.4212043237
+    7       0.0501167812       0.0135013904       0.3480017331
+    8      -0.1594361545      -0.0830034982      -0.2036009332
+    9      -0.0003090686       0.0256689774      -0.1178830847
+   10       0.1576170761       0.1816941364      -0.1770906570
+   11      -0.2009090146      -0.0615004842       0.3343709064
+   12       0.0264162437       0.0108680406       0.1432730843
+   13      -0.0014001701       0.0076747149      -0.0374050151
+   14       0.0040145479       0.0014464080      -0.0327786486
+   15       0.0021690846       0.0150638212      -0.0174433077
+   16       0.0063247546       0.0039968951       0.0082183287
+   17       0.0453296454       0.0323984811      -0.0089784111
+   18      -0.0058320913      -0.0023952840      -0.0144693082
+   19      -0.0324165216      -0.0226760416       0.0135771404
+   20      -0.0130148072      -0.0072331598      -0.0190316087
+   21      -0.0443000754      -0.0470572889       0.0012219398
+
+ Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       0.1470448874       0.2798363563      -0.1247033953
+    2       0.1236483088       0.1640472510      -0.1196859050
+    3       0.1281371967       0.1726434806      -0.2018204812
+    4      -0.0953215337      -0.1267754030      -0.0651126840
+    5      -0.0228188504      -0.0316354709       0.6545679081
+    6      -0.3987968995      -0.2614923857      -0.3215920277
+    7       0.0521374523       0.0201739291       0.2770949253
+    8      -0.0536775587      -0.0627000092      -0.2373733708
+    9       0.0794925981       0.0397476140       0.0134856330
+   10       0.1069670544       0.0329274473      -0.1291912856
+   11      -0.0620844317      -0.2240973176       0.2244489470
+   12       0.0250601564       0.0120923853       0.1160102677
+   13      -0.0021060630       0.0036961807      -0.0254282548
+   14      -0.0009469960      -0.0012357329      -0.0298546546
+   15       0.0182750003      -0.0005566103      -0.0170245979
+   16       0.0035869453       0.0041359555       0.0034725110
+   17       0.0316088817       0.0303493178      -0.0073569907
+   18      -0.0046078846      -0.0017832885      -0.0117567073
+   19      -0.0235534372      -0.0242656103       0.0123074110
+   20      -0.0078516044      -0.0063978660      -0.0115462509
+   21      -0.0441932235      -0.0187102277       0.0010590057
+
+ Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.1309602228      -0.0642502323      -0.6135646983
+    2       0.2220148226       0.1591395591       0.1231776452
+    3       0.8520798895       0.7026454172      -0.4346008525
+    4       0.2577354568       0.2315820449      -0.2370276012
+    5       0.1201396775       0.0076814347       1.6183950180
+    6      -0.8574027047      -0.6664708625      -0.1076720213
+    7      -0.1972570296      -0.1563750576      -0.0768612303
+    8      -0.6383029527      -0.5824252461       1.1356713973
+    9      -0.9485968439      -0.6312485252      -1.6308830274
+   10       0.9697753592       0.7703165146      -0.2113934522
+   11       0.4233900813       0.2753214178       0.4189953943
+   12      -0.0626251830      -0.0496238356      -0.0345849540
+   13       0.0303914590       0.0465126487      -0.0031878461
+   14       0.0491983295       0.0239927622      -0.0047729636
+   15      -0.0659080578      -0.0544102531       0.0433508176
+   16       0.0091817279       0.0051503754       0.0598681124
+   17       0.0062363683       0.0045369509       0.0106743353
+   18      -0.0018952376      -0.0012825926       0.0077576231
+   19       0.0286845971       0.0243594188      -0.0298965321
+   20      -0.0189001685      -0.0086224755      -0.0510381694
+   21      -0.0469793780      -0.0365294721       0.0175930075
+
+   0 ->    2
+
+ Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       0.8491844890       0.4048148938       3.0461573256
+    2       1.5330904518       1.3234738633      -0.8562257225
+    3      -2.8597950639      -2.3175708181       2.1378549765
+    4      -1.6036067355      -1.3533174618       0.6755733511
+    5       0.3569206159       0.3139356162      -3.8427040021
+    6      -0.0175791876      -0.1028509665       1.5965394356
+    7      -0.7161109141      -0.3749169760      -2.8356344337
+    8       1.2589408378       0.9392224459       0.7602357460
+    9      -1.5057263129      -0.8912953529      -1.6108283342
+   10       2.4644103407       1.8803288184      -0.2446226510
+   11       0.5536104811       0.3800027613       2.3654413360
+   12      -0.6852589825      -0.4001956714      -2.4811036626
+   13       0.1672985757       0.0915500009       0.6397692704
+   14       0.1841151380       0.0986794378       0.6339893819
+   15       0.0888025056       0.0854310637      -0.0096522434
+   16       0.0106378989      -0.0058224368      -0.0113689050
+   17       0.0437608982       0.0538240292      -0.0018112359
+   18      -0.0157611027      -0.0175836475      -0.0089644008
+   19      -0.0466728635      -0.0587008236       0.0418642317
+   20      -0.0201132687      -0.0012916683      -0.0184632257
+   21      -0.0401478030      -0.0477171091       0.0239537632
+
+ Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1       0.5833139433       0.4731843599       2.4359572507
+    2       1.3468820254       1.0125557718      -0.6980030712
+    3      -2.1871156818      -1.9210905893       1.6950288423
+    4      -1.4110586430      -1.0435860176       0.5312709921
+    5       0.1122596593       0.4822995253      -2.9630032648
+    6      -0.0896708045      -0.1507464178       1.3150130847
+    7      -0.6189332291      -0.3323220074      -2.3407714969
+    8       0.9895817353       0.7369822014       0.6885944028
+    9      -1.1597326887      -1.0279703076      -1.4982064826
+   10       2.0810977663       1.7343014783      -0.2254023233
+   11       0.6153138740       0.2047214616       2.0418573678
+   12      -0.5729156858      -0.3338801923      -2.0505980550
+   13       0.1451086972       0.0791976545       0.5407657510
+   14       0.1512070314       0.0817692025       0.5121424261
+   15       0.0828491181       0.0457252734      -0.0095644579
+   16      -0.0057794317       0.0130565425      -0.0099610716
+   17       0.0584772763       0.0199954158      -0.0033879424
+   18      -0.0093363728      -0.0114367112      -0.0087188680
+   19      -0.0565295937      -0.0215398469       0.0355836530
+   20      -0.0021695387      -0.0179180142      -0.0146767544
+   21      -0.0528494537      -0.0232987802       0.0260800229
+
+ Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
+------  -----------------  -----------------  -----------------
+    1      -0.2215881255      -0.1708166537       0.0769262676
+    2      -0.8403507989      -0.6491048342       0.0024060985
+    3      -0.2452372989      -0.1945630869      -0.0257793291
+    4       0.9391205619       0.6959675892       0.0861075155
+    5      -0.1555616129      -0.0597509893      -1.1138009432
+    6       1.1075161313       0.9266622993      -0.6547259651
+    7       0.7000845019       0.4762259430       1.1840129965
+    8       0.1985880350       0.2404993669      -1.2287007197
+    9       2.0842550467       1.4099004298       3.0018642684
+   10      -2.8126222896      -2.2348553664       0.5264708484
+   11      -0.9429277108      -0.5554740378      -2.3975375140
+   12       0.3874369521       0.2419236343       1.1298205376
+   13      -0.1194677021      -0.0687847741      -0.2819727715
+   14      -0.1168686227      -0.0866172139      -0.2805289385
+   15       0.0471986459       0.0335624203       0.0156185216
+   16       0.0028307837       0.0006437754       0.0330767542
+   17      -0.0472774040      -0.0380458708       0.0124352155
+   18      -0.0470694718      -0.0363065872       0.0266868608
+   19      -0.0001107046       0.0017859661      -0.0100781529
+   20      -0.0019127219      -0.0061476850      -0.0168692327
+   21       0.0839638138       0.0732956722      -0.0854323104
+
+Velocity transition dipole moments:
+
+  Root       Tx         Ty         Tz         |T| (a.u.)
+----------------------------------------------------------
+     1     0.0056     0.0027     0.0188     0.0198
+     2    -0.0036    -0.0013    -0.0137     0.0143
+
+Magnetic transition dipole moments and rotational strengths:
+
+  Root       Lx         Ly         Lz       R(len)     R(vel) (a.u.)
+--------------------------------------------------------------------
+     1    -0.8195     1.0326     0.0687     0.0021    -0.0040
+     2     0.0679    -0.0848    -0.0019    -0.0066    -0.0007
+
+
+Electric transition quadrupole moments (Cartesian):
+
+   Root       Qxy        Qxz        Qyz        Qxx        Qyy        Qzz       norm (a.u.)
+--------------------------------------------------------------------------------------------
+     1     0.0240    -0.0004     0.0857    -0.0023     0.0283    -0.0361     0.1002
+     2     1.0359     2.2237     1.9365     1.4774     0.7003    -2.1435     4.1274
+
+Root 1: Largest CI coefficients:
+  49 ->  50 : D -> V :  -0.911004
+  48 ->  50 : D -> V :   0.346894
+
+Root 2: Largest CI coefficients:
+  48 ->  50 : D -> V :  -0.925429
+  49 ->  50 : D -> V :  -0.340439
+
+Root 1: Mulliken charges:
+ C      0.0487
+ N     -0.4887
+ C     -0.0900
+ N     -0.4884
+ C     -0.2763
+ C      0.4446
+ C     -0.4635
+ C      0.4448
+ C     -0.2763
+ C     -0.0896
+ C      0.0495
+ B      0.6182
+ F     -0.2980
+ F     -0.2989
+ H      0.1869
+ H      0.1516
+ H      0.1547
+ H      0.1779
+ H      0.1546
+ H      0.1516
+ H      0.1868
+
+Root 2: Mulliken charges:
+ C      0.0116
+ N     -0.3974
+ C     -0.1859
+ N     -0.4047
+ C     -0.0631
+ C      0.2930
+ C     -0.5235
+ C      0.2928
+ C     -0.0724
+ C     -0.1895
+ C      0.0108
+ B      0.6304
+ F     -0.2826
+ F     -0.2843
+ H      0.1873
+ H      0.1518
+ H      0.1544
+ H      0.1779
+ H      0.1544
+ H      0.1518
+ H      0.1872
+
+  Final Excited State Results:
+
+  Root   Total Energy (a.u.)   Ex. Energy (eV)   Osc. (a.u.)   < S^2 >   Max CI Coeff.      Excitation
+------------------------------------------------------------------------------------------------------------
+     1        -680.95717341        3.52491397       0.6941      0.0000     -0.911004     49 ->  50 : D -> V
+     2        -680.92948560        4.27833736       0.3402      0.0000     -0.925429     48 ->  50 : D -> V
+
+| Total processing time: 117.22 sec 
+
+| Job finished: Tue Jul 23 10:58:03 2024
+

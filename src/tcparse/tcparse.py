@@ -372,12 +372,15 @@ class TCParcer():
                 for i in range(3): next(self._file)
                 excitations = []
                 ex_energies = []
+                oscillators = []
                 for i in range(n_states):
                     sp = next(self._file).split()
                     excitations.append([int(sp[6]), int(sp[8])])
                     ex_energies.append(float(sp[2]))
+                    oscillators.append(float(sp[3]))
                 # data['cis_excitations'] = excitations
                 data['cis_ex_energies'] = ex_energies
+                data['cis_osc_strengths'] = oscillators
 
                 #   this is the end of the CIS section, so leave the function
                 return
@@ -409,7 +412,6 @@ class TCParcer():
                     self._current_frame += 1
                     self._add_frame_to_data()
                     data = self._data[self._current_frame]
-
         
             if 'Current Geometry' in line:
                 #    overwrite geometry with these coordinates instead
@@ -419,7 +421,6 @@ class TCParcer():
                     sp = next(self._file).split()
                     coords.append([float(x) for x in sp[1:4]])
                 data['geom'] = coords
-                
 
             if 'FINAL ENERGY' in line:
                 data['energy'].append(float(line.split()[2]))
