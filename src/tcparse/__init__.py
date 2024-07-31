@@ -1,1 +1,1 @@
-from .tcparse import TCParcer, correct_cis_signs
+from .tcparse import TCParser, correct_cis_signs
