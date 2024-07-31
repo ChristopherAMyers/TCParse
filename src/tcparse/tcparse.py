@@ -145,7 +145,7 @@ def correct_cis_signs(data: dict, compare_vecs=None):
             data['cis_transition_dipoles'][count] = (np.array(tr_dipole)*signs[i]*signs[j]).tolist()
             count += 1
     
-class TCParcer():
+class TCParser():
     def __init__(self) -> None:
         self._tc_output_file_path = None
         self._coords = None
