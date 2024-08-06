@@ -55,45 +55,57 @@ class XYZFile():
         comment_frame = int(sp[where + 1])
         return comment_frame
 
+def _assign_charge_info(new_data: dict, old_data: dict, key):
+    for x in ['esp_charges', 'resp_charges']:
+        new_data.setdefault(f'{key}{x}', []).append(old_data[x])
+    for x in ['esp_dipole', 'resp_dipole']:
+        new_data.setdefault(f'{key}{x}s', []).append(old_data[x])
 
-def reorder_charge_info(data):
-    ''' Never finished this function!!!!!'''
+def reorder_charge_info(data: dict):
     energies = data['energy']
     n_states = len(energies)
     new_esp_data = {}
 
-    all_esp_analysis_keys = [k for k in data if 'esp_analysis_' in k]
-    if 'esp_analysis_S0' in data:
-        all_esp_analysis_keys.pop('esp_analysis_S0')
-        pass
+    exc_type = 'cis'
+    if 'cas_states' in data:
+        exc_type = 'cas'
 
-    if n_states > 1:
-        new_esp_data['cis_unrelaxed_esp_charges'] = []
-        new_esp_data['cis_unrelaxed_esp_dipoles'] = []
-        new_esp_data['cis_unrelaxed_resp_charges'] = []
-        new_esp_data['cis_unrelaxed_resp_dipoles'] = []
+    # all_esp_analysis_keys = [k for k in data if 'esp_analysis_' in k]
+    if 'esp_analysis_S0' in data:
+        _assign_charge_info(new_esp_data, data['esp_analysis_S0'], '')
+        data.pop('esp_analysis_S0')
+        pass
+        
+
+    if n_states > 1 and 'esp_analysis_S1' in data:
+        #   if the S1 state is included, then all excited charges must have been requested
+        exc_key = 'cis_unrelaxed_'
+        if exc_type == 'cas':
+            exc_key = 'cas_'
 
         for i in range(1, n_states):
             key = f'esp_analysis_S{i}'
             esp_data = data[key]
-            all_esp_analysis_keys.pop(key)
-            new_esp_data['cis_unrelaxed_esp_charges'].append(esp_data['esp_charges'])
-            new_esp_data['cis_unrelaxed_esp_dipoles'].append(esp_data['esp_dipole'])
-            new_esp_data['cis_unrelaxed_resp_charges'].append(esp_data['resp_charges'])
-            new_esp_data['cis_unrelaxed_resp_dipoles'].append(esp_data['resp_dipole'])
+            _assign_charge_info(new_esp_data, esp_data, exc_key)
+            data.pop(key)
 
-        for i in range(1, n_states):
+    if n_states > 1 and 'esp_analysis_S0_S1' in data:            
+        for i in range(0, n_states):
             for j in range(i+1, n_states):
                 key = f'esp_analysis_S{i}_S{j}'
                 esp_data = data[key]
-                all_esp_analysis_keys.pop(key)
-                new_esp_data['cis_unrelaxed_TrESP_charges'].append(esp_data['esp_charges'])
-                new_esp_data['cis_unrelaxed_TrESP_dipoles'].append(esp_data['esp_dipole'])
-                new_esp_data['cis_unrelaxed_TrRESP_charges'].append(esp_data['resp_charges'])
-                new_esp_data['cis_unrelaxed_TrRESP_dipoles'].append(esp_data['resp_dipole'])
+                _assign_charge_info(new_esp_data, esp_data, f'{exc_type}_tr_')
+                data.pop(key)
 
-    unrelaxed_dipoles = data['cis_unrelaxed_dipoles']
-    tr_dipoles = data['cis_transition_dipoles']
+    if n_states > 1 and 'esp_analysis_S1_relaxed' in data:
+        #   if the S1 state is included, then all excited charges must have been requested
+        for i in range(1, n_states):
+            key = f'esp_analysis_S{i}_relaxed'
+            esp_data = data[key]
+            _assign_charge_info(new_esp_data, esp_data, 'cis_relaxed_')
+            data.pop(key)
+    
+    data.update(new_esp_data)
 
 def correct_cis_signs(data: dict, compare_vecs=None):
     energies = data['energy']
@@ -146,7 +158,7 @@ def correct_cis_signs(data: dict, compare_vecs=None):
             count += 1
     
 class TCParser():
-    def __init__(self) -> None:
+    def __init__(self, resp_version=2) -> None:
         self._tc_output_file_path = None
         self._coords = None
 
@@ -160,9 +172,11 @@ class TCParser():
 
         self._data = {}
         self._add_frame_to_data()
+        self._resp_version = resp_version
 
     def __del__(self):
         self._file.close()
+
 
     def _parse_charge_info(self, data, n_atoms, previous_line):
 
@@ -645,6 +659,8 @@ class TCParser():
                     self._parse_data()
                     
 
+        ###########   tc.out file parsing done   ###########
+
         #   frame number -1 is only used so that "Current Geometry" section
         #   can increase the frame number THEN start reading data
         if -1 in self._data:
@@ -672,16 +688,24 @@ class TCParser():
             else:
                 print("Scratch directory not found: cannot import coordinates and velocities")
 
+        if is_md or is_num_deriv:
+            for frame in self._data:
+                reorder_charge_info(self._data[frame])
+        else:
+            self._data = self._data[0]
+            reorder_charge_info(self._data)
+
+        # reorder_charge_info(self._data)
+        # raise ValueError()
+
+
         if data_output_file is not None:
             print("Writing data to ", data_output_file)
             with open(data_output_file, 'w') as file:
-                if is_md or is_num_deriv:
-                    json.dump(self._data, file, indent=4)
-                else:
-                    json.dump(self._data[0], file, indent=4)
-        
-        if is_md or is_num_deriv: return self._data
-        else: return self._data[0]
+                json.dump(self._data, file, indent=4)
+
+        return self._data
+
 
 
 def main():
@@ -691,7 +715,7 @@ def main():
     arg_parser.add_argument('-x', type=str, required=False, default=None, help='.xyz coordinate file')
     args = arg_parser.parse_args()
 
-    parser = TCParcer()
+    parser = TCParser()
     parser.parse_from_file(args.t, args.x, args.j)
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 import unittest
 import os
-from tcparse.tcparse import TCParcer
+from tcparse import TCParser
 import json
 
 #   turn on to print which keys and frames are being checked
@@ -45,7 +45,7 @@ class TestParser(unittest.TestCase):
     def test_MD(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/md')
-        parser = TCParcer()
+        parser = TCParser()
         tst_data = parser.parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
@@ -56,7 +56,7 @@ class TestParser(unittest.TestCase):
     def test_dipole_derivative(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/dipole_deriv')
-        parser = TCParcer()
+        parser = TCParser()
         tst_data = parser.parse_from_file('dipole_deriv.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('dipole_deriv.json') as file:
@@ -67,7 +67,7 @@ class TestParser(unittest.TestCase):
     def test_geom_import(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/geom_import')
-        parser = TCParcer()
+        parser = TCParser()
         tst_data = parser.parse_from_file('tc.out', coords_file='geom_custom.xyz')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
@@ -78,7 +78,7 @@ class TestParser(unittest.TestCase):
     def test_cis_import(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/cis')
-        parser = TCParcer()
+        parser = TCParser()
         tst_data = parser.parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
@@ -87,3 +87,5 @@ class TestParser(unittest.TestCase):
         self._test_single_job(ref_data, tst_data)
 
 
+if __name__ == '__main__':
+    unittest.main()
