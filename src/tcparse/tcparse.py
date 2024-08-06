@@ -93,6 +93,8 @@ def reorder_charge_info(data: dict):
         for i in range(0, n_states):
             for j in range(i+1, n_states):
                 key = f'esp_analysis_S{i}_S{j}'
+                if key not in data:
+                    continue
                 esp_data = data[key]
                 _assign_charge_info(new_esp_data, esp_data, f'{exc_type}_tr_')
                 data.pop(key)
@@ -276,6 +278,9 @@ class TCParser():
                     data['cas_transition_dipoles'].append(dip)
                     line = next(self._file)
 
+            elif 'Running Resp charge analysis...' in line:
+                self._parse_charge_info(data, n_atoms, prev_line)
+
             elif 'Singlet state electric transition quadrupole moments' in line:
                 #   this is the last CAS section that we can read
                 #   read past this part, we don't save the info (yet)
@@ -302,6 +307,8 @@ class TCParser():
 
                 #   leave the function
                 return
+            
+            prev_line = line
 
     def _parse_cis_section(self, n_atoms, data: dict):
         n_states = 0
