@@ -99,9 +99,8 @@ def reorder_charge_info(data: dict):
                 _assign_charge_info(new_esp_data, esp_data, f'{exc_type}_tr_')
                 data.pop(key)
 
-    if n_states > 1 and 'esp_analysis_S1_relaxed' in data:
-        #   if the S1 state is included, then all excited charges must have been requested
-        for i in range(1, n_states):
+    for i in range(1, n_states):
+        if n_states > 1 and f'esp_analysis_S{i}_relaxed' in data: 
             key = f'esp_analysis_S{i}_relaxed'
             esp_data = data[key]
             _assign_charge_info(new_esp_data, esp_data, 'cis_relaxed_')
