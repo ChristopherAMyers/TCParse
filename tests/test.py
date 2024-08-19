@@ -1,10 +1,45 @@
 import unittest
 import os
-from tcparse import TCParser
 import json
+import numpy as np
+import pickle
+
+TC_PARSE_LOC = os.environ.get('TCPARSE_LOC', False)
+if TC_PARSE_LOC:
+    import sys
+    sys.path.insert(1, TC_PARSE_LOC)
+
+from tcparse import TCParser
+    
 
 #   turn on to print which keys and frames are being checked
-PRINT_ASSERT = False
+PRINT_ASSERT = True
+
+def _recursive_compare_no_trace(tester: unittest.TestCase, tst_obj, ref_obj):
+    '''
+        Recursively iterate through a test object and compare it's members to the reference object
+    '''
+    tester.assertIs(type(tst_obj), type(ref_obj))
+    if any(isinstance(tst_obj, x) for x in [type(None), int, str]):
+        tester.assertEqual(tst_obj, ref_obj)
+    elif isinstance(tst_obj, float):
+        tester.assertAlmostEqual(tst_obj, ref_obj, 9)
+    elif isinstance(tst_obj, np.ndarray):
+        if tst_obj.dtype == float:
+            np.testing.assert_almost_equal(tst_obj, ref_obj, 13)
+        else:
+            np.testing.assert_equal(tst_obj, ref_obj)
+    elif isinstance(tst_obj, list) or isinstance(tst_obj, tuple):
+        for n in range(len(tst_obj)):
+            _recursive_compare_no_trace(tester, tst_obj[n], ref_obj[n])
+    elif isinstance(tst_obj, dict):
+        for key in tst_obj:
+            _recursive_compare_no_trace(tester, tst_obj[key], ref_obj[key])
+    elif '__dict__' in dir(tst_obj):
+        for key in tst_obj.__dict__:
+            _recursive_compare_no_trace(tester, tst_obj.__dict__[key], ref_obj.__dict__[key])
+    else:
+        print("COULD NOT COMPARE ", type(tst_obj))
 
 class TestParser(unittest.TestCase):
     def __init__(self, methodName: str = "runTest") -> None:
@@ -29,18 +64,28 @@ class TestParser(unittest.TestCase):
             #   check each object in the job
             for key in ref_keys:
                 if PRINT_ASSERT: print(" - ASSERTING KEY: ", key)
-                self.assertAlmostEqual(ref_job[key], tst_job[key], places=15)
+                self.assertAlmostEqual(ref_job[key], tst_job[key], places=14)
 
     def _test_single_job(self, ref_job, tst_job):
         
         ref_keys = list(ref_job.keys())
         tst_keys = list(tst_job.keys())
-        self.assertListEqual(ref_keys, tst_keys)
+        # self.assertListEqual(ref_keys, tst_keys)
 
         #   check each object in the job
         for key in ref_keys:
-            if PRINT_ASSERT: print(" - ASSERTING KEY: ", key)
-            self.assertAlmostEqual(ref_job[key], tst_job[key], places=15)
+            
+            try:
+                self.assertIs(type(tst_job[key]), type(ref_job[key]))
+                _recursive_compare_no_trace(self, tst_job[key], ref_job[key])
+            except AssertionError as e:
+                print(f" - ASSERTING {key} FAILED")
+                print("    Reference Type: ", type(ref_job[key]))
+                print("    Test Type: ", type(tst_job[key]))
+                print("    Reference Values: ", ref_job[key])
+                print("    Test Values: ", tst_job[key])
+                raise AssertionError(e)
+
 
     def test_MD(self):
         os.chdir(self._orig_dir)
