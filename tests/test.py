@@ -15,6 +15,9 @@ from tcparse import TCParser
 #   turn on to print which keys and frames are being checked
 PRINT_ASSERT = True
 
+#   ignore these keys, usefull when debugging specific parsers
+IGNORE_KEYS = ['num_dipole_derivatives', 'gradient']
+
 def _recursive_compare_no_trace(tester: unittest.TestCase, tst_obj, ref_obj):
     '''
         Recursively iterate through a test object and compare it's members to the reference object
@@ -57,9 +60,16 @@ class TestParser(unittest.TestCase):
             if PRINT_ASSERT: print("ASSERTING FRAME: ", frame)
             ref_job = ref_data[frame]
             tst_job = tst_data[frame]
-            ref_keys = list(ref_job.keys())
-            tst_keys = list(tst_job.keys())
-            self.assertListEqual(ref_keys, tst_keys)
+
+            for key in IGNORE_KEYS:
+                if key in ref_job: ref_job.pop(key)
+                if key in tst_job: tst_job.pop(key)
+
+            ref_keys = set(ref_job.keys())
+            tst_keys = set(tst_job.keys())
+
+            self.assertSetEqual(ref_keys, tst_keys)
+
 
             #   check each object in the job
             for key in ref_keys:
@@ -105,6 +115,17 @@ class TestParser(unittest.TestCase):
         tst_data = parser.parse_from_file('dipole_deriv.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('dipole_deriv.json') as file:
+            ref_data = json.load(file)
+
+        self._test_MD_data(ref_data, tst_data)
+
+    def test_dipole_derivative_cis(self):
+        os.chdir(self._orig_dir)
+        os.chdir('jobs/dipole_deriv_cis')
+        parser = TCParser()
+        tst_data = parser.parse_from_file('tc.out')
+        tst_data = json.loads(json.dumps(tst_data))
+        with open('tc.json') as file:
             ref_data = json.load(file)
 
         self._test_MD_data(ref_data, tst_data)

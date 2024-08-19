@@ -5,3 +5,4 @@ debug*
 tests/.coverage
 tests/.DS_Store
 .DS_Store
+tests/jobs/dipole_deriv/cas
