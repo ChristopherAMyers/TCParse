@@ -111,9 +111,9 @@ class TestParser(unittest.TestCase):
 
         self._test_MD_data(ref_data, tst_data)
 
-    def test_dipole_derivative(self):
+    def test_dipole_derivative_cas(self):
         os.chdir(self._orig_dir)
-        os.chdir('jobs/dipole_deriv')
+        os.chdir('jobs/dipole_deriv_cas')
         parser = TCParser()
         tst_data = parser.parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
