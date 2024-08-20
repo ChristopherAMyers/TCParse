@@ -1,0 +1,12 @@
+run         dipolederiv
+method      hf
+basis       6-31g*
+coordinates c2h4.xyz
+charge      0
+spinmult    1
+
+# CAS
+casci       yes
+closed      7
+active      2
+cassinglets 3
