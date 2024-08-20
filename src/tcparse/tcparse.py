@@ -342,7 +342,6 @@ class TCParser():
                     grad[i] = np.array([float(x) for x in line.split()[1:]])
                 data[f'cis_gradient_{root}'] = grad.tolist()
             
-
             elif 'Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)' in line:
                 self._parse_columned_section(data, 1, n_states, [1], 'energy')
 
@@ -455,16 +454,13 @@ class TCParser():
             elif 'CAS Parameters' in line:
                 self._parse_cas_section(n_atoms, data)
 
-            # elif 'Dipole Derivative' in line:
-            #     self._parse_dipole_deriv(data, line)
-
             elif 'Gradient units are Hartree/Bohr' in line:
                 data['gradient'] = self._parse_gradient()
 
             elif 'Running Resp charge analysis...' in line:
                 self._parse_charge_info(data, n_atoms, prev_line)
 
-            elif 'Dipole X' in line:
+            elif 'Dipole X' in line or 'Dipole Derivative X' in line:
                 self._parse_dipole_deriv_numerical(data, line)
 
             prev_line = line
@@ -474,62 +470,50 @@ class TCParser():
         return data
     
     def _post_process_data(self, data: dict):
+
+        ex_type = 'cas'
+        if 'cis_states' in data:
+            ex_type = 'cis'
+
+        #   Ground State Dipole Derivatives
         if '_S0_num_dipole_deriv' in data:
             mat = np.array(data['_S0_num_dipole_deriv']).reshape((3, -1, 3))
             data['numerical_dipole_deriv'] = mat.tolist()
             data.pop('_S0_num_dipole_deriv')
 
-        ex_type = 'cas'
-        if 'cis_unrelaxed_dipoles' in data:
-            ex_type = 'cis'
-
-        #   
+        #   CIS Unrelaxed Dipole and CAS Excited Dipole Derivs
         n_states = 0
-        ex_dipole_derivs = []
         while f'_S{n_states+1}_unrelaxed_num_dipole_deriv' in data:
             n_states += 1
             key = f'_S{n_states}_unrelaxed_num_dipole_deriv'
-            mat = np.array(data[key])
-            ex_dipole_derivs.append(mat.reshape((3, -1, 3)).tolist())
+            mat = np.array(data[key]).reshape((3, -1, 3))
+            data.setdefault(f'{ex_type}_unrelaxed_dipole_deriv', []).append(mat.tolist())
             data.pop(key)
-        if len(ex_dipole_derivs) > 0:
-            data['cis_unrelaxed_dipole_deriv'] = ex_dipole_derivs
+        while f'_S{n_states+1}_num_dipole_deriv' in data:
+            n_states += 1
+            key = f'_S{n_states}_num_dipole_deriv'
+            mat = np.array(data[key]).reshape((3, -1, 3))
+            data.setdefault(f'{ex_type}_dipole_deriv', []).append(mat.tolist())
+            data.pop(key)
 
-        key = f'_S0_S{1}_num_dipole_deriv'
-        tr_dipole_derivs = []
+        #   CIS Transition Dipole Derivatives
+        key = '_S0_S1_num_dipole_deriv'
         if key in data:
             for i in range(0, n_states+1):
                 for j in range(i+1, n_states+1):
                     key = f'_S{i}_S{j}_num_dipole_deriv'
-                    mat = np.array(data[key])
-                    tr_dipole_derivs.append(mat.reshape((3, -1, 3)).tolist())
+                    mat = np.array(data[key]).reshape((3, -1, 3))
+                    data.setdefault(f'{ex_type}_transition_dipole_deriv', []).append(mat.tolist())
                     data.pop(key)
-        if len(tr_dipole_derivs) > 0:
-            data['cis_transition_dipole_deriv'] = tr_dipole_derivs
 
-        ex_relaxed_dipoles = []
+        #   CIS Relaxed Dipole Derivatives
         for i in range(1, n_states+1):
             key = f'_S{i}_relaxed_num_dipole_deriv'
-            print(key)
             if key in data:
-                mat = np.array(data[key])
-                ex_relaxed_dipoles.append(mat.reshape((3, -1, 3)).tolist())
-                print(key)
+                mat = np.array(data[key]).reshape((3, -1, 3))
+                data.setdefault(f'{ex_type}_relaxed_dipole_deriv', []).append(mat.tolist())
                 data.pop(key)
-        if len(ex_relaxed_dipoles):
-            data['cis_relaxed_dipole_deriv'] = ex_relaxed_dipoles
-
-
-        # n_states = len(data['energy'])
-        # if 'num_dipole_derivatives' in data:
-        #     old_data = data['num_dipole_derivatives']
-        #     new_data = []
-        #     for i in range(int(n_states*(n_states+1)/2)):
-        #         dMu_X = old_data.pop(0)
-        #         dMu_Y = old_data.pop(0)
-        #         dMu_Z = old_data.pop(0)
-        #         new_data.append([dMu_X, dMu_Y, dMu_Z])
-        #     data['num_dipole_derivatives'] = new_data
+ 
 
     def _parse_dipole_deriv_anal(self, data, current_line):
         pass
@@ -549,53 +533,33 @@ class TCParser():
     def _parse_dipole_deriv_numerical(self, data, current_line):
   
         #   figure out what derivatives these are
-        current_line = current_line.replace(':', '')
-        current_line = current_line.replace('Root', '')
-        current_line = current_line.replace('->', '')
+        # print("BEFORE CHANGE: ", current_line)
+        for x in [':', 'Root', 'State', '->', 'Singlet', 'Doublet', 'Tripplet', '-']:
+            current_line = current_line.replace(x, '')
+
         sp = current_line.split()
-        if 'Ground State' in current_line:
+        if 'Ground' in current_line or '0 Dipole' in current_line:
             key = '_S0_num_dipole_deriv'
-        elif 'Excited State Unrelaxed' in current_line:
+        elif 'Unrelaxed' in current_line:
             state = int(sp[0])
             key = f'_S{state}_unrelaxed_num_dipole_deriv'
-        elif 'Excited State Relaxed' in current_line:
+        elif 'Relaxed' in current_line:
             state = int(sp[0])
             key = f'_S{state}_relaxed_num_dipole_deriv'
-        else: # Transition Dipole
+        elif 'Transition Dipole' in current_line:
             state_1 = int(sp[0])
             state_2 = int(sp[1])
             key = f'_S{state_1}_S{state_2}_num_dipole_deriv'
+        else:
+            state = int(sp[0])
+            key = f'_S{state}_num_dipole_deriv'
 
-        tmp_data = {}
+        # print ("WORKING ON KEY: ", key, current_line)
         self._parse_columned_section(data, 4, self._n_atoms, [0,1,2], key)
         self._parse_columned_section(data, 7, self._n_atoms, [0,1,2], key)
         self._parse_columned_section(data, 7, self._n_atoms, [0,1,2], key)
 
-        # if key == '_S0_num_dipole_deriv':
-        #     derivs = 
 
-
-        # sp = current_line.split()
-        # idx = sp.index('Root')
-        # state_1 = int(sp[idx+1])
-        # for j in range(idx+1):
-        #     sp.pop(0)
-        # if 'Root' in sp:
-        #     idx = sp.index('Root')
-        #     state_2 = int(sp[idx+1])
-        # else:
-        #     state_2 = state_1
-        # direction = sp[-1]
-
-        # #   read in derivatives
-        # while 'dE' not in current_line:
-        #     current_line = next(self._file)
-        # current_line = next(self._file)
-        # while '---' not in current_line:
-        #     derivatives.append([float(x) for x in current_line.split()])
-        #     current_line = next(self._file)
-
-        # data['num_dipole_derivatives'].append(derivatives)
         
     
     def _parse_gradient(self):

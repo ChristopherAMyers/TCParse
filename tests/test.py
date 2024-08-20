@@ -16,7 +16,7 @@ from tcparse import TCParser
 PRINT_ASSERT = True
 
 #   ignore these keys, usefull when debugging specific parsers
-IGNORE_KEYS = ['num_dipole_derivatives', 'gradient']
+IGNORE_KEYS = []
 
 def _recursive_compare_no_trace(tester: unittest.TestCase, tst_obj, ref_obj):
     '''
@@ -73,8 +73,11 @@ class TestParser(unittest.TestCase):
 
             #   check each object in the job
             for key in ref_keys:
-                if PRINT_ASSERT: print(" - ASSERTING KEY: ", key)
+                # if PRINT_ASSERT: print(" - ASSERTING KEY: ", key)
+                # print(f"    {key} REFERENCE: ", len(ref_job[key]))
+                # print(f"    {key} TEST: ",      len(tst_job[key]))
                 self.assertAlmostEqual(ref_job[key], tst_job[key], places=14)
+
 
     def _test_single_job(self, ref_job, tst_job):
         
@@ -112,9 +115,9 @@ class TestParser(unittest.TestCase):
         os.chdir(self._orig_dir)
         os.chdir('jobs/dipole_deriv')
         parser = TCParser()
-        tst_data = parser.parse_from_file('dipole_deriv.out')
+        tst_data = parser.parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
-        with open('dipole_deriv.json') as file:
+        with open('tc.json') as file:
             ref_data = json.load(file)
 
         self._test_MD_data(ref_data, tst_data)
