@@ -3254,7 +3254,7 @@
                 -0.0628
             ]
         ],
-        "numerical_dipole_deriv": [
+        "dipole_deriv": [
             [
                 [
                     0.1402796111,

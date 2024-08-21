@@ -1,4 +1,4 @@
-run energy
+run gradient
 method hf
 basis 6-31g*
 coordinates geom.xyz
@@ -12,5 +12,6 @@ dipolederivative yes
 cisdipolederiv yes
 cistransdipolederiv yes
 cisrelaxdipole yes
+cistarget 2
 cischarges yes
 resp yes
