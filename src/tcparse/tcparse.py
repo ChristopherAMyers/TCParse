@@ -5,10 +5,58 @@ import sys
 import io
 import argparse
 
+from pydantic import BaseModel, ConfigDict, ValidationError
+from typing import Optional
+
 DEBYE_2_AU = 0.3934303
 ANG_2_BOHR = 1.8897259886
 BOHR_2_ANG = 1.0/ANG_2_BOHR
 
+
+class TCJobData(BaseModel):
+    atoms                         : list
+    energy                        : list
+    geom                          : list
+
+    cas_dipole_deriv              : Optional[list] = None
+    cas_dipoles                   : Optional[list] = None
+    cas_states                    : Optional[int] = None
+    cas_transition_dipole_deriv   : Optional[list] = None
+    cas_transition_dipoles        : Optional[list] = None
+    cis_dipole_deriv              : Optional[list] = None
+    cis_ex_energies               : Optional[list] = None
+    cis_excitations               : Optional[list] = None
+    cis_gradient_2                : Optional[list] = None
+    cis_osc_strengths             : Optional[list] = None
+    cis_relaxed_dipole_deriv      : Optional[list] = None
+    cis_relaxed_dipoles           : Optional[list] = None
+    cis_relaxed_esp_charges       : Optional[list] = None
+    cis_relaxed_esp_dipoles       : Optional[list] = None
+    cis_relaxed_resp_charges      : Optional[list] = None
+    cis_relaxed_resp_dipoles      : Optional[list] = None
+    cis_states                    : Optional[int] = None
+    cis_tr_esp_charges            : Optional[list] = None
+    cis_tr_esp_dipoles            : Optional[list] = None
+    cis_tr_resp_charges           : Optional[list] = None
+    cis_tr_resp_dipoles           : Optional[list] = None
+    cis_transition_dipole_deriv   : Optional[list] = None
+    cis_transition_dipoles        : Optional[list] = None
+    cis_unrelaxed_dipole_deriv    : Optional[list] = None
+    cis_unrelaxed_dipoles         : Optional[list] = None
+    cis_unrelaxed_esp_charges     : Optional[list] = None
+    cis_unrelaxed_esp_dipoles     : Optional[list] = None
+    cis_unrelaxed_resp_charges    : Optional[list] = None
+    cis_unrelaxed_resp_dipoles    : Optional[list] = None
+    dipole_deriv                  : Optional[list] = None
+    dipole_moment                 : Optional[float] = None
+    dipole_vector                 : Optional[list] = None
+    esp_charges                   : Optional[list] = None
+    esp_dipoles                   : Optional[list] = None
+    gradient                      : Optional[list] = None
+    resp_charges                  : Optional[list] = None
+    resp_dipoles                  : Optional[list] = None
+    velocities                    : Optional[None] = None
+    
 class XYZFile():
     def __init__(self, file_loc) -> None:
         self._atom_data = []
@@ -799,7 +847,10 @@ def main():
     args = arg_parser.parse_args()
 
     parser = TCParser()
-    parser.parse_from_file(args.t, args.x, args.j)
+    data = parser.parse_from_file(args.t, args.x, args.j)
+
+    new_obj = TCJobData.parse_obj(data)
+    return new_obj
 
 if __name__ == '__main__':
-    main()
+    job_data = main()
