@@ -215,6 +215,7 @@ class TCParser():
         self._current_frame_num = 0
 
         self._job_type = 'energy'
+        self._file = None
 
         self._vels_univ = None
         self._coords_univ = None
@@ -228,7 +229,8 @@ class TCParser():
         return self._data[self._current_frame_num]
 
     def __del__(self):
-        self._file.close()
+        if self._file:
+            self._file.close()
 
     def _next(self, num):
         for i in range(num):
@@ -657,7 +659,7 @@ class TCParser():
             grad.append([float(x) for x in sp])
         return grad
 
-    def parse_from_list(self, file_lines: list[str], coords_file: str=None, data_output_file: str=None):
+    def parse_from_list(self, file_lines: list[str], coords_file: str=None, data_output_file: str=None) -> dict:
         '''
             Parse a list lines taken from a TeraChem output.
 
