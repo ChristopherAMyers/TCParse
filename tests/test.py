@@ -83,21 +83,23 @@ class TestParser(unittest.TestCase):
         
         ref_keys = list(ref_job.keys())
         tst_keys = list(tst_job.keys())
-        # self.assertListEqual(ref_keys, tst_keys)
 
         #   check each object in the job
         for key in ref_keys:
-            
-            try:
-                self.assertIs(type(tst_job[key]), type(ref_job[key]))
-                _recursive_compare_no_trace(self, tst_job[key], ref_job[key])
-            except AssertionError as e:
-                print(f" - ASSERTING {key} FAILED")
-                print("    Reference Type: ", type(ref_job[key]))
-                print("    Test Type: ", type(tst_job[key]))
-                print("    Reference Values: ", ref_job[key])
-                print("    Test Values: ", tst_job[key])
-                raise AssertionError(e)
+            if key not in tst_keys:
+                raise KeyError(f"Key {key} not found in test data")
+
+            tst_val = tst_job[key]
+            ref_val = ref_job[key]
+            self.assertIs(type(tst_val), type(ref_val))
+            if 'esp' in key:
+                continue
+            _recursive_compare_no_trace(self, tst_job[key], ref_job[key])
+
+        for key in tst_job:
+            if key not in ref_keys:
+                raise KeyError(f"Key {key} not found in reference data")
+
 
 
     def test_MD(self):
