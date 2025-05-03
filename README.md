@@ -17,7 +17,7 @@ TCParse is a Python parser for TeraChem output files. It extracts various molecu
 
 ## Requirements
 
-- Python 3.7+
+- Python 3.9+
 - [numpy](https://numpy.org/)
 - [pydantic](https://pydantic-docs.helpmanual.io/)
 
@@ -42,7 +42,7 @@ pip install -e .
 To run the parser, execute the main script with the required arguments:
 
 ```sh
-python -m tcparse.tcparse -t path/to/tera.out -j path/to/output.json -x path/to/geom.xyz
+python -m tcparse -t path/to/tera.out -j path/to/output.json -x path/to/geom.xyz
 ```
 
 Where:
@@ -53,7 +53,7 @@ Where:
 To display the help screen with all available options, use:
 
 ```sh
-python -m tcparse.tcparse -h
+python -m tcparse -h
 ```
 
 ## Using TCParse as a Python Module
@@ -97,7 +97,3 @@ python -m unittest discover tests
 ## Contributing
 
 Contributions are welcome. Please feel free to submit issues or pull requests.
-
-## License
-
-Specify your license here.

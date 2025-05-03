@@ -5,15 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "TCParse"
 version = "0.1.0"
-dependencies = [
-  "numpy>=1.23",
-  "pandas>=2.1.1",
-]
 requires-python = ">=3.9"
 authors = [
-    {name = "Christopher Myers", email = "cmyers7@ucmerced.edu"}
+    {name = "Christopher Myers", email = "myers.christopher@proton.me"}
 ]
-# readme = "README.md"
+readme = "README.md"
+keywords = ["parsing", "science", "research"]
+homepage = "https://github.com/cmyers7/tcparse"
+repository = "https://github.com/cmyers7/tcparse"
 classifiers = [
   "Intended Audience :: Science/Research",
   "Operating System :: OS Independent",
@@ -25,5 +24,7 @@ classifiers = [
   "Development Status :: 4 - Beta"
 ]
 
-[project.scripts]
-tcparse = "tcparse.tcparse:main"
+[project.dependencies]
+numpy = ">=1.23"
+pandas = ">=2.1.1"
+pydantic = "*"
