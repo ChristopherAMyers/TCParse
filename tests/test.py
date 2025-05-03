@@ -9,7 +9,7 @@ if TC_PARSE_LOC:
     import sys
     sys.path.insert(1, TC_PARSE_LOC)
 
-from tcparse import TCParser
+from tcparse import parse_from_list, parse_from_file
     
 
 #   turn on to print which keys and frames are being checked
@@ -91,7 +91,7 @@ class TestParser(unittest.TestCase):
 
             tst_val = tst_job[key]
             ref_val = ref_job[key]
-            self.assertIs(type(tst_val), type(ref_val))
+            self.assertIs(type(tst_val), type(ref_val), msg=f"Key {key} has different types in test and reference data")
             if 'esp' in key:
                 continue
             _recursive_compare_no_trace(self, tst_job[key], ref_job[key])
@@ -100,13 +100,32 @@ class TestParser(unittest.TestCase):
             if key not in ref_keys:
                 raise KeyError(f"Key {key} not found in reference data")
 
+    def test_parse_from_list(self):
+        os.chdir(self._orig_dir)
+        os.chdir('jobs/cis')
+        with open('tc.out') as file:
+            lines = file.readlines()
+        tst_data = parse_from_list(lines)
+        tst_data = json.loads(json.dumps(tst_data))
+        with open('tc.json') as file:
+            ref_data = json.load(file)
+        
+        #   parsing from a list of lines does not include the atoms or geom
+        #   so we need to remove them from the reference data
+        for k in ('atoms', 'geom'):
+            if k in ref_data:
+                ref_data.pop(k)
+            if k in tst_data:
+                tst_data.pop(k)
 
+        self._test_single_job(ref_data, tst_data)
+
+        
 
     def test_MD(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/md')
-        parser = TCParser()
-        tst_data = parser.parse_from_file('tc.out')
+        tst_data = parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
@@ -116,8 +135,7 @@ class TestParser(unittest.TestCase):
     def test_dipole_derivative_cas(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/dipole_deriv_cas')
-        parser = TCParser()
-        tst_data = parser.parse_from_file('tc.out')
+        tst_data = parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
@@ -127,8 +145,7 @@ class TestParser(unittest.TestCase):
     def test_dipole_derivative_cis(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/dipole_deriv_cis')
-        parser = TCParser()
-        tst_data = parser.parse_from_file('tc.out')
+        tst_data = parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
@@ -138,8 +155,7 @@ class TestParser(unittest.TestCase):
     def test_geom_import(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/geom_import')
-        parser = TCParser()
-        tst_data = parser.parse_from_file('tc.out', coords_file='geom_custom.xyz')
+        tst_data = parse_from_file('tc.out', coords_file='geom_custom.xyz')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
@@ -149,12 +165,11 @@ class TestParser(unittest.TestCase):
     def test_cis_import(self):
         os.chdir(self._orig_dir)
         os.chdir('jobs/cis')
-        parser = TCParser()
-        tst_data = parser.parse_from_file('tc.out')
+        tst_data = parse_from_file('tc.out')
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
-
+        
         self._test_single_job(ref_data, tst_data)
 
 

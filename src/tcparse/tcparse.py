@@ -201,6 +201,41 @@ def correct_cis_signs(data: dict, compare_vecs=None):
             data['cis_transition_dipoles'][count] = (np.array(tr_dipole)*signs[i]*signs[j]).tolist()
             count += 1
     
+def parse_from_list(file_lines: list[str], coords_file: str=None, data_output_file=None) -> dict:
+    '''
+        Parse a list lines taken from a TeraChem output.
+
+        Parameters
+        ---------
+        file_lines: list
+            List if strings of each line in the output.
+        coords_file: str
+            location of the coordinate file. If not supplied, TCParse will try to
+            use the location specified in the TeraChem output.
+        data_output_file: str
+            final json file location to write the parsed data to.
+    '''
+    parser = TCParser()
+    return parser._parse_from_list(file_lines, coords_file, data_output_file)
+
+def parse_from_file(tc_output_file: str, coords_file : str=None, data_output_file=None) -> dict:
+    '''
+        Parse a list lines taken from a TeraChem output.
+
+        Parameters
+        ---------
+        tc_output_file: str
+            lcoation of the terachem output file.
+        coords_file: str
+            location of the coordinate file. If not supplied, TCParse will try to
+            use the location specified in the TeraChem output.
+        data_output_file: str
+            final json file location to write the parsed data to.
+    '''
+    parser = TCParser()
+    return parser._parse_from_file(tc_output_file, coords_file, data_output_file)
+
+
 class TCParser():
     def __init__(self, resp_version=2) -> None:
         self._tc_output_file_path = None
@@ -659,7 +694,8 @@ class TCParser():
             grad.append([float(x) for x in sp])
         return grad
 
-    def parse_from_list(self, file_lines: list[str], coords_file: str=None, data_output_file: str=None) -> dict:
+
+    def _parse_from_list(self, file_lines: list[str], coords_file: str=None, data_output_file: str=None) -> dict:
         '''
             Parse a list lines taken from a TeraChem output.
 
@@ -686,7 +722,7 @@ class TCParser():
         self._file = ram_file
         return self._parse_all(coords_file, data_output_file)
     
-    def parse_from_file(self, tc_output_file: str, coords_file : str=None, data_output_file=None):
+    def _parse_from_file(self, tc_output_file: str, coords_file : str=None, data_output_file=None):
         '''
             Parse a list lines taken from a TeraChem output.
 
@@ -780,7 +816,6 @@ class TCParser():
             if n_atoms_job is not None:
                 #   MD trajectories have multiple parses
                 if is_md:
-                    print("PARSING STEP")
                     self._parse_data(end_phrase="MD STEP")
   
                 elif is_num_deriv:

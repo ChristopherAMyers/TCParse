@@ -56,6 +56,36 @@ To display the help screen with all available options, use:
 python -m tcparse.tcparse -h
 ```
 
+## Using TCParse as a Python Module
+
+You can also use `tcparse` as a Python module to parse TeraChem output programmatically. The following functions are available:
+
+### `parse_from_file(filepath: str) -> dict`
+Parses a TeraChem output file and returns the extracted data as a dictionary.
+
+**Example:**
+```python
+from tcparse import parse_from_file
+
+data = parse_from_file("path/to/terachem.out")
+print(data)
+```
+
+### `parse_from_list(lines: list[str]) -> dict`
+Parses TeraChem output provided as a list of strings (e.g., lines read from a file) and returns the extracted data as a dictionary.
+
+**Example:**
+```python
+from tcparse import parse_from_list
+
+with open("path/to/terachem.out", "r") as file:
+    lines = file.readlines()
+data = parse_from_list(lines)
+print(data)
+```
+
+These functions allow you to integrate `tcparse` into larger Python workflows or scripts.
+
 ## Testing
 
 Tests can be found in the [tests](tests/) folder. Run the tests using:
