@@ -11,8 +11,8 @@ authors = [
 ]
 readme = "README.md"
 keywords = ["parsing", "science", "research"]
-homepage = "https://github.com/cmyers7/tcparse"
-repository = "https://github.com/cmyers7/tcparse"
+homepage = "https://github.com/ChristopherAMyers/tcparse"
+repository = "https://github.com/ChristopherAMyers/tcparse"
 classifiers = [
   "Intended Audience :: Science/Research",
   "Operating System :: OS Independent",
