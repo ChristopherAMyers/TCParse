@@ -74,8 +74,10 @@ class TestParser(unittest.TestCase):
             #   check each object in the job
             for key in ref_keys:
                 # if PRINT_ASSERT: print(" - ASSERTING KEY: ", key)
-                # print(f"    {key} REFERENCE: ", len(ref_job[key]))
-                # print(f"    {key} TEST: ",      len(tst_job[key]))
+                # print(f"    {key} REFERENCE: ")
+                # print(ref_job[key])
+                # print(f"    {key} TEST: ")
+                # print(tst_job[key])
                 self.assertAlmostEqual(ref_job[key], tst_job[key], places=14)
 
 

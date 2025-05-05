@@ -274,7 +274,7 @@ class TCParser():
             line = next(self._file)
         return line
 
-    def _parse_charge_info(self, n_atoms, previous_line):
+    def _parse_charge_info(self, previous_line):
         data = self._current_frame
 
         chg_line = previous_line
@@ -298,6 +298,7 @@ class TCParser():
         for n in range(5):
             next(self._file)
 
+        n_atoms = self._n_atoms
         coords = np.zeros((n_atoms, 3))
         esp_charges = np.zeros(n_atoms)
         resp_charges = np.zeros(n_atoms)
@@ -350,7 +351,7 @@ class TCParser():
                 vals = [float(sp[n])*conv_factor for n in columns]
             self._current_frame.setdefault(key, []).append(vals)
 
-    def _parse_cas_section(self, n_atoms):
+    def _parse_cas_section(self):
         data = self._current_frame
         n_states = 0
         coefficients = []
@@ -376,7 +377,7 @@ class TCParser():
                 self._parse_columned_section(3, n_states**2, [3,4,5], 'cas_transition_dipoles')
 
             elif 'Running Resp charge analysis...' in line:
-                self._parse_charge_info(n_atoms, prev_line)
+                self._parse_charge_info(prev_line)
 
             elif 'Singlet state electric transition quadrupole moments' in line:
                 #   this is the last CAS section that we can read
@@ -415,14 +416,45 @@ class TCParser():
             line = next(self._file)
             grad[i] = np.array([float(x) for x in line.split()[1:]])
 
+    def _parse_cis_coefficients(self, line):
+        root = int(line.split()[1][0:-1])
+        coefficients = []
+        for line in self._file:
+            coeff = []
+            while len(line.split()) > 0:
+                sp = line.split()
+                orb1 = int(sp[0])
+                orb2 = int(sp[2])
+                c = float(sp[8])
+                coeff.append([orb1, orb2, c])
+                line = next(self._file)
+            coefficients.append(coeff)
+            if root == self._current_frame['cis_states']:
+                self._current_frame['cis_excitations'] = coefficients
+                return
+
+            line = next(self._file)
+            root = int(line.split()[1][0:-1])
+
+    def _parse_final_cis_results(self, line):
+        n_states = self._current_frame['cis_states']
+        for i in range(3): next(self._file)
+        excitations = []
+        ex_energies = []
+        oscillators = []
+        for i in range(n_states):
+            sp = next(self._file).split()
+            excitations.append([int(sp[6]), int(sp[8])])
+            ex_energies.append(float(sp[2]))
+            oscillators.append(float(sp[3]))
+        # data['cis_excitations'] = excitations
+        self._current_frame['cis_ex_energies'] = ex_energies
+        self._current_frame['cis_osc_strengths'] = oscillators
+
     def _parse_cis_section(self):
         data = self._current_frame
         n_states = 0
-        coefficients = []
         for line in self._file:
-            # if '' in line:
-            #     return
-
             if 'Number of roots' in line:
                 n_states = int(line.split()[-1])
                 data['cis_states'] = n_states
@@ -451,37 +483,13 @@ class TCParser():
                 self._parse_columned_section(3, n_lines, [3,4,5], 'cis_transition_dipoles')
 
             elif 'Largest CI coefficients:' in line:
-                root = int(line.split()[1][0:-1])
-                coeff = []
-                line = next(self._file)
-                while len(line.split()) > 0:
-                    sp = line.split()
-                    orb1 = int(sp[0])
-                    orb2 = int(sp[2])
-                    c = float(sp[8])
-                    coeff.append([orb1, orb2, c])
-                    line = next(self._file)
-                coefficients.append(coeff)
-                if root == n_states - 1:
-                    data['cis_excitations'] = coefficients
+                self._parse_cis_coefficients(line)
             
             elif 'Running Resp charge analysis...' in line:
-                self._parse_charge_info(self._n_atoms, prev_line)
+                self._parse_charge_info(prev_line)
 
             elif 'Final Excited State Results' in line:
-                for i in range(3): next(self._file)
-                excitations = []
-                ex_energies = []
-                oscillators = []
-                for i in range(n_states):
-                    sp = next(self._file).split()
-                    excitations.append([int(sp[6]), int(sp[8])])
-                    ex_energies.append(float(sp[2]))
-                    oscillators.append(float(sp[3]))
-                # data['cis_excitations'] = excitations
-                data['cis_ex_energies'] = ex_energies
-                data['cis_osc_strengths'] = oscillators
-            
+                self._parse_final_cis_results(line)
                 #   this is the end of the CIS section, so leave the function
                 return
             
@@ -494,14 +502,9 @@ class TCParser():
                     'geom': None,
                     'energy': []
                 }
-            
+
     def _parse_data(self, end_phrase=None):
-
-        n_atoms = self._n_atoms
-
         self._add_frame_to_data()
-        data = self._current_frame
-
 
         prev_line = ''
         for line in self._file:
@@ -512,45 +515,27 @@ class TCParser():
                         self._print("Parsing frame ", self._current_frame_num)
                     self._current_frame_num += 1
                     self._add_frame_to_data()
-                    data = self._current_frame
         
             if 'Current Geometry' in line:
-                #    overwrite geometry with these coordinates instead
-                line = next(self._file)
-                coords = []
-                for n in range(n_atoms):
-                    sp = next(self._file).split()
-                    coords.append([float(x) for x in sp[1:4]])
-                data['geom'] = coords
+                self._parse_geom(line)
 
             if 'FINAL ENERGY' in line:
-                data['energy'].append(float(line.split()[2]))
+                self._parse_gs_energy(line)
 
             elif 'DIPOLE MOMENT' in line:
-                #   as of now, we don't parse dipoles with point charges
-                if line.split()[0] in ['MM', 'TOT']:
-                    continue
-                line = line.replace('QM', '')
-
-                #   replace brackets so we can split by white space
-                for x in ['{', '}', ',', '(', ')']:
-                    line = line.replace(x, ' ')
-                dip = [float(x) for x in line.split()[2:5]]
-                mag = np.linalg.norm(dip)
-                data['dipole_moment'] = mag
-                data['dipole_vector'] = dip
+                self._parse_gs_dipole(line)
 
             elif 'CIS Parameters' in line:
                 self._parse_cis_section()
 
             elif 'CAS Parameters' in line:
-                self._parse_cas_section(n_atoms)
+                self._parse_cas_section()
 
             elif 'Gradient units are Hartree/Bohr' in line:
-                data['gradient'] = self._parse_gradient()
+                self._parse_gradient()
 
             elif 'Running Resp charge analysis...' in line:
-                self._parse_charge_info(n_atoms, prev_line)
+                self._parse_charge_info(prev_line)
 
             elif 'Dipole X' in line or 'Dipole Derivative X' in line or 'moment derivatives' in line:
                 self._parse_dipole_deriv_numerical(line)
@@ -562,7 +547,7 @@ class TCParser():
 
         self._post_process_data()
 
-        return data
+        return self._current_frame
     
     def _post_process_data(self):
         data = self._current_frame
@@ -692,6 +677,8 @@ class TCParser():
         self._parse_columned_section(skips[1], self._n_atoms, columns, key)
         self._parse_columned_section(skips[2], self._n_atoms, columns, key)
 
+    def _parse_gs_energy(self, line):
+        self._current_frame['energy'].append(float(line.split()[2]))
     
     def _parse_gradient(self):
         next(self._file)
@@ -700,7 +687,30 @@ class TCParser():
         for i in range(self._n_atoms):
             sp = next(self._file).split()
             grad.append([float(x) for x in sp])
-        return grad
+        self._current_frame['gradient'] = grad
+
+    def _parse_gs_dipole(self, line):
+        #   as of now, we don't parse dipoles with point charges
+        if line.split()[0] in ['MM', 'TOT']:
+            return
+        line = line.replace('QM', '')
+
+        #   replace brackets so we can split by white space
+        for x in ['{', '}', ',', '(', ')']:
+            line = line.replace(x, ' ')
+        dip = [float(x) for x in line.split()[2:5]]
+        mag = np.linalg.norm(dip)
+        self._current_frame['dipole_moment'] = mag
+        self._current_frame['dipole_vector'] = dip
+            
+    def _parse_geom(self, line):
+        #    overwrite geometry with these coordinates instead
+        next(self._file)
+        coords = []
+        for n in range(self._n_atoms):
+            sp = next(self._file).split()
+            coords.append([float(x) for x in sp[1:4]])
+        self._current_frame['geom'] = coords
 
 
     def _parse_from_list(self, file_lines: list[str], coords_file: str=None, data_output_file: str=None) -> dict:
