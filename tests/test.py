@@ -13,7 +13,7 @@ from tcparse import parse_from_list, parse_from_file
     
 
 #   turn on to print which keys and frames are being checked
-PRINT_ASSERT = True
+PRINT_ASSERT = False
 
 #   ignore these keys, usefull when debugging specific parsers
 IGNORE_KEYS = []

@@ -4,6 +4,7 @@ import numpy as np
 import sys
 import io
 import argparse
+from pprint import pprint
 
 from pydantic import BaseModel, ConfigDict, ValidationError
 from typing import Optional
@@ -237,7 +238,7 @@ def parse_from_file(tc_output_file: str, coords_file : str=None, data_output_fil
 
 
 class TCParser():
-    def __init__(self, resp_version=2) -> None:
+    def __init__(self, resp_version=2, print_console=False) -> None:
         self._tc_output_file_path = None
         self._coords = None
 
@@ -255,6 +256,11 @@ class TCParser():
         self._add_frame_to_data()
         self._resp_version = resp_version
 
+        if print_console:
+            self._print = print
+        else:
+            self._print = lambda *args, **kwargs: None
+
     @property
     def _current_frame(self):
         return self._data[self._current_frame_num]
@@ -268,7 +274,8 @@ class TCParser():
             line = next(self._file)
         return line
 
-    def _parse_charge_info(self, data, n_atoms, previous_line):
+    def _parse_charge_info(self, n_atoms, previous_line):
+        data = self._current_frame
 
         chg_line = previous_line
         sp = chg_line.split()
@@ -316,11 +323,11 @@ class TCParser():
         esp_dipole_debye = np.sum(esp_charges[:, None] * coords, axis=0)/0.3934303
         resp_dipole_au = np.sum(resp_charges[:, None] * coords, axis=0)
         resp_dipole_debye = np.sum(esp_charges[:, None] * coords, axis=0)/0.3934303
-        # print(key)
-        # print('    ESP Dipole (a.u.):   {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*esp_dipole_au, np.linalg.norm(esp_dipole_au)))
-        # print('    ESP Dipole (Debye):  {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*esp_dipole_debye, np.linalg.norm(esp_dipole_debye)))
-        # print('    RESP Dipole (a.u.):  {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*resp_dipole_au, np.linalg.norm(resp_dipole_au)))
-        # print('    RESP Dipole (Debye): {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*resp_dipole_debye, np.linalg.norm(resp_dipole_debye)))
+        # self._print(key)
+        # self._print('    ESP Dipole (a.u.):   {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*esp_dipole_au, np.linalg.norm(esp_dipole_au)))
+        # self._print('    ESP Dipole (Debye):  {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*esp_dipole_debye, np.linalg.norm(esp_dipole_debye)))
+        # self._print('    RESP Dipole (a.u.):  {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*resp_dipole_au, np.linalg.norm(resp_dipole_au)))
+        # self._print('    RESP Dipole (Debye): {:8.5f}  {:8.5f}  {:8.5f}    {:8.5f}'.format(*resp_dipole_debye, np.linalg.norm(resp_dipole_debye)))
 
         data[key] = {
             'esp_charges': esp_charges.tolist(),
@@ -329,7 +336,7 @@ class TCParser():
             'resp_dipole': resp_dipole_au.tolist()
         }
 
-    def _parse_columned_section(self, data: dict, n_skip: int, n_lines: int, columns: int, key: str, conv_factor=1.0):
+    def _parse_columned_section(self, n_skip: int, n_lines: int, columns: int, key: str, conv_factor=1.0):
         for i in range(n_skip): 
             next(self._file)
         for i in range(n_lines):
@@ -341,9 +348,10 @@ class TCParser():
                 vals = float(sp[columns[0]])*conv_factor
             else:
                 vals = [float(sp[n])*conv_factor for n in columns]
-            data.setdefault(key, []).append(vals)
+            self._current_frame.setdefault(key, []).append(vals)
 
-    def _parse_cas_section(self, n_atoms, data: dict):
+    def _parse_cas_section(self, n_atoms):
+        data = self._current_frame
         n_states = 0
         coefficients = []
         for line in self._file:
@@ -362,13 +370,13 @@ class TCParser():
                 data['cas_states'] = n_states
 
             elif 'Singlet state dipole moments' in line:
-                self._parse_columned_section(data, 3, n_states, [1, 2, 3], 'cas_dipoles', DEBYE_2_AU)
+                self._parse_columned_section(3, n_states, [1, 2, 3], 'cas_dipoles', DEBYE_2_AU)
 
             elif 'Singlet state electronic transitions:' in line:
-                self._parse_columned_section(data, 3, n_states**2, [3,4,5], 'cas_transition_dipoles')
+                self._parse_columned_section(3, n_states**2, [3,4,5], 'cas_transition_dipoles')
 
             elif 'Running Resp charge analysis...' in line:
-                self._parse_charge_info(data, n_atoms, prev_line)
+                self._parse_charge_info(n_atoms, prev_line)
 
             elif 'Singlet state electric transition quadrupole moments' in line:
                 #   this is the last CAS section that we can read
@@ -407,7 +415,8 @@ class TCParser():
             line = next(self._file)
             grad[i] = np.array([float(x) for x in line.split()[1:]])
 
-    def _parse_cis_section(self, data: dict):
+    def _parse_cis_section(self):
+        data = self._current_frame
         n_states = 0
         coefficients = []
         for line in self._file:
@@ -420,26 +429,26 @@ class TCParser():
             
             elif 'Excited State Gradient' in line:
                 root = int(line.split()[1].replace(':', ''))
-                self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], f'cis_gradient_{root}')
+                self._parse_columned_section(3, self._n_atoms, [1,2,3], f'cis_gradient_{root}')
 
             elif 'moment derivatives' in line:
-                self._parse_dipole_deriv_analytical(data, line)
+                self._parse_dipole_deriv_analytical(line)
             
             elif 'Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)' in line:
-                self._parse_columned_section(data, 1, n_states, [1], 'energy')
+                self._parse_columned_section(1, n_states, [1], 'energy')
 
             elif 'Unrelaxed excited state dipole moments' in line:
-                self._parse_columned_section(data, 3, n_states, [1,2,3], 'cis_unrelaxed_dipoles', DEBYE_2_AU)
+                self._parse_columned_section(3, n_states, [1,2,3], 'cis_unrelaxed_dipoles', DEBYE_2_AU)
                 
             elif 'Relaxed excited state dipole moments:' in line:
-                self._parse_columned_section(data, 3, n_states, [1,2,3], 'cis_relaxed_dipoles')
+                self._parse_columned_section(3, n_states, [1,2,3], 'cis_relaxed_dipoles')
 
             elif 'Transition dipole moments:' in line:
-                self._parse_columned_section(data, 3, n_states, [1, 2, 3], 'cis_transition_dipoles')       
+                self._parse_columned_section(3, n_states, [1, 2, 3], 'cis_transition_dipoles')       
                 
             elif 'Transition dipole moments between excited states' in line:
                 n_lines = int(n_states*(n_states - 1)/2)
-                self._parse_columned_section(data, 3, n_lines, [3,4,5], 'cis_transition_dipoles')
+                self._parse_columned_section(3, n_lines, [3,4,5], 'cis_transition_dipoles')
 
             elif 'Largest CI coefficients:' in line:
                 root = int(line.split()[1][0:-1])
@@ -457,7 +466,7 @@ class TCParser():
                     data['cis_excitations'] = coefficients
             
             elif 'Running Resp charge analysis...' in line:
-                self._parse_charge_info(data, self._n_atoms, prev_line)
+                self._parse_charge_info(self._n_atoms, prev_line)
 
             elif 'Final Excited State Results' in line:
                 for i in range(3): next(self._file)
@@ -486,7 +495,7 @@ class TCParser():
                     'energy': []
                 }
             
-    def _parse_data(self, list=None, end_phrase=None):
+    def _parse_data(self, end_phrase=None):
 
         n_atoms = self._n_atoms
 
@@ -500,7 +509,7 @@ class TCParser():
             if end_phrase is not None:
                 if end_phrase in line:
                     if self._current_frame_num % 100 == 0:
-                        print("Parsing frame ", self._current_frame_num)
+                        self._print("Parsing frame ", self._current_frame_num)
                     self._current_frame_num += 1
                     self._add_frame_to_data()
                     data = self._current_frame
@@ -532,31 +541,31 @@ class TCParser():
                 data['dipole_vector'] = dip
 
             elif 'CIS Parameters' in line:
-                self._parse_cis_section(data)
+                self._parse_cis_section()
 
             elif 'CAS Parameters' in line:
-                self._parse_cas_section(n_atoms, data)
+                self._parse_cas_section(n_atoms)
 
             elif 'Gradient units are Hartree/Bohr' in line:
                 data['gradient'] = self._parse_gradient()
 
             elif 'Running Resp charge analysis...' in line:
-                self._parse_charge_info(data, n_atoms, prev_line)
+                self._parse_charge_info(n_atoms, prev_line)
 
             elif 'Dipole X' in line or 'Dipole Derivative X' in line or 'moment derivatives' in line:
-                self._parse_dipole_deriv_numerical(data, line)
+                self._parse_dipole_deriv_numerical(line)
 
             # elif 'Dipole moment derivatives' in line:
-            #     self._parse_dipole_deriv_anal(data, line)
+            #     self._parse_dipole_deriv_anal(line)
 
             prev_line = line
 
-        self._post_process_data(data)
+        self._post_process_data()
 
         return data
     
-    def _post_process_data(self, data: dict):
-
+    def _post_process_data(self):
+        data = self._current_frame
         ex_type = 'cas'
         if 'cis_states' in data:
             ex_type = 'cis'
@@ -602,14 +611,15 @@ class TCParser():
                 data.setdefault(f'{ex_type}_relaxed_dipole_deriv', []).append(mat.tolist())
                 data.pop(key)
 
-    def _parse_dipole_deriv_analytical(self, data, current_line):
+    def _parse_dipole_deriv_analytical(self, current_line):
+        data = self._current_frame
         current_line = current_line.lower()
 
         if 'ground' in current_line:
             key = f'_S0_dipole_deriv'
-            self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-            self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-            self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
+            self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+            self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+            self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
             return
 
         elif 'ground' not in current_line and 'transition' not in current_line:
@@ -618,9 +628,9 @@ class TCParser():
                 sp = current_line.split()
                 state = int(sp[1])
                 key = f'_S{state}_dipole_deriv'
-                self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-                self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-                self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
+                self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
                 current_line = self._next(2).lower()
 
         if 'transition dipole moment derivative' in current_line:
@@ -634,19 +644,19 @@ class TCParser():
                     state_1 = int(sp[0])
                     state_2 = int(sp[2])
                     key = f'_S{state_1}_S{state_2}_dipole_deriv'
-                    self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
+                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
                     current_line = self._next(2)
             else:
                     key = f'_S{state_1}_S{state_2}_dipole_deriv'
-                    self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(data, 3, self._n_atoms, [1,2,3], key)
+                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
 
 
 
-    def _parse_dipole_deriv_numerical(self, data, current_line):
+    def _parse_dipole_deriv_numerical(self, current_line):
 
         #   analytical derivatives
         columns = [0,1,2]
@@ -678,12 +688,10 @@ class TCParser():
             state = int(sp[0])
             key = f'_S{state}_dipole_deriv'
 
-        self._parse_columned_section(data, skips[0], self._n_atoms, columns, key)
-        self._parse_columned_section(data, skips[1], self._n_atoms, columns, key)
-        self._parse_columned_section(data, skips[2], self._n_atoms, columns, key)
+        self._parse_columned_section(skips[0], self._n_atoms, columns, key)
+        self._parse_columned_section(skips[1], self._n_atoms, columns, key)
+        self._parse_columned_section(skips[2], self._n_atoms, columns, key)
 
-
-        
     
     def _parse_gradient(self):
         next(self._file)
@@ -792,8 +800,8 @@ class TCParser():
             elif 'Velocities file:' in line:
                 vels_file = os.path.join(self._tc_output_file_path, line.split()[2])
                 if not os.path.isfile(vels_file):
-                    print("Could not find ", vels_file)
-                    print("    Velocities will not be imported")
+                    self._print("Could not find ", vels_file)
+                    self._print("    Velocities will not be imported")
                 else:
                     vels_univ = XYZFile(vels_file)
                     self._atoms = vels_univ.get_atoms()
@@ -819,7 +827,7 @@ class TCParser():
                     self._parse_data(end_phrase="MD STEP")
   
                 elif is_num_deriv:
-                    print("Parsing Numerical Derivative job")
+                    self._print("Parsing Numerical Derivative job")
                     self._parse_data(end_phrase="Current Geometry")
 
                 #   single jobs need to be parsed only once
@@ -854,7 +862,7 @@ class TCParser():
                         self._data[frame]['velocities'] = None
 
             else:
-                print("Scratch directory not found: cannot import coordinates and velocities")
+                self._print("Scratch directory not found: cannot import coordinates and velocities")
 
         if is_md or is_num_deriv:
             for frame in self._data:
@@ -868,7 +876,7 @@ class TCParser():
 
 
         if data_output_file is not None:
-            print("Writing data to ", data_output_file)
+            self._print("Writing data to ", data_output_file)
             with open(data_output_file, 'w') as file:
                 json.dump(self._data, file, indent=4)
 
