@@ -470,17 +470,20 @@ class TCParser():
                 self._parse_columned_section(1, n_states, [1], 'energy')
 
             elif 'Unrelaxed excited state dipole moments' in line:
-                self._parse_columned_section(3, n_states, [1,2,3], 'cis_unrelaxed_dipoles', DEBYE_2_AU)
+                self._parse_columned_section(3, n_states, [1, 2, 3], 'cis_unrelaxed_dipoles', DEBYE_2_AU)
                 
             elif 'Relaxed excited state dipole moments:' in line:
-                self._parse_columned_section(3, n_states, [1,2,3], 'cis_relaxed_dipoles')
+                self._parse_columned_section(3, n_states, [1, 2, 3], 'cis_relaxed_dipoles')
 
             elif 'Transition dipole moments:' in line:
                 self._parse_columned_section(3, n_states, [1, 2, 3], 'cis_transition_dipoles')       
                 
             elif 'Transition dipole moments between excited states' in line:
                 n_lines = int(n_states*(n_states - 1)/2)
-                self._parse_columned_section(3, n_lines, [3,4,5], 'cis_transition_dipoles')
+                self._parse_columned_section(3, n_lines, [3, 4, 5], 'cis_transition_dipoles')
+
+            elif 'Nonadiabatic coupling between' in line:
+                self._parse_cis_couplings(line)
 
             elif 'Largest CI coefficients:' in line:
                 self._parse_cis_coefficients(line)
@@ -595,6 +598,23 @@ class TCParser():
                 mat = np.array(data[key]).reshape((3, -1, 3))
                 data.setdefault(f'{ex_type}_relaxed_dipole_deriv', []).append(mat.tolist())
                 data.pop(key)
+
+    def _parse_cis_couplings(self, current_line):
+        current_line = current_line.lower()
+        if 'ground' in current_line:
+            sp = current_line.split()
+            state_1 = 0
+            state_2 = int(sp[-2])
+            key = f'cis_S{state_1}_S{state_2}_coupling'
+            self._parse_columned_section(4, self._n_atoms, [1,2,3], key)
+        
+        n_states = self._current_frame['cis_states']
+        for i in range(1, n_states + 1):
+            for j in range(i+1, n_states + 1):
+                if f'excited state {i}' in current_line and f'excited state {j}' in current_line:
+                    key = f'cis_S{i}_S{j}_coupling'
+                    self._parse_columned_section(4, self._n_atoms, [1,2,3], key)
+
 
     def _parse_dipole_deriv_analytical(self, current_line):
         data = self._current_frame

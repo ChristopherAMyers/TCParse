@@ -3,7 +3,6 @@ method hf
 basis 6-31g*
 coordinates geom.xyz
 charge 0
-sphericalbasis yes
 convthre 1.0e-7
 
 cis yes
@@ -11,7 +10,9 @@ cisnumstates 2
 dipolederivative yes
 cisdipolederiv yes
 cistransdipolederiv yes
+cisrelaxtransdipole yes
 cisrelaxdipole yes
-cistarget 2
+cisgradients yes
+ciscouplings yes
 cischarges yes
 resp yes

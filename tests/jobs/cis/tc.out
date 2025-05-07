@@ -1,121 +1,152 @@
-Startfile from command line: tc.in
+| Startfile from command line: tc.in
 
 
-       ***********************************************************
-       *                    TeraChem v1.9-2022.03-dev            *
-       *  Git Version: 4daa16dd21e78d64be5415f7663c3d7c2785203c  *
-       *                   Development Version                   *
-       *           Chemistry at the Speed of Graphics!           *
-       ***********************************************************
-       * This program may only be used in connection with        *
-       * a valid license from PetaChem, LLC. Use of this program *
-       * or results thereof indicates acceptance of all terms    *
-       * and conditions stated in the license and that a valid   *
-       * license agreement between the user and PetaChem, LLC    *
-       * exists. PetaChem, LLC does not warrant the correctness  *
-       * of results or their suitability for any purpose.        *
-       * Please email bugs, suggestions, and comments to         *
-       *                  help@petachem.com                      *
-       *                                                         *
-       ***********************************************************
+|       ***********************************************************
+|       *                 TeraChem v1.9-2024.12-dev               *
+|       *                   Development Version                   *
+|       *           Chemistry at the Speed of Graphics!           *
+|       ***********************************************************
+|       * This program may only be used in connection with        *
+|       * a valid license from PetaChem, LLC. Use of this program *
+|       * or results thereof indicates acceptance of all terms    *
+|       * and conditions stated in the license and that a valid   *
+|       * license agreement between the user and PetaChem, LLC    *
+|       * exists. PetaChem, LLC does not warrant the correctness  *
+|       * of results or their suitability for any purpose.        *
+|       * Please email bugs, suggestions, and comments to         *
+|       *                  help@petachem.com                      *
+|       *                                                         *
+|       ***********************************************************
 
 
-       ***********************************************************
-       *  Compiled by coltonbh     Sat Mar 26 12:11:31 PDT 2022  *
-       *  Supported architectures: sm_37 sm_52 sm_60 sm_61 sm_70 sm_75 sm_80 sm_86 sm_87*
-       *  Build cuda_11.4.r11.4/compiler.30188945_0              *
-       ***********************************************************
+|       ***********************************************************
+|       *  Compiled by cmyers7      Mon May  5 08:54:38 PDT 2025  *
+|       *  Supported architecture SMs: 80 89                      *
+|       *  Build cuda_12.3.r12.3/compiler.33281558_0              *
+|       *  Git Version: b669f291b95ee975b32a1ab6db02330c28cfbc10  *
+|       ***********************************************************
 
 
- Job started   Wed Aug 21 08:24:08 2024
- On node001 (available memory: 24409 MB)
+| Job started   Tue May  6 06:45:49 2025
+| On gnode016.cluster (available memory: 132784 MB)
 
-######################################### RUNTIME INFO ##########################################
-/terachem/bin/terachem tc.in 
+| ######################################### RUNTIME INFO ##########################################
+| terachem  tc.in 
 
-NVRM version: NVIDIA UNIX x86_64 Kernel Module  470.57.02  Tue Jul 13 16:14:05 UTC 2021
-GCC version:  gcc version 4.8.5 20150623 (Red Hat 4.8.5-44) (GCC) 
+|  NVRM version: NVIDIA UNIX x86_64 Kernel Module  570.124.06  Wed Feb 26 02:12:04 UTC 2025
+|  GCC version:  gcc version 8.5.0 20210514 (Red Hat 8.5.0-24) (GCC) 
 
-	linux-vdso.so.1 =>  (0x00002aaaaaacd000)
-	libcurl.so.4 => /usr/lib64/libcurl.so.4 (0x00002aaaaaccf000)
-	libmpi.so.12 => /terachem/external_libs/libmpi.so.12 (0x00002aaaaaf39000)
-	libdftbplus.so => /terachem/lib/libdftbplus.so (0x00002aaaabc6f000)
-	libfsockets.so => /terachem/lib/libfsockets.so (0x00002aaaac155000)
-	libxmlf90.so => /terachem/lib/libxmlf90.so (0x00002aaaac359000)
-	libthcbox.so.1 => /terachem/lib/libthcbox.so.1 (0x00002aaaac57c000)
-	libOpenMM.so => /terachem/external_libs/libOpenMM.so (0x00002aaaaf913000)
-	libgpubox.so.1 => /terachem/lib/libgpubox.so.1 (0x00002aaaaff77000)
-	libtensorbox.so.1 => /terachem/lib/libtensorbox.so.1 (0x00002aaab018a000)
-	libiobox.so.1 => /terachem/lib/libiobox.so.1 (0x00002aaab03a6000)
-	libintbox.so.1 => /terachem/lib/libintbox.so.1 (0x00002aaab05b6000)
-	libsqmbox.so.1 => /terachem/lib/libsqmbox.so.1 (0x00002aaaf1e1f000)
-	libgridbox.so.1 => /terachem/lib/libgridbox.so.1 (0x00002aaaf2386000)
-	libdftbox.so.1 => /terachem/lib/libdftbox.so.1 (0x00002aaaf2b80000)
-	libcibox.so.1 => /terachem/lib/libcibox.so.1 (0x00002aaaf2e65000)
-	libccbox.so.1 => /terachem/lib/libccbox.so.1 (0x00002aaaf3a21000)
-	libsimbox.so.1 => /terachem/lib/libsimbox.so.1 (0x00002aaaf40ee000)
-	liboptbox.so.1 => /terachem/lib/liboptbox.so.1 (0x00002aaaf430b000)
-	libprotobuf.so.25 => /terachem/external_libs/libprotobuf.so.25 (0x00002aaaf453f000)
-	libcommbox.so.1 => /terachem/lib/libcommbox.so.1 (0x00002aaaf49f2000)
-	libcuda.so.1 => /.singularity.d/libs/libcuda.so.1 (0x00002aaaf4c57000)
-	libcudart.so.11.0 => /terachem/lib/libcudart.so.11.0 (0x00002aaaf63b3000)
-	libcublas.so.11 => /terachem/lib/libcublas.so.11 (0x00002aaaf6655000)
-	libcufft.so.10 => /terachem/lib/libcufft.so.10 (0x00002aaaff58e000)
-	libcusparse.so.11 => /terachem/lib/libcusparse.so.11 (0x00002aab1520e000)
-	libcusolver.so.11 => /terachem/lib/libcusolver.so.11 (0x00002aab235f9000)
-	libcrypto.so.10 => /usr/lib64/libcrypto.so.10 (0x00002aab308c2000)
-	libssl.so.10 => /usr/lib64/libssl.so.10 (0x00002aab30d25000)
-	libstdc++.so.6 => /usr/lib64/libstdc++.so.6 (0x00002aab30f97000)
-	libm.so.6 => /usr/lib64/libm.so.6 (0x00002aab3129f000)
-	libcilkrts.so.5 => /terachem/lib/libcilkrts.so.5 (0x00002aab315a1000)
-	libgcc_s.so.1 => /usr/lib64/libgcc_s.so.1 (0x00002aab317dc000)
-	libpthread.so.0 => /usr/lib64/libpthread.so.0 (0x00002aab319f2000)
-	libc.so.6 => /usr/lib64/libc.so.6 (0x00002aab31c0e000)
-	/lib64/ld-linux-x86-64.so.2 (0x00002aaaaaaab000)
-	libdl.so.2 => /usr/lib64/libdl.so.2 (0x00002aab31fdc000)
-	libidn.so.11 => /usr/lib64/libidn.so.11 (0x00002aab321e0000)
-	libssh2.so.1 => /usr/lib64/libssh2.so.1 (0x00002aab32413000)
-	libssl3.so => /usr/lib64/libssl3.so (0x00002aab32640000)
-	libsmime3.so => /usr/lib64/libsmime3.so (0x00002aab328a3000)
-	libnss3.so => /usr/lib64/libnss3.so (0x00002aab32acb000)
-	libnssutil3.so => /usr/lib64/libnssutil3.so (0x00002aab32e04000)
-	libplds4.so => /usr/lib64/libplds4.so (0x00002aab33034000)
-	libplc4.so => /usr/lib64/libplc4.so (0x00002aab33238000)
-	libnspr4.so => /usr/lib64/libnspr4.so (0x00002aab3343d000)
-	libgssapi_krb5.so.2 => /usr/lib64/libgssapi_krb5.so.2 (0x00002aab3367b000)
-	libkrb5.so.3 => /usr/lib64/libkrb5.so.3 (0x00002aab338c8000)
-	libk5crypto.so.3 => /usr/lib64/libk5crypto.so.3 (0x00002aab33bb1000)
-	libcom_err.so.2 => /usr/lib64/libcom_err.so.2 (0x00002aab33de4000)
-	liblber-2.4.so.2 => /usr/lib64/liblber-2.4.so.2 (0x00002aab33fe8000)
-	libldap-2.4.so.2 => /usr/lib64/libldap-2.4.so.2 (0x00002aab341f7000)
-	libz.so.1 => /usr/lib64/libz.so.1 (0x00002aab3444c000)
-	librt.so.1 => /usr/lib64/librt.so.1 (0x00002aab34662000)
-	libifport.so.5 => /terachem/external_libs/libifport.so.5 (0x00002aab3486a000)
-	libifcoremt.so.5 => /terachem/external_libs/libifcoremt.so.5 (0x00002aab34a99000)
-	libimf.so => /terachem/external_libs/libimf.so (0x00002aab34e29000)
-	libsvml.so => /terachem/external_libs/libsvml.so (0x00002aab35316000)
-	libiomp5.so => /terachem/external_libs/libiomp5.so (0x00002aab36234000)
-	libintlc.so.5 => /terachem/external_libs/libintlc.so.5 (0x00002aab365d8000)
-	libirng.so => /terachem/external_libs/libirng.so (0x00002aab36844000)
-	libcublasLt.so.11 => /usr/local/cuda-11.4/lib64/libcublasLt.so.11 (0x00002aab36bb7000)
-	libkrb5support.so.0 => /usr/lib64/libkrb5support.so.0 (0x00002aab4a5b6000)
-	libkeyutils.so.1 => /usr/lib64/libkeyutils.so.1 (0x00002aab4a7c6000)
-	libresolv.so.2 => /usr/lib64/libresolv.so.2 (0x00002aab4a9ca000)
-	libsasl2.so.3 => /usr/lib64/libsasl2.so.3 (0x00002aab4abe4000)
-	libselinux.so.1 => /usr/lib64/libselinux.so.1 (0x00002aab4ae01000)
-	libcrypt.so.1 => /usr/lib64/libcrypt.so.1 (0x00002aab4b028000)
-	libpcre.so.1 => /usr/lib64/libpcre.so.1 (0x00002aab4b25f000)
-	libfreebl3.so => /usr/lib64/libfreebl3.so (0x00002aab4b4c1000)
-#################################################################################################
+|  	linux-vdso.so.1 (0x00007fff890be000)
+|  	libcurl.so.4 => /lib64/libcurl.so.4 (0x000015531820a000)
+|  	libz.so.1 => /lib64/libz.so.1 (0x0000155317ff2000)
+|  	libimf.so => /home/cmyers7/code/terachem/build/lib/libimf.so (0x0000155317bfa000)
+|  	libm.so.6 => /lib64/libm.so.6 (0x0000155317878000)
+|  	libdftbplus.so => /home/cmyers7/code/terachem/build/lib/libdftbplus.so (0x0000155317347000)
+|  	libfsockets.so => /home/cmyers7/code/terachem/build/lib/libfsockets.so (0x0000155317143000)
+|  	libxmlf90.so => /home/cmyers7/code/terachem/build/lib/libxmlf90.so (0x0000155316f1d000)
+|  	libthcbox.so.1 => /home/cmyers7/code/terachem/build/lib/libthcbox.so.1 (0x0000155315cb8000)
+|  	libnvToolsExt.so.1 => /home/cmyers7/code/terachem/build/lib/libnvToolsExt.so.1 (0x0000155315aae000)
+|  	libgpubox.so.1 => /home/cmyers7/code/terachem/build/lib/libgpubox.so.1 (0x00001553158a1000)
+|  	libcpubox.so.1 => /home/cmyers7/code/terachem/build/lib/libcpubox.so.1 (0x0000155315699000)
+|  	libtensorbox.so.1 => /home/cmyers7/code/terachem/build/lib/libtensorbox.so.1 (0x0000155315470000)
+|  	libiobox.so.1 => /home/cmyers7/code/terachem/build/lib/libiobox.so.1 (0x0000155315269000)
+|  	libintbox.so.1 => /home/cmyers7/code/terachem/build/lib/libintbox.so.1 (0x00001552eaf25000)
+|  	libatmx2cbox.so.1 => /home/cmyers7/code/terachem/build/lib/libatmx2cbox.so.1 (0x00001552eab98000)
+|  	libperiodicbox.so.1 => /home/cmyers7/code/terachem/build/lib/libperiodicbox.so.1 (0x00001552de01b000)
+|  	libsqmbox.so.1 => /home/cmyers7/code/terachem/build/lib/libsqmbox.so.1 (0x00001552dd7aa000)
+|  	libgridbox.so.1 => /home/cmyers7/code/terachem/build/lib/libgridbox.so.1 (0x00001552dc3b2000)
+|  	libdftbox.so.1 => /home/cmyers7/code/terachem/build/lib/libdftbox.so.1 (0x00001552dbf24000)
+|  	libcibox.so.1 => /home/cmyers7/code/terachem/build/lib/libcibox.so.1 (0x00001552db8a1000)
+|  	libccbox.so.1 => /home/cmyers7/code/terachem/build/lib/libccbox.so.1 (0x00001552db021000)
+|  	libsimbox.so.1 => /home/cmyers7/code/terachem/build/lib/libsimbox.so.1 (0x00001552dadef000)
+|  	liboptbox.so.1 => /home/cmyers7/code/terachem/build/lib/liboptbox.so.1 (0x00001552dabba000)
+|  	libprotobuf.so.3.18.0.0 => /home/cmyers7/code/terachem/build/lib/libprotobuf.so.3.18.0.0 (0x00001552da70e000)
+|  	libcommbox.so.1 => /home/cmyers7/code/terachem/build/lib/libcommbox.so.1 (0x00001552da43a000)
+|  	libssl.so.1.1 => /lib64/libssl.so.1.1 (0x00001552da1a5000)
+|  	libcrypto.so.1.1 => /lib64/libcrypto.so.1.1 (0x00001552d9cba000)
+|  	libpthread.so.0 => /lib64/libpthread.so.0 (0x00001552d9a9a000)
+|  	libcuda.so.1 => /lib64/libcuda.so.1 (0x00001552d55d5000)
+|  	libcudart.so.12 => /home/cmyers7/code/terachem/build/lib/libcudart.so.12 (0x00001552d5327000)
+|  	libcublas.so.12 => /home/cmyers7/code/terachem/build/lib/libcublas.so.12 (0x00001552ceb63000)
+|  	libcufft.so.11 => /home/cmyers7/code/terachem/build/lib/libcufft.so.11 (0x00001552c3e4b000)
+|  	libcusparse.so.12 => /home/cmyers7/code/terachem/build/lib/libcusparse.so.12 (0x00001552b4035000)
+|  	libcusolver.so.11 => /home/cmyers7/code/terachem/build/lib/libcusolver.so.11 (0x00001552acfe2000)
+|  	libcublasLt.so.12 => /home/cmyers7/code/terachem/build/lib/libcublasLt.so.12 (0x000015528a068000)
+|  	libsvml.so => /home/cmyers7/code/terachem/build/lib/libsvml.so (0x0000155288a57000)
+|  	libirng.so => /home/cmyers7/code/terachem/build/lib/libirng.so (0x00001552886ed000)
+|  	libstdc++.so.6 => /lib64/libstdc++.so.6 (0x0000155288358000)
+|  	libiomp5.so => /home/cmyers7/code/terachem/build/lib/libiomp5.so (0x0000155287f19000)
+|  	libcilkrts.so.5 => /home/cmyers7/code/terachem/build/lib/libcilkrts.so.5 (0x0000155287cdc000)
+|  	libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x0000155287ac4000)
+|  	libintlc.so.5 => /home/cmyers7/code/terachem/build/lib/libintlc.so.5 (0x000015531862b000)
+|  	libc.so.6 => /lib64/libc.so.6 (0x00001552876ee000)
+|  	/lib64/ld-linux-x86-64.so.2 (0x0000155318499000)
+|  	libdl.so.2 => /lib64/libdl.so.2 (0x00001552874ea000)
+|  	libnghttp2.so.14 => /lib64/libnghttp2.so.14 (0x00001552872c3000)
+|  	libidn2.so.0 => /lib64/libidn2.so.0 (0x00001552870a5000)
+|  	libssh.so.4 => /lib64/libssh.so.4 (0x0000155286e35000)
+|  	libpsl.so.5 => /lib64/libpsl.so.5 (0x0000155286c24000)
+|  	libgssapi_krb5.so.2 => /lib64/libgssapi_krb5.so.2 (0x00001552869cf000)
+|  	libkrb5.so.3 => /lib64/libkrb5.so.3 (0x00001552866e4000)
+|  	libk5crypto.so.3 => /lib64/libk5crypto.so.3 (0x00001552864cd000)
+|  	libcom_err.so.2 => /lib64/libcom_err.so.2 (0x00001552862c9000)
+|  	libldap-2.4.so.2 => /lib64/libldap-2.4.so.2 (0x000015528607a000)
+|  	liblber-2.4.so.2 => /lib64/liblber-2.4.so.2 (0x0000155285e6a000)
+|  	libbrotlidec.so.1 => /lib64/libbrotlidec.so.1 (0x0000155285c5d000)
+|  	libifport.so.5 => /home/cmyers7/code/terachem/build/lib/libifport.so.5 (0x00001553185fe000)
+|  	libifcoremt.so.5 => /home/cmyers7/code/terachem/build/lib/libifcoremt.so.5 (0x0000155285aee000)
+|  	librt.so.1 => /lib64/librt.so.1 (0x00001552858e6000)
+|  	libnvJitLink.so.12 => /home/cmyers7/code/terachem/build/lib/libnvJitLink.so.12 (0x00001552824aa000)
+|  	libunistring.so.2 => /lib64/libunistring.so.2 (0x0000155282129000)
+|  	libkrb5support.so.0 => /lib64/libkrb5support.so.0 (0x0000155281f18000)
+|  	libkeyutils.so.1 => /lib64/libkeyutils.so.1 (0x0000155281d14000)
+|  	libresolv.so.2 => /lib64/libresolv.so.2 (0x0000155281afc000)
+|  	libsasl2.so.3 => /lib64/libsasl2.so.3 (0x00001552818de000)
+|  	libbrotlicommon.so.1 => /lib64/libbrotlicommon.so.1 (0x00001552816bd000)
+|  	libselinux.so.1 => /lib64/libselinux.so.1 (0x0000155281492000)
+|  	libcrypt.so.1 => /lib64/libcrypt.so.1 (0x0000155281269000)
+|  	libpcre2-8.so.0 => /lib64/libpcre2-8.so.0 (0x0000155280fe5000)
+| #################################################################################################
 
-Cannot find license.dat file in the TeraChem installation directory /terachem
+| Checking Amazon Cloud instance ID...   Not found
+| Cannot find license.dat file /home/cmyers7/code/terachem/build/license.dat
 
 
-TRYING THE NETWORK LICENSE...
-Connecting to license server '54.208.252.40' port '8877'...
+| TRYING THE NETWORK LICENSE...
+| Connecting to license server '54.208.252.40' port '8877'...
+| Connected!
+| Checking your license...
+
+| **************************************************************
+|  Greetings, Martinez Group! You have 1000 licenses in total
+|  IN USE: 12
+|  AVAILABLE: 988
+| **************************************************************
+
+-----------------------------------
+Processed Input file:
+                      run gradient
+                   method hf
+                    basis 6-31g*
+              coordinates geom.xyz
+                   charge 0
+                 convthre 1.0e-7
+                      cis yes
+             cisnumstates 2
+         dipolederivative yes
+           cisdipolederiv yes
+      cistransdipolederiv yes
+      cisrelaxtransdipole yes
+           cisrelaxdipole yes
+             cisgradients yes
+             ciscouplings yes
+               cischarges yes
+                     resp yes
+-----------------------------------
 Jobname: geom
+Scratch data will be generated
 Scratch directory: ./scr.geom
-Random number seed: 1129651417
+| Random number seed: 1391688975
 
 XYZ coordinates geom.xyz
 Molden File Output: ./scr.geom/geom.molden
@@ -144,30 +175,18 @@ SCF:   Initial guess is taken from previous step
 CIS:   Initial guess is taken from previous step
 Z-vec: Initial guess is taken from previous step
 Starting TensorBox...
-TeraChem will select linear algebra engine
-Using cuSolver for matrix diagonalization
+| TeraChem will select linear algebra engine
+| Using cuSolver for matrix diagonalization
 
-using 4 out of 4 CUDA devices
-   Device 0:            Tesla K80, 11441MB, CC 3.7 -- CPU THREAD 0
-   Device 1:            Tesla K80, 11441MB, CC 3.7 -- CPU THREAD 1
-   Device 2:            Tesla K80, 11441MB, CC 3.7 -- CPU THREAD 2
-   Device 3:            Tesla K80, 11441MB, CC 3.7 -- CPU THREAD 3
--------------------------------------------------------------------
- CPU Memory Available: 32230.75 MegaWords 
- GPU Memory Available: 1174.16 MegaWords 
- Maximum recommended basis set size: 12200 basis functions
- (limited by GPU memory)
--------------------------------------------------------------------
-Initialize GPUBox with 128 MW of memory
-Connected!
-Checking your license...
-
-**************************************************************
-  Greetings, Martinez Group! You have 1000 licenses in total
-  IN USE: 23
-  AVAILABLE: 977
-**************************************************************
-
+| using 1 out of 1 CUDA devices
+|   Device 0:          NVIDIA L40S, 45468MB, CC 8.9 -- CPU THREAD 0
+| -------------------------------------------------------------------
+| CPU Memory Available: 32138.88 MegaWords 
+| GPU Memory Available: 5427.56 MegaWords 
+| Maximum recommended basis set size: 27600 basis functions
+|  (limited by GPU memory)
+| -------------------------------------------------------------------
+| Initialize GPUBox with 128 MW of memory
 
 ****** QM coordinates ******
 O         1.3696271192         0.9513563270        -0.0915614720  
@@ -185,7 +204,7 @@ Total atoms:     9
 Total charge:    0
 Total electrons: 38 (19-alpha, 19-beta)
 Number electrons modeled by ECPs: 0
-Total orbitals: 83 (Cartesian), 78 (spherical) 
+Total orbitals:  83
 Total AO shells: 38 (23 S-shells; 10 P-shells; 5 D-shells; 0 F-shells; 0 G-shells)
 Spin multiplicity: 1
 Nuclear repulsion energy (QM atoms): 165.525607708879 a.u.
@@ -195,66 +214,69 @@ Nuclear repulsion energy (QM atoms): 165.525607708879 a.u.
 
  Iter     DIIS Error       Energy change         Energy        Time(s)
 ------------------------------------------------------------------------
-Purifying guess...Density matrix is not well-conditioned, rescale and purify
-Purification run on CPU (double precision)  using TC2 purification.
-Density matrix purification finished after a total of 14 matrix multiplies
-THRESPDP set to 1.00e+00
-   1     0.3516508616    -264.0367915117    -264.0367915117     0.08  
-   2     0.1472134492      -1.4150517989    -265.4518433106     0.46  
-   3     0.0294732717      -0.1584757140    -265.6103190247     0.40  
-   4     0.0189773967      -0.0136026162    -265.6239216409     0.03  
-   5     0.0043015503      -0.0022836222    -265.6262052631     0.03  
-   6     0.0024974871      -0.0003541230    -265.6265593861     0.06  
-THRESPDP set to 3.11e-06
-   7     0.0007104356      -0.0000694732    -265.6266288593     0.35  
-   8     0.0002308138      -0.0000121834    -265.6266410427     0.03  
-   9     0.0000948971      -0.0000016044    -265.6266426470     0.04  
-  10     0.0000467216      -0.0000003423    -265.6266429893     0.03  
-  11     0.0000203473      -0.0000000964    -265.6266430857     0.03  
-  12     0.0000069786      -0.0000000160    -265.6266431017     0.03  
-  13     0.0000021328      +0.0000000021    -265.6266430996     0.04  
-  14     0.0000006566      -0.0000000001    -265.6266430998     0.04  
-  15     0.0000003624      +0.0000000000    -265.6266430998     0.04  
-  16     0.0000001475      -0.0000000000    -265.6266430998     0.04  
-  17     0.0000000846      +0.0000000001    -265.6266430997     0.04  
+| Purifying guess...
+| Trace of guess  38.00000000, trace of guess*guess  38.00000000,  electron number  38.00000000 
+| Guess is well-conditioned: purify...
+| Purification run on CPU (double precision)  using TC2 purification.
+| Density matrix purification finished after a total of 0 matrix multiplies
+| THRESPDP set to 1.00e+00
+|    1     0.3721382133    -264.0798594387    -264.0798594387     0.13  
+|    2     0.1426503364      -1.3724561303    -265.4523155690     0.02  
+|    3     0.0303281350      -0.1593473044    -265.6116628735     0.02  
+|    4     0.0152489107      -0.0135054350    -265.6251683084     0.02  
+|    5     0.0045572915      -0.0022679631    -265.6274362716     0.02  
+|    6     0.0026817537      -0.0003674648    -265.6278037363     0.02  
+| THRESPDP set to 3.11e-06
+|    7     0.0008665829      -0.0000599887    -265.6278637250     0.04  
+|    8     0.0002134500      -0.0000127172    -265.6278764421     0.03  
+|    9     0.0001243140      -0.0000016116    -265.6278780537     0.02  
+|   10     0.0000614179      -0.0000003482    -265.6278784019     0.02  
+|   11     0.0000204681      -0.0000000984    -265.6278785003     0.02  
+|   12     0.0000056170      -0.0000000149    -265.6278785152     0.02  
+|   13     0.0000018007      +0.0000000037    -265.6278785115     0.04  
+|   14     0.0000006012      -0.0000000001    -265.6278785116     0.04  
+|   15     0.0000003426      -0.0000000001    -265.6278785116     0.04  
+|   16     0.0000001096      -0.0000000001    -265.6278785117     0.04  
+|   17     0.0000000789      +0.0000000001    -265.6278785116     0.04  
 ------------------------------------------------------------------------
-FINAL ENERGY: -265.6266430997 a.u.
+FINAL ENERGY: -265.6278785116 a.u.
 HOMO-LUMO GAP: 12.369 eV
 CENTER OF MASS: {0.073691, 0.114789, -0.037976} ANGS
-DIPOLE MOMENT: {0.536668, -3.098076, 0.191782} (|D| = 3.150059) DEBYE
+DIPOLE MOMENT: {0.530803, -3.102995, 0.192099} (|D| = 3.153923) DEBYE
 
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 564
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 564
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.641611     1.2093
-   O  -2.266355   1.816784  -0.167761  -0.667027     1.2558
-   C   0.128504  -1.931632   0.060820  -0.852476     0.2778
-   C   2.369243  -0.674234  -0.018817   0.502585     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.748491     0.4048
-   H   0.823278   2.480962  -0.215838   0.552391     0.5882
-   H   0.092267  -3.972039   0.190263   0.239708     1.8529
-   H   4.181925  -1.641970   0.042051   0.110959     1.9412
-   H  -3.976390  -1.579142   0.045179   0.006980     2.0000
+   O   2.588220   1.797803  -0.173026  -0.642991     1.2093
+   O  -2.266355   1.816784  -0.167761  -0.667290     1.2558
+   C   0.128504  -1.931632   0.060820  -0.853490     0.2778
+   C   2.369243  -0.674234  -0.018817   0.505652     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.750038     0.4048
+   H   0.823278   2.480962  -0.215838   0.552076     0.5882
+   H   0.092267  -3.972039   0.190263   0.239651     1.8529
+   H   4.181925  -1.641970   0.042051   0.109861     1.9412
+   H  -3.976390  -1.579142   0.045179   0.006494     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS): 0.139
 
 Solving Resp charge with restraints iteratively...
 Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
+ESP restrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.612749     1.2093
-   O  -2.266355   1.816784  -0.167761  -0.642177     1.2558
-   C   0.128504  -1.931632   0.060820  -0.752609     0.2778
-   C   2.369243  -0.674234  -0.018817   0.437279     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.684498     0.4048
-   H   0.823278   2.480962  -0.215838   0.533039     0.5882
-   H   0.092267  -3.972039   0.190263   0.211877     1.8529
-   H   4.181925  -1.641970   0.042051   0.122409     1.9412
-   H  -3.976390  -1.579142   0.045179   0.018433     2.0000
+   O   2.588220   1.797803  -0.173026  -0.614129     1.2093
+   O  -2.266355   1.816784  -0.167761  -0.642440     1.2558
+   C   0.128504  -1.931632   0.060820  -0.753623     0.2778
+   C   2.369243  -0.674234  -0.018817   0.440346     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.686045     0.4048
+   H   0.823278   2.480962  -0.215838   0.532724     0.5882
+   H   0.092267  -3.972039   0.190263   0.211820     1.8529
+   H   4.181925  -1.641970   0.042051   0.121310     1.9412
+   H  -3.976390  -1.579142   0.045179   0.017947     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS): 0.137
 
@@ -263,18 +285,18 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      5.638280159522
-    2      2.399942191602
-    3      1.161508899539
-    4      0.382732140388
-    5      0.208342935133
-    6      0.055531730184
-    7      0.016668987591
-    8      0.005733236341
-    9      0.003125433980
-   10      0.000863883541
-   11      0.000162373055
-   12      0.000042464442
+    1      5.660438580231
+    2      2.452831369375
+    3      1.159697530589
+    4      0.386251467081
+    5      0.210515684725
+    6      0.055786566889
+    7      0.016970075872
+    8      0.005856884746
+    9      0.003184961217
+   10      0.000875425112
+   11      0.000164204551
+   12      0.000043581288
 
 CPSCF converged
 
@@ -283,18 +305,18 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      6.236520161885
-    2      4.225226718486
-    3      0.684597919922
-    4      0.200491874170
-    5      0.094225140471
-    6      0.032187793200
-    7      0.009357863218
-    8      0.003099690627
-    9      0.001230807988
-   10      0.000373307255
-   11      0.000164059395
-   12      0.000042009087
+    1      6.268208824404
+    2      4.304478265390
+    3      0.675966896666
+    4      0.204584862442
+    5      0.096384583957
+    6      0.032446496418
+    7      0.009360034280
+    8      0.003142883638
+    9      0.001245282865
+   10      0.000376103458
+   11      0.000161060214
+   12      0.000042563736
 
 CPSCF converged
 
@@ -303,17 +325,17 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      2.749703900988
-    2      0.641242706463
-    3      0.211287426136
-    4      0.113987723421
-    5      0.036911758420
-    6      0.014199136794
-    7      0.007219336799
-    8      0.001794455604
-    9      0.000493271495
-   10      0.000177427643
-   11      0.000042694587
+    1      2.764885237399
+    2      0.645349634582
+    3      0.213345594524
+    4      0.114480397039
+    5      0.036938006567
+    6      0.014357297942
+    7      0.007265322703
+    8      0.001839390830
+    9      0.000503238239
+   10      0.000182009618
+   11      0.000042821188
 
 CPSCF converged
 
@@ -322,45 +344,45 @@ Ground state dipole moment derivatives:
 
  Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.6508736595      -0.8015679660       0.0500467058
-    2      -0.7986008579       0.5707867722      -0.0348595934
-    3      -1.7382591725      -0.1101277857       0.0074608325
-    4       1.2325076107       1.1143135478      -0.0694650282
-    5       1.6158423006      -0.6995769912       0.0421300346
-    6       0.4866262254       0.0023287436      -0.0005007890
-    7       0.0610802471       0.0049343826      -0.0000903078
-    8      -0.0444546440       0.0586644941      -0.0036925501
-    9      -0.1638680499      -0.1397551974       0.0089706956
+    1      -0.6502088739      -0.8041079556       0.0502007747
+    2      -0.7995991115       0.5731395194      -0.0350035154
+    3      -1.7416704720      -0.1103318010       0.0074741067
+    4       1.2341908728       1.1167815291      -0.0696173194
+    5       1.6186595917      -0.7024048657       0.0422974714
+    6       0.4858721406       0.0018946090      -0.0004686453
+    7       0.0614474348       0.0049688326      -0.0000906416
+    8      -0.0446692097       0.0595745951      -0.0037498848
+    9      -0.1640223728      -0.1395144630       0.0089576537
 
  Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0121800376      -1.2612063856       0.0507493318
-    2       0.0320193500      -1.2551540748       0.0481741788
-    3      -0.0255302467      -0.1690366320      -0.0210986608
-    4       0.1667996559       1.1537908567      -0.0533865622
-    5      -0.1339628323       1.1664326172      -0.0466113685
-    6       0.0122872553       0.4156818167      -0.0030245140
-    7      -0.0021857015      -0.0651164853       0.0166237260
-    8       0.0658935809       0.0398952661       0.0037356369
-    9      -0.1031410240      -0.0252869789       0.0048382321
+    1      -0.0118222973      -1.2608567716       0.0506064548
+    2       0.0329560300      -1.2538892882       0.0481113980
+    3      -0.0253978315      -0.1690995868      -0.0212508718
+    4       0.1678237104       1.1536561158      -0.0532305270
+    5      -0.1339537583       1.1640998580      -0.0464964476
+    6       0.0112016508       0.4156328735      -0.0029548892
+    7      -0.0023923112      -0.0645715524       0.0166716884
+    8       0.0650902418       0.0396452689       0.0037183697
+    9      -0.1035054348      -0.0246169172       0.0048248248
 
  Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1       0.0009821211       0.0515183925      -0.4526528880
-    2      -0.0015850999       0.0476366503      -0.4801915623
-    3       0.0028926471      -0.0199779670      -0.4860115745
-    4      -0.0110544462      -0.0545264202       0.3002666103
-    5       0.0067323853      -0.0462880155       0.4077036017
-    6      -0.0009834458      -0.0029463233       0.3718041804
-    7       0.0003375053       0.0159295064       0.1888880724
-    8      -0.0040131551       0.0036928925       0.0993818625
-    9       0.0066914881       0.0049612844       0.0508116975
+    1       0.0009657273       0.0513841153      -0.4544491171
+    2      -0.0016441470       0.0475770817      -0.4797940057
+    3       0.0028832177      -0.0201273364      -0.4884446242
+    4      -0.0111177131      -0.0543736572       0.3025475295
+    5       0.0067264664      -0.0461710004       0.4071433279
+    6      -0.0009170895      -0.0028886880       0.3726794061
+    7       0.0003521020       0.0159753829       0.1901908695
+    8      -0.0039626407       0.0036768978       0.0988701436
+    9       0.0067140768       0.0049472042       0.0512564705
 
 Polarizability Tensor (Angs^3)
 
-      7.275140        0.331162       -0.025347
-      0.331162        5.706220       -0.213445
-     -0.025348       -0.213445        2.295742
+      7.286652        0.329115       -0.025215
+      0.329114        5.717201       -0.212727
+     -0.025215       -0.212727        2.318022
 
 
 Running Mulliken population analysis...
@@ -369,8 +391,8 @@ Running Mulliken population analysis...
   Restricted CIS Parameters
 --------------------------------------------
 Number of occupied orbitals:            19
-Number of virtual orbitals:             59
-Number of molecular orbitals:           78
+Number of virtual orbitals:             64
+Number of molecular orbitals:           83
 Number of basis functions:              83
 Multiplicity of target state:      singlet
 
@@ -381,7 +403,7 @@ Number of guess vectors:                    2
 Maximum subspace size:                     20
 Number of vectors to save:                  2
 Collapse vectors per root:                  2
-Number of CSFs:                          1121
+Number of CSFs:                          1216
 Maximum Davidson iterations:               20
 Residual convergence:                 1.0e-04
 Orthogonality tolerance:              1.0e-12
@@ -392,204 +414,190 @@ Use incremental sigma vectors:             No
 SP Residual convergence:              1.0e-04
 Sigma vector THRESPDP:                3.1e-06
 
-Davidson memory usage: 380.81 kB
+Davidson memory usage: 411.97 kB
 
 Guess Vectors:
-  19 -> 20 : D -> V :     0.454548
-  18 -> 20 : D -> V :     0.523859
+  19 -> 20 : D -> V :     0.454566
+  18 -> 20 : D -> V :     0.523959
 
   Root           Eigenvalue       Energy Change        Residual
 -------------------------------------------------------------------
 Iteration:    0   Subspace Size:    2
-Root: 1:         0.23153858         0.23153858         0.12066462  
-Root: 2:         0.26246133         0.26246133         0.18786761  
+Root: 1:         0.23159244         0.23159244         0.12067646  
+Root: 2:         0.26245820         0.26245820         0.18867738  
 
 Iteration:    1   Subspace Size:    4
-Root: 1:         0.19563227        -0.03590631         0.03585007  
-Root: 2:         0.22999702        -0.03246431         0.04186044  
+Root: 1:         0.19569426        -0.03589817         0.03585987  
+Root: 2:         0.22997569        -0.03248251         0.04323156  
 
 Iteration:    2   Subspace Size:    6
-Root: 1:         0.19343792        -0.00219436         0.01601108  
-Root: 2:         0.22781470        -0.00218231         0.01410003  
+Root: 1:         0.19349942        -0.00219485         0.01603153  
+Root: 2:         0.22778508        -0.00219061         0.01486074  
 
 Iteration:    3   Subspace Size:    8
-Root: 1:         0.19311767        -0.00032024         0.00555957  
-Root: 2:         0.22759470        -0.00022000         0.00596927  
+Root: 1:         0.19317852        -0.00032090         0.00556790  
+Root: 2:         0.22756140        -0.00022368         0.00611607  
 
 Iteration:    4   Subspace Size:   10
-Root: 1:         0.19307530        -0.00004237         0.00196981  
-Root: 2:         0.22754045        -0.00005425         0.00219950  
+Root: 1:         0.19313603        -0.00004249         0.00197421  
+Root: 2:         0.22750709        -0.00005431         0.00242351  
 
 Iteration:    5   Subspace Size:   12
-Root: 1:         0.19307159        -0.00000371         0.00048456  
-Root: 2:         0.22753675        -0.00000370         0.00059025  
+Root: 1:         0.19313230        -0.00000373         0.00048565  
+Root: 2:         0.22750318        -0.00000392         0.00061881  
 
 Iteration:    6   Subspace Size:   14
-Root: 1:         0.19307137        -0.00000023         0.00014312  
-Root: 2:         0.22753639        -0.00000036         0.00025709  
+Root: 1:         0.19313207        -0.00000023         0.00014416  
+Root: 2:         0.22750280        -0.00000037         0.00026942  
 
 Iteration:    7   Subspace Size:   16
-Root: 1:         0.19307134        -0.00000002         0.00005238  Converged
-Root: 2:         0.22753632        -0.00000007         0.00010537  
+Root: 1:         0.19313205        -0.00000002         0.00005286  Converged
+Root: 2:         0.22750273        -0.00000007         0.00011208  
 
 Iteration:    8   Subspace Size:   17
-Root: 1:         0.19307134        -0.00000000         0.00005056  Converged
-Root: 2:         0.22753631        -0.00000001         0.00002269  Converged
+Root: 1:         0.19313205        -0.00000000         0.00005083  Converged
+Root: 2:         0.22750273        -0.00000001         0.00002333  Converged
 
 Davidson has converged in single precision
 Collapsing subspace to 2 vectors
 Rebuilding sigma vectors in mixed precision
 
 Iteration:    9   Subspace Size:    2
-Root: 1:         0.19307134         0.00000000         0.00005056  Converged
-Root: 2:         0.22753631         0.00000000         0.00002269  Converged
+Root: 1:         0.19313205         0.00000000         0.00005083  Converged
+Root: 2:         0.22750273         0.00000000         0.00002333  Converged
 
 Davidson converged in 9 iterations
 19 sigma vectors were formed
 17 sigma vectors were formed in single precision
 2 sigma vectors were formed in mixed precision
 
-Computing orbital relaxation for Root 2
-Solving CPSCF equations
-Using DIIS solver
 
- Iter         Residual      
-------  --------------------
-    1      0.102072387640
-    2      0.043849067359
-    3      0.006424353707
-    4      0.003390607319
-    5      0.001329345661
-    6      0.000648447401
-    7      0.000111864664
-    8      0.000047385324
-
-CPSCF converged
-
-
-Root 2: Total Excited State Gradient (Hartree/Bohr)
+Total Ground State Gradient (Hartree/Bohr)
 
  Atom         dE/dX              dE/dY              dE/dZ
 ------  -----------------  -----------------  -----------------
-    1       0.0168412091       0.0188109212      -0.0011033303
-    2      -0.0089735877      -0.0312896474       0.0019726341
-    3       0.0768567845       0.0145448352      -0.0011200682
-    4      -0.0969396909      -0.0375159095       0.0024006274
-    5       0.0225116545       0.0530338514      -0.0032874354
-    6      -0.0058222194      -0.0010282071      -0.0000070259
-    7      -0.0016020871      -0.0077687921       0.0005442947
-    8       0.0092188561      -0.0042785835       0.0002811839
-    9      -0.0120909190      -0.0045084681       0.0003191197
+    1       0.0247165884       0.0068241407      -0.0003434997
+    2       0.0033837551       0.0383383171      -0.0023229716
+    3      -0.0140845249       0.0030833966      -0.0002679437
+    4       0.0012262643      -0.0035414342       0.0001168670
+    5       0.0123942226      -0.0323046111       0.0019853619
+    6      -0.0272161254       0.0047306457      -0.0003552966
+    7      -0.0001787169      -0.0076942715       0.0005428212
+    8       0.0089080948      -0.0037360956       0.0002831874
+    9      -0.0091495579      -0.0057000877       0.0003614740
 
 TrESP Charges for State 1
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 563
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 563
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026   0.005933     1.1977
-   O  -2.266355   1.816784  -0.167761   0.003847     1.2558
-   C   0.128504  -1.931632   0.060820   0.014164     0.2778
-   C   2.369243  -0.674234  -0.018817  -0.009627     0.3889
-   C  -2.185136  -0.514400  -0.023654  -0.007661     0.4048
-   H   0.823278   2.480962  -0.215838  -0.005519     0.5882
-   H   0.092267  -3.972039   0.190263  -0.003612     1.8529
-   H   4.181925  -1.641970   0.042051   0.001322     1.9412
-   H  -3.976390  -1.579142   0.045179   0.001152     2.0000
+   O   2.588220   1.797803  -0.173026   0.005913     1.1977
+   O  -2.266355   1.816784  -0.167761   0.003793     1.2558
+   C   0.128504  -1.931632   0.060820   0.014023     0.2778
+   C   2.369243  -0.674234  -0.018817  -0.009575     0.3889
+   C  -2.185136  -0.514400  -0.023654  -0.007464     0.4048
+   H   0.823278   2.480962  -0.215838  -0.005514     0.5882
+   H   0.092267  -3.972039   0.190263  -0.003582     1.8529
+   H   4.181925  -1.641970   0.042051   0.001319     1.9412
+   H  -3.976390  -1.579142   0.045179   0.001088     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS):     1
 
 Solving Resp charge with restraints iteratively...
 Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
+ESP restrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026   0.000328     1.1977
-   O  -2.266355   1.816784  -0.167761   0.000056     1.2558
-   C   0.128504  -1.931632   0.060820   0.000384     0.2778
-   C   2.369243  -0.674234  -0.018817   0.000012     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.000176     0.4048
-   H   0.823278   2.480962  -0.215838  -0.001144     0.5882
-   H   0.092267  -3.972039   0.190263   0.000127     1.8529
-   H   4.181925  -1.641970   0.042051  -0.000112     1.9412
-   H  -3.976390  -1.579142   0.045179   0.000173     2.0000
+   O   2.588220   1.797803  -0.173026   0.000327     1.1977
+   O  -2.266355   1.816784  -0.167761   0.000060     1.2558
+   C   0.128504  -1.931632   0.060820   0.000387     0.2778
+   C   2.369243  -0.674234  -0.018817   0.000015     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.000188     0.4048
+   H   0.823278   2.480962  -0.215838  -0.001151     0.5882
+   H   0.092267  -3.972039   0.190263   0.000121     1.8529
+   H   4.181925  -1.641970   0.042051  -0.000113     1.9412
+   H  -3.976390  -1.579142   0.045179   0.000165     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS):     1
 
 TrESP Charges for State 2
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 563
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 563
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026   0.003521     1.1977
-   O  -2.266355   1.816784  -0.167761   0.177383     1.2558
-   C   0.128504  -1.931632   0.060820   0.331078     0.2778
-   C   2.369243  -0.674234  -0.018817  -0.526292     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.076015     0.4048
-   H   0.823278   2.480962  -0.215838  -0.045940     0.5882
-   H   0.092267  -3.972039   0.190263  -0.033233     1.8529
-   H   4.181925  -1.641970   0.042051   0.045100     1.9412
-   H  -3.976390  -1.579142   0.045179  -0.027633     2.0000
+   O   2.588220   1.797803  -0.173026   0.003316     1.1977
+   O  -2.266355   1.816784  -0.167761   0.177309     1.2558
+   C   0.128504  -1.931632   0.060820   0.330706     0.2778
+   C   2.369243  -0.674234  -0.018817  -0.525890     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.076234     0.4048
+   H   0.823278   2.480962  -0.215838  -0.045904     0.5882
+   H   0.092267  -3.972039   0.190263  -0.033203     1.8529
+   H   4.181925  -1.641970   0.042051   0.045105     1.9412
+   H  -3.976390  -1.579142   0.045179  -0.027673     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS):0.0964
 
 Solving Resp charge with restraints iteratively...
 Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
+ESP restrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.011833     1.1977
-   O  -2.266355   1.816784  -0.167761   0.170703     1.2558
-   C   0.128504  -1.931632   0.060820   0.280523     0.2778
-   C   2.369243  -0.674234  -0.018817  -0.480735     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.091900     0.4048
-   H   0.823278   2.480962  -0.215838  -0.038370     0.5882
-   H   0.092267  -3.972039   0.190263  -0.018283     1.8529
-   H   4.181925  -1.641970   0.042051   0.033167     1.9412
-   H  -3.976390  -1.579142   0.045179  -0.027073     2.0000
+   O   2.588220   1.797803  -0.173026  -0.012037     1.1977
+   O  -2.266355   1.816784  -0.167761   0.170630     1.2558
+   C   0.128504  -1.931632   0.060820   0.280152     0.2778
+   C   2.369243  -0.674234  -0.018817  -0.480334     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.092119     0.4048
+   H   0.823278   2.480962  -0.215838  -0.038334     0.5882
+   H   0.092267  -3.972039   0.190263  -0.018254     1.8529
+   H   4.181925  -1.641970   0.042051   0.033172     1.9412
+   H  -3.976390  -1.579142   0.045179  -0.027114     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS):0.0957
 
 TrVecESP Charges for State 1 -> 2
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 563
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 563
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.002427     1.1977
+   O   2.588220   1.797803  -0.173026  -0.002426     1.1977
    O  -2.266355   1.816784  -0.167761  -0.001104     1.2558
-   C   0.128504  -1.931632   0.060820  -0.015994     0.2778
-   C   2.369243  -0.674234  -0.018817   0.014052     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.009709     0.4048
-   H   0.823278   2.480962  -0.215838  -0.001795     0.5882
-   H   0.092267  -3.972039   0.190263   0.003772     1.8529
-   H   4.181925  -1.641970   0.042051  -0.003682     1.9412
-   H  -3.976390  -1.579142   0.045179  -0.002532     2.0000
+   C   0.128504  -1.931632   0.060820  -0.015982     0.2778
+   C   2.369243  -0.674234  -0.018817   0.014035     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.009706     0.4048
+   H   0.823278   2.480962  -0.215838  -0.001791     0.5882
+   H   0.092267  -3.972039   0.190263   0.003769     1.8529
+   H   4.181925  -1.641970   0.042051  -0.003676     1.9412
+   H  -3.976390  -1.579142   0.045179  -0.002531     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS):  1.02
 
 Solving Resp charge with restraints iteratively...
 Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
+ESP restrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026   0.000140     1.1977
+   O   2.588220   1.797803  -0.173026   0.000139     1.1977
    O  -2.266355   1.816784  -0.167761   0.000667     1.2558
    C   0.128504  -1.931632   0.060820  -0.000121     0.2778
-   C   2.369243  -0.674234  -0.018817   0.000879     0.3889
+   C   2.369243  -0.674234  -0.018817   0.000877     0.3889
    C  -2.185136  -0.514400  -0.023654   0.000482     0.4048
-   H   0.823278   2.480962  -0.215838  -0.001107     0.5882
+   H   0.823278   2.480962  -0.215838  -0.001105     0.5882
    H   0.092267  -3.972039   0.190263  -0.000590     1.8529
-   H   4.181925  -1.641970   0.042051  -0.000028     1.9412
+   H   4.181925  -1.641970   0.042051  -0.000027     1.9412
    H  -3.976390  -1.579142   0.045179  -0.000322     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS): 0.999
 
-Smallest diagonal element: 2.7665e-03
+Smallest diagonal element: 2.8468e-03
 No shift will be applied
 
 Solving CPCIS equations
@@ -597,19 +605,19 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1    273.933020009879
-    2    28801.431107239281
-    3     53.141858985807
-    4      9.475300633343
-    5      0.185393619878
-    6      0.498206639861
-    7      0.078196702605
-    8      0.011245807930
-    9      0.000732676257
-   10      0.000484159105
-   11      0.000872132573
-   12      0.000452120454
-   13      0.000092489884
+    1    265.856901805273
+    2    27164.022010670036
+    3     51.568006037673
+    4      9.215565210719
+    5      0.183338443317
+    6      0.486154728924
+    7      0.076157871630
+    8      0.010834632852
+    9      0.000710482020
+   10      0.000504147829
+   11      0.000855607520
+   12      0.000445029584
+   13      0.000091604581
 
 CPCIS converged
 
@@ -618,21 +626,21 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1    228.555538105825
-    2    24066.415114478510
-    3      8.410928322392
-    4     15.468894521623
-    5      1.274896398852
-    6      0.076862502114
-    7      0.052894225392
-    8      0.016648084309
-    9      0.008820449629
-   10      0.002839405053
-   11      0.000544662464
-   12      0.001500223384
-   13      0.000110894719
-   14      0.000211767583
-   15      0.000089586161
+    1    221.917905988589
+    2    22709.487384968532
+    3      8.162630259091
+    4     15.025947087754
+    5      1.240313913609
+    6      0.075478160711
+    7      0.051241641942
+    8      0.016444007350
+    9      0.008541715630
+   10      0.002758494114
+   11      0.000530188306
+   12      0.001448737711
+   13      0.000112195750
+   14      0.000214966937
+   15      0.000087833550
 
 CPCIS converged
 
@@ -641,20 +649,20 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1     13.784074009931
-    2    1450.037759104783
-    3      0.538707038168
-    4      0.494042637462
-    5      0.192338747456
-    6      0.066584970295
-    7      0.031686078385
-    8      0.060131568036
-    9      0.031577090029
-   10      0.013261416806
-   11      0.004666624912
-   12      0.001594656157
-   13      0.000213481618
-   14      0.000020229243
+    1     13.383895223391
+    2    1368.164920625466
+    3      0.530129190212
+    4      0.481190325446
+    5      0.187286231313
+    6      0.064794338907
+    7      0.028988905532
+    8      0.058421100696
+    9      0.031136191857
+   10      0.013250320923
+   11      0.004652531780
+   12      0.001651885206
+   13      0.000205127456
+   14      0.000017579324
 
 CPCIS converged
 
@@ -665,18 +673,18 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      3.147200156857
-    2      1.580052915132
-    3      0.761812729879
-    4      0.199659193685
-    5      0.075326539933
-    6      0.030935823727
-    7      0.011268119201
-    8      0.005837325859
-    9      0.001495938729
-   10      0.000504783810
-   11      0.000133497841
-   12      0.000043478102
+    1      3.179454880324
+    2      1.602704485007
+    3      0.764583281768
+    4      0.202730550896
+    5      0.076266876171
+    6      0.031375192156
+    7      0.011470327802
+    8      0.005872018083
+    9      0.001520019145
+   10      0.000508614312
+   11      0.000135051717
+   12      0.000044778389
 
 CPSCF converged
 
@@ -685,18 +693,18 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      3.786344328719
-    2      2.417134595498
-    3      0.527486709736
-    4      0.157997945807
-    5      0.068999009190
-    6      0.031021528091
-    7      0.010069051593
-    8      0.003304798076
-    9      0.001305252150
-   10      0.000404702717
-   11      0.000107949509
-   12      0.000034762444
+    1      3.858278418347
+    2      2.469972580127
+    3      0.530791243727
+    4      0.160130519350
+    5      0.069452322645
+    6      0.031148792172
+    7      0.010250175997
+    8      0.003321975708
+    9      0.001336859084
+   10      0.000414216617
+   11      0.000111808745
+   12      0.000036676868
 
 CPSCF converged
 
@@ -705,23 +713,23 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      2.369175117402
-    2      0.603036147206
-    3      0.202447734485
-    4      0.104433242662
-    5      0.033265354738
-    6      0.011715464394
-    7      0.006491267684
-    8      0.001998017489
-    9      0.000645098914
-   10      0.000176431194
-   11      0.000058872626
+    1      2.379995416604
+    2      0.605399545339
+    3      0.203975857631
+    4      0.106346616743
+    5      0.033507880971
+    6      0.011882721958
+    7      0.006570155238
+    8      0.002037922786
+    9      0.000654433780
+   10      0.000183183849
+   11      0.000060897303
 
 CPSCF converged
 
 Building relaxed X multipliers...
 
-Smallest diagonal element: 2.0390e-01
+Smallest diagonal element: 2.0376e-01
 No shift will be applied
 
 Solving CPCIS equations
@@ -729,20 +737,20 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      3.272214558289
-    2      1.907354932843
-    3      1.231568696323
-    4      0.451339578861
-    5      0.121556129472
-    6      0.015173627840
-    7      0.004934587203
-    8      0.002525357799
-    9      0.002116355439
-   10      0.002239810232
-   11      0.001596739665
-   12      0.000726740978
-   13      0.000216271157
-   14      0.000069257158
+    1      3.282616862842
+    2      1.914456605908
+    3      1.234451259892
+    4      0.457717067370
+    5      0.120644865048
+    6      0.015554249677
+    7      0.004987996994
+    8      0.002528558593
+    9      0.002119060575
+   10      0.002244393491
+   11      0.001610531051
+   12      0.000729913764
+   13      0.000222879448
+   14      0.000071510919
 
 CPCIS converged
 
@@ -751,20 +759,20 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      2.288307839764
-    2      1.393976158785
-    3      0.781693357012
-    4      0.357456795834
-    5      0.104529179238
-    6      0.035311706026
-    7      0.020610538206
-    8      0.014563867628
-    9      0.015504133371
-   10      0.010546821186
-   11      0.002854452829
-   12      0.001106289057
-   13      0.000277445215
-   14      0.000078533161
+    1      2.294149837887
+    2      1.400362580395
+    3      0.782851386510
+    4      0.360809338071
+    5      0.104360614236
+    6      0.035498721521
+    7      0.020701255530
+    8      0.014511155816
+    9      0.015456108310
+   10      0.010709578602
+   11      0.002911974512
+   12      0.001128330921
+   13      0.000284354952
+   14      0.000079725245
 
 CPCIS converged
 
@@ -773,21 +781,21 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.824956062798
-    2      0.354191466745
-    3      0.160695751519
-    4      0.116498018535
-    5      0.113982744879
-    6      0.111977448524
-    7      0.080609856612
-    8      0.023037318486
-    9      0.011627182295
-   10      0.004317791180
-   11      0.001526213129
-   12      0.000762888385
-   13      0.000332900445
-   14      0.000156204869
-   15      0.000050494321
+    1      0.833899427485
+    2      0.357992964897
+    3      0.162077569050
+    4      0.116760018966
+    5      0.113622566971
+    6      0.112060002383
+    7      0.081408827226
+    8      0.023382259598
+    9      0.011795562427
+   10      0.004403288713
+   11      0.001551421302
+   12      0.000776095532
+   13      0.000339373371
+   14      0.000160567896
+   15      0.000051380894
 
 CPCIS converged
 
@@ -798,18 +806,18 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      7.478474396909
-    2      4.243949112909
-    3      1.126886397936
-    4      0.562529091549
-    5      0.187446560496
-    6      0.083312570291
-    7      0.023047258832
-    8      0.008843828552
-    9      0.003333979464
-   10      0.000745653966
-   11      0.000175193871
-   12      0.000065731356
+    1      7.623905556942
+    2      4.344840342820
+    3      1.129837287900
+    4      0.565620559037
+    5      0.187499382708
+    6      0.084600882343
+    7      0.023474515425
+    8      0.008899874224
+    9      0.003436854284
+   10      0.000754094523
+   11      0.000178845954
+   12      0.000067410969
 
 CPSCF converged
 
@@ -818,18 +826,18 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      3.381745811524
-    2      1.574949898928
-    3      0.545337248524
-    4      0.168473957135
-    5      0.051152775439
-    6      0.019306645278
-    7      0.007807662852
-    8      0.002336206518
-    9      0.001122453567
-   10      0.000419827938
-   11      0.000140338092
-   12      0.000035911522
+    1      3.456065589634
+    2      1.609430075348
+    3      0.549329646449
+    4      0.171955429634
+    5      0.050690406117
+    6      0.019357153947
+    7      0.008094291690
+    8      0.002385452262
+    9      0.001122218842
+   10      0.000422985415
+   11      0.000143121318
+   12      0.000035986457
 
 CPSCF converged
 
@@ -838,23 +846,23 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.944080302436
-    2      0.488633990019
-    3      0.150181079397
-    4      0.063493904320
-    5      0.030015849802
-    6      0.012144053421
-    7      0.006114847718
-    8      0.001489733365
-    9      0.000671527721
-   10      0.000193134534
-   11      0.000068762081
+    1      1.946914472683
+    2      0.489369988986
+    3      0.150398790096
+    4      0.064406451809
+    5      0.029971118003
+    6      0.012237132332
+    7      0.006168928715
+    8      0.001520930445
+    9      0.000682143686
+   10      0.000196892905
+   11      0.000070485552
 
 CPSCF converged
 
 Building relaxed X multipliers...
 
-Smallest diagonal element: 2.7665e-03
+Smallest diagonal element: 2.8468e-03
 No shift will be applied
 
 Solving CPCIS equations
@@ -862,21 +870,21 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      2.128870320204
-    2     13.742909072454
-    3     13.379125525540
-    4      1.074756050017
-    5      0.816788751867
-    6      0.292687391973
-    7      0.076367041367
-    8      0.026882427357
-    9      0.008178451158
-   10      0.002452881548
-   11      0.000711436954
-   12      0.000284345921
-   13      0.000118938897
-   14      0.008566790319
-   15      0.000048959456
+    1      2.134572034996
+    2     13.018260913415
+    3     13.871416583794
+    4      1.078692459247
+    5      0.824793018271
+    6      0.295066368518
+    7      0.077622254576
+    8      0.027414362512
+    9      0.008289214608
+   10      0.002553627974
+   11      0.000733243373
+   12      0.000290926089
+   13      0.000134449443
+   14      0.010151630737
+   15      0.000047702579
 
 CPCIS converged
 
@@ -885,19 +893,19 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.731853161987
-    2     22.956350786807
-    3      9.627394120042
-    4      0.313730917695
-    5      0.115999945122
-    6      0.030395354629
-    7      0.008710042471
-    8      0.005068915161
-    9      0.003853941290
-   10      0.002234997065
-   11      0.000753435352
-   12      0.000222480560
-   13      0.000046897403
+    1      1.737796915232
+    2     21.065272107534
+    3     10.322375934248
+    4      0.316580916285
+    5      0.116405435698
+    6      0.030630632146
+    7      0.008871647953
+    8      0.005145350039
+    9      0.003926770934
+   10      0.002299490258
+   11      0.000764910560
+   12      0.000225431997
+   13      0.000039118769
 
 CPCIS converged
 
@@ -906,23 +914,24 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      4.162330228097
-    2    431.462445442782
-    3      2.080665419491
-    4      0.911211777715
-    5      0.258936218018
-    6      0.082382461081
-    7      0.030334366289
-    8      0.001882018823
-    9      0.001497143066
-   10      0.000527417773
-   11      0.000454026856
-   12      0.000251051211
-   13      0.000413996050
-   14      0.000058270353
+    1      3.955517171324
+    2    397.841264835741
+    3      2.037124797219
+    4      0.888478218063
+    5      0.259514743250
+    6      0.081561480635
+    7      0.028595038569
+    8      0.001655158922
+    9      0.001489428571
+   10      0.000552974087
+   11      0.000467480072
+   12      0.000251492913
+   13      0.000414514124
+   14      0.000057795818
 
 CPCIS converged
 
+Writing dipole derivative to TDD_CPCIS
 Building X multipliers...
 
 Solving CPSCF equations
@@ -930,17 +939,17 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.610760557511
-    2      0.708359983190
-    3      0.176163344647
-    4      0.084786221144
-    5      0.039193828800
-    6      0.020603742291
-    7      0.003740368219
-    8      0.001115754039
-    9      0.000523314893
-   10      0.000123937632
-   11      0.000038176383
+    1      1.615500115013
+    2      0.710144007417
+    3      0.176676028851
+    4      0.085185148891
+    5      0.039581066786
+    6      0.020726025169
+    7      0.003758598923
+    8      0.001132084327
+    9      0.000530512883
+   10      0.000125819194
+   11      0.000039031231
 
 CPSCF converged
 
@@ -949,16 +958,16 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.637404534792
-    2      0.356086834805
-    3      0.086392062148
-    4      0.049235946978
-    5      0.018698969826
-    6      0.004290070098
-    7      0.001385183489
-    8      0.000557401352
-    9      0.000156638256
-   10      0.000062515984
+    1      0.636895489672
+    2      0.355700734823
+    3      0.086449979658
+    4      0.049623330935
+    5      0.018756230631
+    6      0.004346240558
+    7      0.001386052362
+    8      0.000570946522
+    9      0.000157663235
+   10      0.000062518376
 
 CPSCF converged
 
@@ -967,22 +976,25 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.319522547938
-    2      0.166359494259
-    3      0.070148687752
-    4      0.017202767792
-    5      0.007168714869
-    6      0.002668581732
-    7      0.001519867888
-    8      0.000541788171
-    9      0.000170525675
-   10      0.000049019885
+    1      0.325023469541
+    2      0.169633898193
+    3      0.071572703906
+    4      0.017533742467
+    5      0.007288465329
+    6      0.002680494148
+    7      0.001525862114
+    8      0.000558037529
+    9      0.000174003198
+   10      0.000049838005
 
 CPSCF converged
 
+Writing dipole derivative to TDD_CPSCF
 Building relaxed X multipliers...
 
-Smallest diagonal element: 2.0390e-01
+Reading dipole derivative from TDD_CPCIS
+Read dipole derivative from TDD_CPCIS
+Smallest diagonal element: 2.0376e-01
 No shift will be applied
 
 Solving CPCIS equations
@@ -990,22 +1002,21 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1     21.441324845150
-    2     32.775274778575
-    3     11.806755261080
-    4      1.686189241780
-    5      0.373213168309
-    6      0.167131644227
-    7      0.046651433225
-    8      0.015455634931
-    9      0.005919602473
-   10      0.002864006164
-   11      0.002223748578
-   12      0.002348794289
-   13      0.001295835475
-   14      0.000293301423
-   15      0.000103724154
-   16      0.000042826118
+    1     21.489098279735
+    2     32.933316754729
+    3     11.879228678350
+    4      1.733000086853
+    5      0.388217450939
+    6      0.169060648352
+    7      0.049754172709
+    8      0.015797426435
+    9      0.006066331308
+   10      0.002979988231
+   11      0.002333137050
+   12      0.002471662024
+   13      0.001355143757
+   14      0.000308827272
+   15      0.000093976868
 
 CPCIS converged
 
@@ -1014,19 +1025,19 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.442061095085
-    2      0.500824314673
-    3      0.211464286640
-    4      0.105386838513
-    5      0.044309077558
-    6      0.016383873410
-    7      0.009180242625
-    8      0.009327580759
-    9      0.007881472671
-   10      0.002485835188
-   11      0.000716645116
-   12      0.000298922726
-   13      0.000085053044
+    1      0.443270685371
+    2      0.505596573925
+    3      0.212947574531
+    4      0.105731433229
+    5      0.044037869625
+    6      0.016659985358
+    7      0.009519829306
+    8      0.009657442389
+    9      0.008179165629
+   10      0.002495449671
+   11      0.000742261880
+   12      0.000310505210
+   13      0.000087114112
 
 CPCIS converged
 
@@ -1035,43 +1046,46 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.153058456161
-    2      0.105388972481
-    3      0.086209892251
-    4      0.086933812211
-    5      0.085056465366
-    6      0.055824017180
-    7      0.022455826967
-    8      0.008276438868
-    9      0.004040743963
-   10      0.001353455311
-   11      0.000537938188
-   12      0.000214613369
-   13      0.000107716720
-   14      0.000044583398
+    1      0.153257717139
+    2      0.105340074648
+    3      0.085722582694
+    4      0.086251711796
+    5      0.084696366900
+    6      0.055844265726
+    7      0.022620140638
+    8      0.008395705280
+    9      0.004062518628
+   10      0.001352551587
+   11      0.000542900809
+   12      0.000216450179
+   13      0.000109052900
+   14      0.000045155740
 
 CPCIS converged
 
+Writing dipole derivative to TDD_CPCIS
 Building X multipliers...
 
+Reading dipole derivative from TDD_CPSCF
+Read dipole derivative from TDD_CPSCF
 Solving CPSCF equations
 Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      5.292198194946
-    2      2.129268487178
-    3      1.177215820117
-    4      0.342621711849
-    5      0.147024732747
-    6      0.067038096800
-    7      0.034167912268
-    8      0.012705885101
-    9      0.003726899951
-   10      0.001136933945
-   11      0.000461589128
-   12      0.000172987206
-   13      0.000053503950
+    1      5.305522280019
+    2      2.139287795118
+    3      1.191477251258
+    4      0.342955691347
+    5      0.148402039585
+    6      0.067467010420
+    7      0.034385714701
+    8      0.012926533294
+    9      0.003779762175
+   10      0.001152188470
+   11      0.000468409210
+   12      0.000176389281
+   13      0.000054503593
 
 CPSCF converged
 
@@ -1080,18 +1094,18 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      3.834923615253
-    2      2.106189105609
-    3      0.735474366942
-    4      0.297016299019
-    5      0.113466620004
-    6      0.045928752524
-    7      0.023350007049
-    8      0.007388059242
-    9      0.002074639690
-   10      0.000727888685
-   11      0.000178027223
-   12      0.000052928660
+    1      3.856523912666
+    2      2.138980866982
+    3      0.734870391029
+    4      0.299701917966
+    5      0.113958652264
+    6      0.046157704785
+    7      0.023594740650
+    8      0.007460878772
+    9      0.002113373471
+   10      0.000736737514
+   11      0.000181189538
+   12      0.000053884491
 
 CPSCF converged
 
@@ -1100,24 +1114,25 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.841204467453
-    2      0.514958251649
-    3      0.307543823021
-    4      0.066875631936
-    5      0.025778020093
-    6      0.010233524140
-    7      0.004743583557
-    8      0.002020624338
-    9      0.000848288206
-   10      0.000277647383
-   11      0.000103492586
-   12      0.000043229851
+    1      1.879994965564
+    2      0.521950883731
+    3      0.312435051254
+    4      0.068435649813
+    5      0.026104197970
+    6      0.010449038083
+    7      0.004787852360
+    8      0.002061927282
+    9      0.000862185634
+   10      0.000286471664
+   11      0.000105694359
+   12      0.000044276215
 
 CPSCF converged
 
+Writing dipole derivative to TDD_CPSCF
 Building relaxed X multipliers...
 
-Smallest diagonal element: 2.7665e-03
+Smallest diagonal element: 2.8468e-03
 No shift will be applied
 
 Solving CPCIS equations
@@ -1125,18 +1140,19 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.237727328743
-    2      2.714308701924
-    3     23.508256983075
-    4      0.306297568634
-    5      0.239327812065
-    6      0.174665966015
-    7      0.037139188771
-    8      0.008444307110
-    9      0.002195836279
-   10      0.000912022215
-   11      0.000302504500
-   12      0.000096309389
+    1      1.240572286555
+    2      2.587942318232
+    3     24.127720169308
+    4      0.308718893531
+    5      0.240915565694
+    6      0.176176868588
+    7      0.039714703169
+    8      0.008746150949
+    9      0.002226388463
+   10      0.000929516930
+   11      0.000307248117
+   12      0.000100783334
+   13      0.000031725936
 
 CPCIS converged
 
@@ -1145,19 +1161,19 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.907529026255
-    2     26.422150896432
-    3      1.444523385878
-    4      0.225734232539
-    5      0.165665713873
-    6      0.129071190118
-    7      0.049209797961
-    8      0.016992718378
-    9      0.005809630467
-   10      0.001411765329
-   11      0.000504184198
-   12      0.000207037729
-   13      0.000053903228
+    1      0.907538082536
+    2     24.947027996397
+    3      1.492286084885
+    4      0.227474277556
+    5      0.166353645694
+    6      0.129662523547
+    7      0.050108347355
+    8      0.017269032891
+    9      0.005874494691
+   10      0.001441137294
+   11      0.000507919348
+   12      0.000207535819
+   13      0.000042666477
 
 CPCIS converged
 
@@ -1166,25 +1182,25 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      3.517665075104
-    2    367.956632999250
-    3      0.331473487338
-    4      0.070877360638
-    5      0.087371918721
-    6      0.039205239278
-    7      0.010359260221
-    8      0.013352876015
-    9      0.006672964334
-   10      0.003558799615
-   11      0.002775221264
-   12      0.001539886218
-   13      0.000107132883
-   14      0.000161437751
-   15      0.000024806216
+    1      3.417685427452
+    2    347.243627088650
+    3      0.329558891765
+    4      0.070551429365
+    5      0.084251837733
+    6      0.038548517904
+    7      0.010623804831
+    8      0.012894977804
+    9      0.006638009725
+   10      0.003511011107
+   11      0.002709844956
+   12      0.001525671805
+   13      0.000123050920
+   14      0.000167612833
+   15      0.000024398714
 
 CPCIS converged
 
-Smallest diagonal element: 2.0390e-01
+Smallest diagonal element: 2.0376e-01
 No shift will be applied
 
 Solving CPCIS equations
@@ -1192,20 +1208,20 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.186115652888
-    2      0.982519385482
-    3      1.040981120588
-    4      0.713420016846
-    5      0.127403219301
-    6      0.034438545391
-    7      0.014253174765
-    8      0.007666193064
-    9      0.003554694865
-   10      0.002551676023
-   11      0.000854795074
-   12      0.000362017167
-   13      0.000116597920
-   14      0.000061269307
+    1      1.185192384160
+    2      0.980804277712
+    3      1.038589908961
+    4      0.714123236226
+    5      0.127714223095
+    6      0.034587196260
+    7      0.014357100282
+    8      0.007761249553
+    9      0.003577096453
+   10      0.002563071452
+   11      0.000866143474
+   12      0.000366256568
+   13      0.000118547524
+   14      0.000062439267
 
 CPCIS converged
 
@@ -1214,21 +1230,21 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.349553350344
-    2      1.326791986448
-    3      1.369281691346
-    4      1.153792883063
-    5      0.237229126608
-    6      0.109438217423
-    7      0.065920701788
-    8      0.047875970879
-    9      0.013655372327
-   10      0.004076446315
-   11      0.001822417137
-   12      0.000871641282
-   13      0.000374226191
-   14      0.000137928324
-   15      0.000062421627
+    1      1.348606759208
+    2      1.325189826662
+    3      1.367653867386
+    4      1.154973770482
+    5      0.240231078767
+    6      0.109792892311
+    7      0.066370618807
+    8      0.047871250404
+    9      0.013660616967
+   10      0.004088103513
+   11      0.001825537598
+   12      0.000873575418
+   13      0.000375008850
+   14      0.000138173840
+   15      0.000062363938
 
 CPCIS converged
 
@@ -1237,19 +1253,20 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.334936339061
-    2      0.170595277124
-    3      0.117598061795
-    4      0.097882162045
-    5      0.104273708558
-    6      0.091509496685
-    7      0.023724665760
-    8      0.008795195202
-    9      0.004521584797
-   10      0.001604163527
-   11      0.000763861041
-   12      0.000300754169
-   13      0.000097423088
+    1      0.340184384046
+    2      0.173029762536
+    3      0.118559284171
+    4      0.097885404872
+    5      0.104262568425
+    6      0.092201928030
+    7      0.024176673438
+    8      0.008885167697
+    9      0.004545793460
+   10      0.001648235871
+   11      0.000777512940
+   12      0.000313950459
+   13      0.000100247775
+   14      0.000037307397
 
 CPCIS converged
 
@@ -1260,16 +1277,16 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.166885553479
-    2      0.497834967061
-    3      0.154682149646
-    4      0.074869330080
-    5      0.031071570883
-    6      0.015307034180
-    7      0.002270345807
-    8      0.000910462363
-    9      0.000321629026
-   10      0.000089826615
+    1      1.170502482925
+    2      0.499426020291
+    3      0.155135969951
+    4      0.075279433767
+    5      0.031461173861
+    6      0.015393828818
+    7      0.002289158538
+    8      0.000933187932
+    9      0.000323582309
+   10      0.000091289135
 
 CPSCF converged
 
@@ -1278,17 +1295,17 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      1.529684433303
-    2      0.619361253965
-    3      0.155897668607
-    4      0.070009004355
-    5      0.034008738980
-    6      0.017006869652
-    7      0.004162043257
-    8      0.001142505729
-    9      0.000474429226
-   10      0.000151788513
-   11      0.000043792089
+    1      1.532561800847
+    2      0.620606112144
+    3      0.156445924931
+    4      0.070472873387
+    5      0.034394847123
+    6      0.017051947712
+    7      0.004181309251
+    8      0.001163734661
+    9      0.000484575796
+   10      0.000153997723
+   11      0.000045525553
 
 CPSCF converged
 
@@ -1297,16 +1314,16 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.266055612752
-    2      0.129354816614
-    3      0.059973182741
-    4      0.015427883045
-    5      0.007514676621
-    6      0.002516363670
-    7      0.001187689927
-    8      0.000440189800
-    9      0.000133300840
-   10      0.000053261514
+    1      0.269005471990
+    2      0.132068997313
+    3      0.060406960243
+    4      0.015610254971
+    5      0.007645631208
+    6      0.002553130726
+    7      0.001204190520
+    8      0.000445920124
+    9      0.000134378423
+   10      0.000053362930
 
 CPSCF converged
 
@@ -1318,111 +1335,149 @@ Transition dipole moment derivatives:
 
  Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1       0.0001403240       0.0005735905       0.0034173729
-    2      -0.0000314956       0.0038204799       0.0663807287
-    3       0.0007955313      -0.0084073470      -0.1363174663
-    4      -0.0001338113       0.0172125716       0.2845373911
-    5      -0.0023638331      -0.0315074400      -0.5082134816
-    6       0.0009565886       0.0075406762       0.1229792565
-    7       0.0002453280       0.0136592975       0.2155891799
-    8       0.0000515480      -0.0149479683      -0.2412286529
-    9       0.0003398201       0.0120561396       0.1928556718
+    1       0.0001421395       0.0005819681       0.0033410771
+    2      -0.0000264003       0.0037996459       0.0664121451
+    3       0.0007487801      -0.0083899088      -0.1360976161
+    4      -0.0001174908       0.0172686353       0.2854435239
+    5      -0.0023281577      -0.0315984128      -0.5098819978
+    6       0.0009492327       0.0075642143       0.1233614553
+    7       0.0002430071       0.0136696313       0.2157564355
+    8       0.0000515879      -0.0149928578      -0.2419195883
+    9       0.0003373015       0.0120970845       0.1935845654
 
  Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0007110749      -0.0101372742      -0.1415821799
-    2      -0.0003786905      -0.0051551158      -0.0714619368
-    3       0.0029184021       0.0037924200       0.0856117949
-    4      -0.0025043743      -0.0290851409      -0.4631159087
-    5      -0.0020907175       0.0434667943       0.6411485311
-    6       0.0003060349      -0.0003025011      -0.0039502338
-    7       0.0010445208      -0.0129266805      -0.2093419234
-    8       0.0006244102       0.0257077567       0.4120856638
-    9       0.0007914892      -0.0153602586      -0.2493938072
+    1      -0.0007596631      -0.0101539406      -0.1413340831
+    2      -0.0002955964      -0.0050542950      -0.0711521338
+    3       0.0030345607       0.0038076234       0.0856117022
+    4      -0.0025279224      -0.0291427620      -0.4640805832
+    5      -0.0022480679       0.0434335820       0.6417612578
+    6       0.0003151883      -0.0003329968      -0.0043094919
+    7       0.0010450230      -0.0129291313      -0.2092966331
+    8       0.0006238791       0.0257539608       0.4126254585
+    9       0.0008125986      -0.0153820405      -0.2498254934
 
  Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0080389496      -0.0076687533       0.0091122881
-    2      -0.0050073824      -0.0176089249       0.0057329829
-    3       0.0775477207      -0.0082561402      -0.0049196998
-    4      -0.0524437319      -0.0280212582       0.0303395708
-    5      -0.0779962514       0.0535306055      -0.0425287028
-    6       0.0161395038      -0.0026118404       0.0002452263
-    7       0.0196918032       0.0062469207       0.0122801400
-    8       0.0124990049      -0.0001194165      -0.0252297965
-    9       0.0176082826       0.0045088073       0.0149679912
+    1      -0.0087117532      -0.0074948350       0.0090826563
+    2      -0.0035253533      -0.0175565719       0.0057041994
+    3       0.0767865847      -0.0078171818      -0.0049426357
+    4      -0.0518326673      -0.0279828141       0.0304003088
+    5      -0.0783639600       0.0531146135      -0.0425345823
+    6       0.0158716099      -0.0027201277       0.0002767594
+    7       0.0195670272       0.0061198496       0.0122799097
+    8       0.0124711589      -0.0000081177      -0.0252713978
+    9       0.0177373531       0.0043451852       0.0150047822
 
-ESP Charges for Excited State 1
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 563
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
-Atom          X          Y          Z     Charge   Exposure
------------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.567961     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.107031     1.2558
-   C   0.128504  -1.931632   0.060820  -0.796472     0.2778
-   C   2.369243  -0.674234  -0.018817   0.336548     0.3889
-   C  -2.185136  -0.514400  -0.023654  -0.006923     0.4048
-   H   0.823278   2.480962  -0.215838   0.513865     0.5882
-   H   0.092267  -3.972039   0.190263   0.278047     1.8529
-   H   4.181925  -1.641970   0.042051   0.122012     1.9412
-   H  -3.976390  -1.579142   0.045179   0.227914     2.0000
------------------------------------------------------------
-Quality of fit (RRMS): 0.235
+Solving CPSCF equations
+Using DIIS solver
 
-Solving Resp charge with restraints iteratively...
-Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
-Atom          X          Y          Z     Charge   Exposure
------------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.546169     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.096389     1.2558
-   C   0.128504  -1.931632   0.060820  -0.738776     0.2778
-   C   2.369243  -0.674234  -0.018817   0.287591     0.3889
-   C  -2.185136  -0.514400  -0.023654  -0.029049     0.4048
-   H   0.823278   2.480962  -0.215838   0.500282     0.5882
-   H   0.092267  -3.972039   0.190263   0.261838     1.8529
-   H   4.181925  -1.641970   0.042051   0.132484     1.9412
-   H  -3.976390  -1.579142   0.045179   0.228188     2.0000
------------------------------------------------------------
-Quality of fit (RRMS): 0.235
+ Iter         Residual      
+------  --------------------
+    1      0.941796061527
+    2      0.645494869689
+    3      0.092560035270
+    4      0.012304082829
+    5      0.004523446858
+    6      0.001137217137
+    7      0.000504556712
+    8      0.000150056428
+    9      0.000037773670
 
-ESP Charges for Excited State 2
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 563
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
-Atom          X          Y          Z     Charge   Exposure
------------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.545046     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.560711     1.2558
-   C   0.128504  -1.931632   0.060820  -0.231683     0.2778
-   C   2.369243  -0.674234  -0.018817   0.287548     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.243607     0.4048
-   H   0.823278   2.480962  -0.215838   0.512711     0.5882
-   H   0.092267  -3.972039   0.190263   0.183402     1.8529
-   H   4.181925  -1.641970   0.042051   0.083466     1.9412
-   H  -3.976390  -1.579142   0.045179   0.026706     2.0000
------------------------------------------------------------
-Quality of fit (RRMS): 0.107
+CPSCF converged
 
-Solving Resp charge with restraints iteratively...
-Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
-Atom          X          Y          Z     Charge   Exposure
------------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.515963     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.535659     1.2558
-   C   0.128504  -1.931632   0.060820  -0.131446     0.2778
-   C   2.369243  -0.674234  -0.018817   0.221922     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.179347     0.4048
-   H   0.823278   2.480962  -0.215838   0.493113     0.5882
-   H   0.092267  -3.972039   0.190263   0.155494     1.8529
-   H   4.181925  -1.641970   0.042051   0.094995     1.9412
-   H  -3.976390  -1.579142   0.045179   0.038198     2.0000
------------------------------------------------------------
-Quality of fit (RRMS): 0.105
+Nonadiabatic coupling between ground state and excited state 1 (Bohr^-1)
+
+
+ Atom         dE/dX              dE/dY              dE/dZ
+------  -----------------  -----------------  -----------------
+    1       0.0000854983       0.0004522496       0.0048560798
+    2      -0.0000525156       0.0006821387       0.0131556873
+    3       0.0003698832       0.0158237534       0.2540756451
+    4      -0.0001024878      -0.0005748154      -0.0070112956
+    5      -0.0000718734       0.0012752273       0.0193481316
+    6       0.0001152387       0.0017880137       0.0286373840
+    7       0.0000530028       0.0000225828       0.0006790148
+    8       0.0000192075      -0.0049239513      -0.0785971749
+    9      -0.0004159536      -0.0145451988      -0.2351434720
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual      
+------  --------------------
+    1      1.211241605648
+    2      0.570266459541
+    3      0.482058592729
+    4      0.077088922569
+    5      0.039801318382
+    6      0.009308129627
+    7      0.005342686216
+    8      0.000866038784
+    9      0.000346619812
+   10      0.000097987523
+
+CPSCF converged
+
+Nonadiabatic coupling between ground state and excited state 2 (Bohr^-1)
+
+
+ Atom         dE/dX              dE/dY              dE/dZ
+------  -----------------  -----------------  -----------------
+    1       0.0677314535      -0.3834308923       0.0238816926
+    2       0.0660400998       0.3209364170      -0.0202217837
+    3      -0.5876676490      -0.0503818006       0.0034952649
+    4       0.2786846609       0.5129732074      -0.0319096665
+    5       0.3353203368      -0.3901802960       0.0239928005
+    6      -0.1826907834       0.0040898481      -0.0000096864
+    7       0.0239969680      -0.0051848114       0.0002685328
+    8       0.0018188352       0.0202292987      -0.0012328789
+    9      -0.0032339218      -0.0290509709       0.0017357247
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual      
+------  --------------------
+    1      0.037676239401
+    2      0.013954145184
+    3      0.002832484773
+    4      0.001093671027
+    5      0.000415288572
+    6      0.000142287682
+    7      0.000039403460
+
+CPSCF converged
+
+Nonadiabatic coupling between excited state 1 and excited state 2 (Bohr^-1)
+
+
+ Atom         dE/dX              dE/dY              dE/dZ
+------  -----------------  -----------------  -----------------
+    1      -0.0002975274      -0.0069703541      -0.1038727710
+    2      -0.0000112245      -0.0032330862      -0.0518935143
+    3      -0.0012643231      -0.0005196929      -0.0001331068
+    4       0.0006985157      -0.0143252037      -0.2429594451
+    5       0.0017992461       0.0211184422       0.3330012254
+    6      -0.0006521767       0.0000652582      -0.0004163038
+    7      -0.0001774320      -0.0092050054      -0.1454714209
+    8      -0.0001021370       0.0150352381       0.2415322271
+    9       0.0000070588      -0.0019655961      -0.0297868906
+
+
+Total Ground State Gradient (Hartree/Bohr)
+
+ Atom         dE/dX              dE/dY              dE/dZ
+------  -----------------  -----------------  -----------------
+    1       0.0247165884       0.0068241407      -0.0003434997
+    2       0.0033837551       0.0383383171      -0.0023229716
+    3      -0.0140845249       0.0030833966      -0.0002679437
+    4       0.0012262643      -0.0035414342       0.0001168670
+    5       0.0123942226      -0.0323046111       0.0019853619
+    6      -0.0272161254       0.0047306457      -0.0003552966
+    7      -0.0001787169      -0.0076942715       0.0005428212
+    8       0.0089080948      -0.0037360956       0.0002831874
+    9      -0.0091495579      -0.0057000877       0.0003614740
 
 Computing orbital relaxation for Root 1
 Solving CPSCF equations
@@ -1430,120 +1485,282 @@ Using DIIS solver
 
  Iter         Residual      
 ------  --------------------
-    1      0.247002919476
-    2      0.199302490536
-    3      0.012275321819
-    4      0.004070667779
-    5      0.001649751673
-    6      0.000501475970
-    7      0.000243438220
-    8      0.000080408864
+    1      0.251075619064
+    2      0.203124768568
+    3      0.012316589308
+    4      0.004155069485
+    5      0.001661739425
+    6      0.000511783706
+    7      0.000244826911
+    8      0.000081359694
 
 CPSCF converged
 
+
+Root 1: Total Excited State Gradient (Hartree/Bohr)
+
+ Atom         dE/dX              dE/dY              dE/dZ
+------  -----------------  -----------------  -----------------
+    1       0.0371376231      -0.0274629428       0.0017576718
+    2       0.0133033589      -0.0301845566       0.0018607855
+    3      -0.0404985249      -0.0014808920      -0.0000220484
+    4       0.0083960327       0.0341915423      -0.0021787465
+    5       0.0214117328       0.0426295770      -0.0026461611
+    6      -0.0487604344       0.0014975970      -0.0000949255
+    7       0.0046064920      -0.0090399666       0.0006252469
+    8       0.0101649454      -0.0024700719       0.0002001199
+    9      -0.0057612257      -0.0076802864       0.0004980574
+
+Computing orbital relaxation for Root 2
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual      
+------  --------------------
+    1      0.104915118000
+    2      0.045450277176
+    3      0.006452855756
+    4      0.003405691369
+    5      0.001338454040
+    6      0.000657489677
+    7      0.000113301474
+    8      0.000048213260
+
+CPSCF converged
+
+
+Root 2: Total Excited State Gradient (Hartree/Bohr)
+
+ Atom         dE/dX              dE/dY              dE/dZ
+------  -----------------  -----------------  -----------------
+    1       0.0176783992       0.0184873275      -0.0010843309
+    2      -0.0090675125      -0.0312825375       0.0019716701
+    3       0.0766138803       0.0142478094      -0.0011013567
+    4      -0.0967846786      -0.0371520717       0.0023783469
+    5       0.0226544648       0.0530843570      -0.0032906433
+    6      -0.0065566412      -0.0009786597      -0.0000087513
+    7      -0.0016001838      -0.0076570094       0.0005371223
+    8       0.0091287354      -0.0042606809       0.0002800572
+    9      -0.0120664635      -0.0044885346       0.0003178856
+
 ESP Charges for Excited State 1
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 563
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 563
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.562442     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.257426     1.2558
-   C   0.128504  -1.931632   0.060820  -0.710968     0.2778
-   C   2.369243  -0.674234  -0.018817   0.321865     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.162653     0.4048
-   H   0.823278   2.480962  -0.215838   0.470378     0.5882
-   H   0.092267  -3.972039   0.190263   0.273655     1.8529
-   H   4.181925  -1.641970   0.042051   0.117140     1.9412
-   H  -3.976390  -1.579142   0.045179   0.185145     2.0000
+   O   2.588220   1.797803  -0.173026  -0.569323     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.107765     1.2558
+   C   0.128504  -1.931632   0.060820  -0.797122     0.2778
+   C   2.369243  -0.674234  -0.018817   0.339457     0.3889
+   C  -2.185136  -0.514400  -0.023654  -0.005263     0.4048
+   H   0.823278   2.480962  -0.215838   0.513720     0.5882
+   H   0.092267  -3.972039   0.190263   0.277907     1.8529
+   H   4.181925  -1.641970   0.042051   0.120975     1.9412
+   H  -3.976390  -1.579142   0.045179   0.227415     2.0000
 -----------------------------------------------------------
-Quality of fit (RRMS): 0.204
+Quality of fit (RRMS): 0.236
 
 Solving Resp charge with restraints iteratively...
 Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
+ESP restrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.533359     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.232375     1.2558
-   C   0.128504  -1.931632   0.060820  -0.610733     0.2778
-   C   2.369243  -0.674234  -0.018817   0.256239     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.098395     0.4048
-   H   0.823278   2.480962  -0.215838   0.450781     0.5882
-   H   0.092267  -3.972039   0.190263   0.245748     1.8529
-   H   4.181925  -1.641970   0.042051   0.128669     1.9412
-   H  -3.976390  -1.579142   0.045179   0.196636     2.0000
+   O   2.588220   1.797803  -0.173026  -0.547531     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.097123     1.2558
+   C   0.128504  -1.931632   0.060820  -0.739424     0.2778
+   C   2.369243  -0.674234  -0.018817   0.290499     0.3889
+   C  -2.185136  -0.514400  -0.023654  -0.027390     0.4048
+   H   0.823278   2.480962  -0.215838   0.500136     0.5882
+   H   0.092267  -3.972039   0.190263   0.261697     1.8529
+   H   4.181925  -1.641970   0.042051   0.131447     1.9412
+   H  -3.976390  -1.579142   0.045179   0.227690     2.0000
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.235
+
+ESP Charges for Excited State 2
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 563
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   O   2.588220   1.797803  -0.173026  -0.546183     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.561035     1.2558
+   C   0.128504  -1.931632   0.060820  -0.232561     0.2778
+   C   2.369243  -0.674234  -0.018817   0.290473     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.245001     0.4048
+   H   0.823278   2.480962  -0.215838   0.512329     0.5882
+   H   0.092267  -3.972039   0.190263   0.183345     1.8529
+   H   4.181925  -1.641970   0.042051   0.082389     1.9412
+   H  -3.976390  -1.579142   0.045179   0.026243     2.0000
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.107
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restrained charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   O   2.588220   1.797803  -0.173026  -0.517100     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.535983     1.2558
+   C   0.128504  -1.931632   0.060820  -0.132325     0.2778
+   C   2.369243  -0.674234  -0.018817   0.224847     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.180742     0.4048
+   H   0.823278   2.480962  -0.215838   0.492731     0.5882
+   H   0.092267  -3.972039   0.190263   0.155437     1.8529
+   H   4.181925  -1.641970   0.042051   0.093918     1.9412
+   H  -3.976390  -1.579142   0.045179   0.037735     2.0000
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.106
+
+ESP Charges for Excited State 1
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 563
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   O   2.588220   1.797803  -0.173026  -0.563607     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.257812     1.2558
+   C   0.128504  -1.931632   0.060820  -0.711069     0.2778
+   C   2.369243  -0.674234  -0.018817   0.324181     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.163959     0.4048
+   H   0.823278   2.480962  -0.215838   0.470098     0.5882
+   H   0.092267  -3.972039   0.190263   0.273441     1.8529
+   H   4.181925  -1.641970   0.042051   0.116204     1.9412
+   H  -3.976390  -1.579142   0.045179   0.184605     2.0000
+-----------------------------------------------------------
+Quality of fit (RRMS): 0.203
+
+Solving Resp charge with restraints iteratively...
+Restraint parameters a:0.0005 , b:0.001 
+ESP restrained charges:
+Atom          X          Y          Z     Charge   Exposure
+-----------------------------------------------------------
+   O   2.588220   1.797803  -0.173026  -0.534524     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.232761     1.2558
+   C   0.128504  -1.931632   0.060820  -0.610834     0.2778
+   C   2.369243  -0.674234  -0.018817   0.258555     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.099701     0.4048
+   H   0.823278   2.480962  -0.215838   0.450500     0.5882
+   H   0.092267  -3.972039   0.190263   0.245534     1.8529
+   H   4.181925  -1.641970   0.042051   0.127733     1.9412
+   H  -3.976390  -1.579142   0.045179   0.196096     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS): 0.202
 
 ESP Charges for Excited State 2
-Running Resp charge analysis...
-Total number of ESP grid points from 4 layers: 563
-Electron static potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
-ESP unrestraint charges:
+Computing ESP on molecular grid...
+Using layered Connolly surfaces for molecular grid...Total number of ESP grid points from 4 layers: 563
+Electrostatic potential written to file ./scr.geom/esp.xyz (unit: Ansgtrom)
+Fitting RESP charges to the computed ESP...
+ESP unrestrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.541439     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.589816     1.2558
-   C   0.128504  -1.931632   0.060820  -0.482443     0.2778
-   C   2.369243  -0.674234  -0.018817   0.391520     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.406934     0.4048
-   H   0.823278   2.480962  -0.215838   0.497595     0.5882
-   H   0.092267  -3.972039   0.190263   0.222220     1.8529
-   H   4.181925  -1.641970   0.042051   0.079590     1.9412
-   H  -3.976390  -1.579142   0.045179   0.015838     2.0000
+   O   2.588220   1.797803  -0.173026  -0.542566     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.590146     1.2558
+   C   0.128504  -1.931632   0.060820  -0.483501     0.2778
+   C   2.369243  -0.674234  -0.018817   0.394464     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.408377     0.4048
+   H   0.823278   2.480962  -0.215838   0.497230     0.5882
+   H   0.092267  -3.972039   0.190263   0.222221     1.8529
+   H   4.181925  -1.641970   0.042051   0.078518     1.9412
+   H  -3.976390  -1.579142   0.045179   0.015403     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS): 0.118
 
 Solving Resp charge with restraints iteratively...
 Restraint parameters a:0.0005 , b:0.001 
-ESP restraint charges:
+ESP restrained charges:
 Atom          X          Y          Z     Charge   Exposure
 -----------------------------------------------------------
-   O   2.588220   1.797803  -0.173026  -0.512355     1.1977
-   O  -2.266355   1.816784  -0.167761  -0.564763     1.2558
-   C   0.128504  -1.931632   0.060820  -0.382205     0.2778
-   C   2.369243  -0.674234  -0.018817   0.325893     0.3889
-   C  -2.185136  -0.514400  -0.023654   0.342672     0.4048
-   H   0.823278   2.480962  -0.215838   0.477997     0.5882
+   O   2.588220   1.797803  -0.173026  -0.513483     1.1977
+   O  -2.266355   1.816784  -0.167761  -0.565093     1.2558
+   C   0.128504  -1.931632   0.060820  -0.383262     0.2778
+   C   2.369243  -0.674234  -0.018817   0.328837     0.3889
+   C  -2.185136  -0.514400  -0.023654   0.344115     0.4048
+   H   0.823278   2.480962  -0.215838   0.477632     0.5882
    H   0.092267  -3.972039   0.190263   0.194312     1.8529
-   H   4.181925  -1.641970   0.042051   0.091119     1.9412
-   H  -3.976390  -1.579142   0.045179   0.027330     2.0000
+   H   4.181925  -1.641970   0.042051   0.090047     1.9412
+   H  -3.976390  -1.579142   0.045179   0.026895     2.0000
 -----------------------------------------------------------
 Quality of fit (RRMS): 0.117
 
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual      
+------  --------------------
+    1      0.181891004511
+    2      0.124665747783
+    3      0.017876309420
+    4      0.002376312958
+    5      0.000873622587
+    6      0.000219632775
+    7      0.000097445194
+
+CPSCF converged
+
+Solving CPSCF equations
+Using DIIS solver
+
+ Iter         Residual      
+------  --------------------
+    1      0.275560764974
+    2      0.129737172925
+    3      0.109669642932
+    4      0.017537941144
+    5      0.009054907772
+    6      0.002117624661
+    7      0.001215475880
+    8      0.000197026148
+    9      0.000078856954
+
+CPSCF converged
+
   Root   Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)     Ex. Energy (nm)
 -----------------------------------------------------------------------------------------
-     1       -265.43357176          0.19307134          5.25373771        235.99240675
-     2       -265.39910679          0.22753631          6.19157704        200.24659298
+     1       -265.43474646          0.19313205          5.25538962        235.91822829
+     2       -265.40037579          0.22750273          6.19066311        200.27615533
 
 Unrelaxed excited state dipole moments:
 
   Root       Dx         Dy         Dz         |D|  (Debye)
 ------------------------------------------------------------
-     1    -1.1894    -0.7478     0.0488     1.4058
-     2     1.6804    -3.8643     0.2369     4.2205
+     1    -1.1927    -0.7548     0.0493     1.4123
+     2     1.6764    -3.8692     0.2372     4.2234
 
 Relaxed excited state dipole moments:
 
   Root       Dx         Dy         Dz         |D|  (Debye)
 ------------------------------------------------------------
-     1    -1.0001    -2.0830     0.1312     2.3143
-     2     1.5547    -3.5650     0.2191     3.8954
+     1    -1.0043    -2.0890     0.1316     2.3216
+     2     1.5504    -3.5696     0.2194     3.8980
 
 Transition dipole moments:
 
   Root       Tx         Ty         Tz         |T| (a.u.)
 ----------------------------------------------------------
-     1     0.0001    -0.0042    -0.0684     0.0685
-     2    -1.5094    -0.0196     0.0028     1.5096
+     1     0.0001    -0.0042    -0.0678     0.0680
+     2    -1.5092    -0.0198     0.0028     1.5093
+
+Relaxed transition dipole moments:
+
+  Root       Tx         Ty         Tz         |T| (a.u.)
+----------------------------------------------------------
+     1    -0.0000     0.0047     0.0750     0.0751
+     2     1.3469     0.0125    -0.0022     1.3469
 
 Transition dipole moments between excited states:
 
     Transition       Tx         Ty         Tz         |T| (a.u.)
 ------------------------------------------------------------------
-     1 ->    2    -0.0003     0.0024     0.0288     0.0289
+     1 ->    2    -0.0003     0.0024     0.0287     0.0288
 
 Dipole moment derivatives:
 
@@ -1551,77 +1768,77 @@ State    1
 
  Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.3410898469      -0.9659663590       0.0602474808
-    2      -0.0087967900       0.7047878540      -0.0432871820
-    3       0.4170516953      -0.4434396134       0.0255739892
-    4       0.1418257298       0.9094601103      -0.0560511827
-    5      -0.6115846440      -0.2650590156       0.0166666108
-    6       0.0584141153       0.0426126487      -0.0026002576
-    7       0.0546414387       0.0030679643       0.0003217550
-    8       0.0531601949      -0.0013881551      -0.0000349836
-    9       0.2363781070       0.0159245657      -0.0008362299
+    1      -0.3406118904      -0.9686905721       0.0604151666
+    2      -0.0095431549       0.7063812177      -0.0433873905
+    3       0.4148823858      -0.4441278514       0.0256139429
+    4       0.1431017497       0.9117227279      -0.0561927808
+    5      -0.6102978954      -0.2670107882       0.0167941887
+    6       0.0575843212       0.0428629213      -0.0026143866
+    7       0.0548989768       0.0032968061       0.0003081036
+    8       0.0532599858      -0.0006374750      -0.0000802818
+    9       0.2367255212       0.0162030139      -0.0008565622
 
  Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.1142175044      -1.0908609022       0.0443843064
-    2       0.0361393059       0.5518301854      -0.0234001397
-    3      -0.5142872679       0.5120535447      -0.0455618012
-    4       0.3477247910       0.5830384436      -0.0363363213
-    5      -0.0692882976      -1.5171997690       0.0539284640
-    6       0.0932005682       0.4617755761      -0.0056316208
-    7       0.0458235163      -0.0448549063       0.0163469913
-    8       0.0551320711       0.1294577134       0.0004922877
-    9       0.1197728174       0.4147601143      -0.0042221663
+    1      -0.1133612286      -1.0905668409       0.0442413096
+    2       0.0372301079       0.5531529325      -0.0235225782
+    3      -0.5140977770       0.5130086679      -0.0459033492
+    4       0.3484647712       0.5827846734      -0.0360849024
+    5      -0.0703408604      -1.5204854960       0.0543033473
+    6       0.0920028060       0.4616670514      -0.0056070411
+    7       0.0457519691      -0.0444697935       0.0164018140
+    8       0.0543962351       0.1292709950       0.0004744237
+    9       0.1199539768       0.4156378103      -0.0043030238
 
  Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1       0.0070181760       0.0452399383      -0.3861101345
-    2      -0.0019737983      -0.0244049195       0.1717566494
-    3       0.0305399407      -0.0444646455      -0.2070895282
-    4      -0.0212253243      -0.0376717628      -0.0043925746
-    5       0.0043872881       0.0543938302      -0.6482393335
-    6      -0.0055135878      -0.0053709374       0.3796101615
-    7      -0.0025826242       0.0155904469       0.2038538711
-    8      -0.0034012614       0.0008509672       0.1424544085
-    9      -0.0072488089      -0.0041629174       0.3481564804
+    1       0.0069621497       0.0450757464      -0.3879256602
+    2      -0.0020524999      -0.0244624278       0.1712763621
+    3       0.0306647425      -0.0448091890      -0.2115002409
+    4      -0.0213253294      -0.0374311183      -0.0007868964
+    5       0.0043440555       0.0547405520      -0.6455681401
+    6      -0.0054163944      -0.0053643869       0.3796729665
+    7      -0.0025707307       0.0156429363       0.2050773531
+    8      -0.0033538739       0.0008416169       0.1420406440
+    9      -0.0072521195      -0.0042337296       0.3477136120
 
 State    2
 
  Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.5450433347      -0.3684196466       0.0228137277
-    2      -0.4234786090       0.4445648543      -0.0265859649
-    3       2.5144220439       0.2192448130      -0.0151250252
-    4      -0.9497119553      -0.4112530515       0.0276075219
-    5      -0.9838789381       0.2633884037      -0.0170872796
-    6       0.4896594110      -0.0108618921       0.0004255860
-    7       0.0840501831      -0.0101831872       0.0009111995
-    8      -0.0611312493       0.0280561641      -0.0029684275
-    9      -0.1248875517      -0.1545364578       0.0100086620
+    1      -0.5442893938      -0.3705357447       0.0229398337
+    2      -0.4249827459       0.4477224699      -0.0267802816
+    3       2.5154180462       0.2183534859      -0.0150873458
+    4      -0.9496354043      -0.4101929680       0.0275537403
+    5      -0.9837012102       0.2611221242      -0.0169405946
+    6       0.4889477866      -0.0109888727       0.0004356400
+    7       0.0841102026      -0.0104586532       0.0009324243
+    8      -0.0612603397       0.0289695899      -0.0030282697
+    9      -0.1246069416      -0.1539914312       0.0099748533
 
  Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1       0.0055405427      -0.6339959035       0.0273031710
-    2      -0.0987564759      -0.6777685920       0.0223215795
-    3      -0.1623760014       0.7936711803      -0.0240963632
-    4      -0.2453931324       0.1775842026      -0.0347739358
-    5       0.5403559215      -0.0262147899      -0.0183746503
-    6       0.0642154504       0.4040120224      -0.0052978143
-    7      -0.0260864633      -0.0794594037       0.0117421808
-    8       0.0461311200       0.0542352484       0.0107660692
-    9      -0.1236309616      -0.0120639646       0.0104097632
+    1       0.0059577822      -0.6328421015       0.0271747677
+    2      -0.0975286716      -0.6765821323       0.0222609818
+    3      -0.1623232353       0.7945506653      -0.0244967702
+    4      -0.2445621019       0.1763796654      -0.0344537293
+    5       0.5404799840      -0.0290377622      -0.0180567313
+    6       0.0629294058       0.4038897231      -0.0053495046
+    7      -0.0262232210      -0.0790723291       0.0118185152
+    8       0.0453838382       0.0540530334       0.0107450794
+    9      -0.1241137804      -0.0113387621       0.0103573913
 
  Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0000281261       0.0281607501      -0.1990136851
-    2       0.0061265822       0.0218021482      -0.3191611171
-    3       0.0068681825      -0.0242967358       0.4089460127
-    4       0.0168888072      -0.0342839241      -0.3722799144
-    5      -0.0325716415      -0.0190811371      -0.3271826783
-    6      -0.0042202670      -0.0049084945       0.3277776162
-    7       0.0016404746       0.0116543062       0.1073559269
-    8      -0.0028094641       0.0102312421       0.2174910031
-    9       0.0081054522       0.0107218449       0.1560668362
+    1      -0.0000479284       0.0280391743      -0.1998018261
+    2       0.0060527738       0.0217517211      -0.3187102834
+    3       0.0068586708      -0.0246868312       0.4035506415
+    4       0.0168359991      -0.0339651591      -0.3683835443
+    5      -0.0325776527      -0.0187761626      -0.3252043206
+    6      -0.0041467468      -0.0049716496       0.3266629921
+    7       0.0016506745       0.0117288251       0.1089494026
+    8      -0.0027609292       0.0102090851       0.2169480105
+    9       0.0081351389       0.0106709970       0.1559889277
 
 Transition dipole moment derivatives:
 
@@ -1629,154 +1846,156 @@ Transition dipole moment derivatives:
 
  Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0003904974      -0.0049742401      -0.0689641568
-    2       0.0000687829      -0.0018020799      -0.0365176243
-    3      -0.0015438812       0.0144201508       0.2408650765
-    4       0.0011095878      -0.0193918081      -0.3298316422
-    5       0.0018468607       0.0160276107       0.2590213753
-    6      -0.0007110438      -0.0015794915      -0.0261968844
-    7      -0.0003414590      -0.0156031968      -0.2462306640
-    8      -0.0001981440       0.0179633111       0.2882645696
-    9       0.0001597938      -0.0050602562      -0.0804100497
+    1      -0.0003927235      -0.0049939705      -0.0691075164
+    2       0.0000711842      -0.0017250750      -0.0355293003
+    3      -0.0015307678       0.0144486537       0.2413779305
+    4       0.0011090715      -0.0194425924      -0.3307343065
+    5       0.0018306933       0.0159873847       0.2585741874
+    6      -0.0007117340      -0.0016085468      -0.0266935815
+    7      -0.0003397101      -0.0156206935      -0.2465075794
+    8      -0.0001981558       0.0180153083       0.2890796342
+    9       0.0001621421      -0.0050604683      -0.0804594680
 
  Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0003460483       0.0043651001       0.0406510812
-    2       0.0013555961       0.0053148801       0.0401089720
-    3       0.0026844972       0.0002257869       0.0422875755
-    4       0.0032340938      -0.0028250001      -0.0171202140
-    5      -0.0101589796      -0.0057979151      -0.0359932794
-    6       0.0006888902      -0.0027363968      -0.0438238550
-    7      -0.0004680721      -0.0004543844      -0.0168065855
-    8      -0.0014710309       0.0004085438      -0.0070033770
-    9       0.0044810536       0.0014993855      -0.0023003179
+    1      -0.0003093336       0.0043433962       0.0409625648
+    2       0.0012849866       0.0053098428       0.0392524325
+    3       0.0028741680       0.0002269686       0.0417426388
+    4       0.0031045743      -0.0028704517      -0.0174071044
+    5      -0.0101936974      -0.0057020460      -0.0338866116
+    6       0.0007100204      -0.0027427749      -0.0440399635
+    7      -0.0004630600      -0.0004533488      -0.0168159979
+    8      -0.0014558584       0.0004122237      -0.0069061079
+    9       0.0044482000       0.0014761901      -0.0029018508
 
  Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0036838606       0.0255012044      -0.0040507602
-    2       0.0196459972       0.0488207642      -0.0055024571
-    3       0.0479365965      -0.0372496497      -0.0007695266
-    4       0.0474596772      -0.0256838703       0.0031383914
-    5      -0.1655926599      -0.0589143105       0.0058456681
-    6       0.0127902536      -0.0001999471       0.0027387613
-    7      -0.0071751672       0.0083196201       0.0008247942
-    8      -0.0236977593       0.0137560674      -0.0007595717
-    9       0.0723169223       0.0256501216      -0.0014652992
+    1      -0.0029504824       0.0255401989      -0.0040734094
+    2       0.0187411166       0.0482753701      -0.0054147832
+    3       0.0477698062      -0.0365017506      -0.0007842096
+    4       0.0466819187      -0.0260460773       0.0031842197
+    5      -0.1637398671      -0.0587811868       0.0057031096
+    6       0.0125934726      -0.0000298724       0.0027415007
+    7      -0.0072231948       0.0083050298       0.0008266870
+    8      -0.0234796129       0.0136265878      -0.0007592308
+    9       0.0716068430       0.0256117006      -0.0014238839
 
    0 ->    2
 
  Atom        dMuX/dX            dMuX/dY         dMuX/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1       0.2444078567      -0.0770030924       0.0048216388
-    2       0.1254893397       0.0802689588      -0.0044953264
-    3       0.6230565471      -0.0317150221       0.0012879240
-    4      -0.4617634276      -0.1361236265       0.0083277061
-    5      -0.2473846733       0.0121887874      -0.0006089103
-    6      -0.2862277730       0.0684800589      -0.0043488660
-    7       0.0055871688      -0.0174251917       0.0013992256
-    8      -0.0510195827       0.0343903771      -0.0020439501
-    9       0.0478545444       0.0669387505      -0.0043394416
+    1       0.2434826607      -0.0763014120       0.0047771519
+    2       0.1251960664       0.0794722613      -0.0044454506
+    3       0.6238072033      -0.0313312596       0.0012621383
+    4      -0.4623081000      -0.1370893476       0.0083886853
+    5      -0.2478340610       0.0129256753      -0.0006501322
+    6      -0.2849804032       0.0683455038      -0.0043427169
+    7       0.0056219101      -0.0173039288       0.0013902680
+    8      -0.0507926621       0.0343783761      -0.0020420707
+    9       0.0478073858       0.0669041314      -0.0043378731
 
  Atom        dMuY/dX            dMuY/dY         dMuY/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1       0.0422289167      -0.2167666238       0.0114363957
-    2       0.0491072019       1.0001156968      -0.0509047707
-    3       0.0431491510       0.3075163778       0.0013437811
-    4      -0.3549429898      -0.0642139273      -0.0249635596
-    5       0.0877017390      -1.0009443410       0.0603903485
-    6       0.0421104054      -0.0491284127       0.0024915504
-    7      -0.0125326710       0.0225460751      -0.0037011353
-    8       0.0426257865      -0.0551433760       0.0054583600
-    9       0.0605524604       0.0560185311      -0.0015509701
+    1       0.0422315656      -0.2168792551       0.0113652268
+    2       0.0485006337       0.9998755725      -0.0508543950
+    3       0.0432738609       0.3071083587       0.0013220857
+    4      -0.3549334698      -0.0635802597      -0.0249161943
+    5       0.0875416278      -1.0000860580       0.0603164817
+    6       0.0424081050      -0.0495431035       0.0025331074
+    7      -0.0123870512       0.0224052629      -0.0036915478
+    8       0.0426844579      -0.0553020107       0.0054764311
+    9       0.0606802702       0.0560014929      -0.0015511956
 
  Atom        dMuZ/dX            dMuZ/dY         dMuZ/dZ (a.u.)
 ------  -----------------  -----------------  -----------------
-    1      -0.0027789132       0.0116207770      -0.0274936661
-    2      -0.0028668708      -0.0506991362       0.1788524016
-    3      -0.0029236925       0.0011609960       0.3203303003
-    4       0.0219428400      -0.0254101058      -0.4739374472
-    5      -0.0053255322       0.0605061766      -0.0198797078
-    6      -0.0024821895       0.0023861619      -0.0106713829
-    7       0.0008304959      -0.0035327910      -0.0329540038
-    8      -0.0026530909       0.0055924712       0.0342627724
-    9      -0.0037430468      -0.0016245495       0.0314907334
+    1      -0.0027781828       0.0115511631      -0.0286940718
+    2      -0.0028264244      -0.0506494393       0.1793464450
+    3      -0.0029293083       0.0011355595       0.3195471131
+    4       0.0219374895      -0.0253656010      -0.4725897436
+    5      -0.0053158675       0.0604401808      -0.0200726230
+    6      -0.0025039473       0.0024277085      -0.0104383608
+    7       0.0008240114      -0.0035243456      -0.0329515294
+    8      -0.0026568387       0.0056112746       0.0344083164
+    9      -0.0037509319      -0.0016265004       0.0314444541
 
 Velocity transition dipole moments:
 
   Root       Tx         Ty         Tz         |T| (a.u.)
 ----------------------------------------------------------
-     1     0.0000     0.0005     0.0073     0.0073
-     2     0.1090     0.0203    -0.0014     0.1109
+     1     0.0000     0.0005     0.0074     0.0075
+     2     0.1088     0.0204    -0.0014     0.1107
 
 Magnetic transition dipole moments and rotational strengths:
 
   Root       Lx         Ly         Lz       R(len)     R(vel) (a.u.)
 --------------------------------------------------------------------
-     1    -0.0894     0.7503    -0.0467    -0.0000     0.0001
-     2     0.0013     0.0691     1.0964     0.0003     0.0001
+     1    -0.0899     0.7510    -0.0467    -0.0000     0.0000
+     2     0.0013     0.0690     1.0951     0.0003     0.0001
 
 
 Electric transition quadrupole moments (Cartesian):
 
    Root       Qxy        Qxz        Qyz        Qxx        Qyy        Qzz       norm (a.u.)
 --------------------------------------------------------------------------------------------
-     1     0.0248     0.3936     0.1188     0.0021     0.0150    -0.0166     0.4125
-     2     0.0138     0.0013    -0.0488    -0.8654     0.8123     0.0137     1.1880
+     1     0.0247     0.3914     0.1187     0.0021     0.0149    -0.0166     0.4104
+     2     0.0127     0.0014    -0.0487    -0.8643     0.8114     0.0142     1.1866
 
 Root 1: Largest CI coefficients:
-  18 -> 20 : D -> V :  -0.929414
-  18 -> 22 : D -> V :  -0.317171
+  18 -> 20 : D -> V :  -0.929435
+  18 -> 22 : D -> V :  -0.317010
 
 Root 2: Largest CI coefficients:
-  19 -> 20 : D -> V :   0.973091
+  19 -> 20 : D -> V :   0.973062
 
 Root 1: Mulliken charges:
- O     -0.7403
- O     -0.1958
- C     -0.3850
- C      0.1495
- C     -0.1199
- H      0.5603
- H      0.2184
- H      0.2380
- H      0.2748
+ O     -0.7010
+ O     -0.1827
+ C     -0.3743
+ C      0.1194
+ C     -0.1343
+ H      0.5484
+ H      0.2177
+ H      0.2346
+ H      0.2721
 
 Root 2: Mulliken charges:
- O     -0.6541
- O     -0.6111
- C     -0.0250
- C      0.0933
- C      0.0371
- H      0.5358
- H      0.2158
- H      0.2267
- H      0.1816
+ O     -0.6147
+ O     -0.5984
+ C     -0.0140
+ C      0.0632
+ C      0.0222
+ H      0.5242
+ H      0.2151
+ H      0.2232
+ H      0.1791
 
   Final Excited State Results:
 
   Root   Total Energy (a.u.)   Ex. Energy (eV)   Osc. (a.u.)   < S^2 >   Max CI Coeff.      Excitation
 ------------------------------------------------------------------------------------------------------------
-     1        -265.43357176        5.25373771       0.0006      0.0000     -0.929414     18 -> 20 : D -> V
-     2        -265.39910679        6.19157704       0.3457      0.0000      0.973091     19 -> 20 : D -> V
+     1        -265.43474646        5.25538962       0.0006      0.0000     -0.929435     18 -> 20 : D -> V
+     2        -265.40037579        6.19066311       0.3455      0.0000      0.973062     19 -> 20 : D -> V
 
+|FINAL Target State Energy: -265.627878511648 a.u.
 
 Gradient units are Hartree/Bohr
 ---------------------------------------------------
         dE/dX            dE/dY            dE/dZ
-    0.0168412091     0.0188109212    -0.0011033303
-   -0.0089735877    -0.0312896474     0.0019726341
-    0.0768567845     0.0145448352    -0.0011200682
-   -0.0969396909    -0.0375159095     0.0024006274
-    0.0225116545     0.0530338514    -0.0032874354
-   -0.0058222194    -0.0010282071    -0.0000070259
-   -0.0016020871    -0.0077687921     0.0005442947
-    0.0092188561    -0.0042785835     0.0002811839
-   -0.0120909190    -0.0045084681     0.0003191197
+    0.0247165884     0.0068241407    -0.0003434997
+    0.0033837551     0.0383383171    -0.0023229716
+   -0.0140845249     0.0030833966    -0.0002679437
+    0.0012262643    -0.0035414342     0.0001168670
+    0.0123942226    -0.0323046111     0.0019853619
+   -0.0272161254     0.0047306457    -0.0003552966
+   -0.0001787169    -0.0076942715     0.0005428212
+    0.0089080948    -0.0037360956     0.0002831874
+   -0.0091495579    -0.0057000877     0.0003614740
 ---------------------------------------------------
-Net gradient:  1.217057e-11 -1.926499e-11  3.034023e-13
-Net torque:    6.214903e-07 -1.557667e-06  8.685777e-08
+Net gradient:  9.641332e-12 -1.294440e-11 -7.959871e-14
+Net torque:   -3.397249e-08  6.697585e-08  3.571166e-08
 
-Total processing time: 43.42 sec 
+Writing out molden info
+| Total processing time: 85.26 sec 
 
- Job finished: Wed Aug 21 08:25:02 2024
+| Job finished: Tue May  6 06:47:17 2025
 
