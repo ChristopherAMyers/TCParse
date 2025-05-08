@@ -14,7 +14,7 @@ def main():
     if 0 in data:
         new_obj = [TCJobData.parse_obj(x) for x in data.values()]
     else:
-        new_obj = TCJobData.parse_obj(data[0])
+        new_obj = TCJobData.parse_obj(data)
 
     return new_obj
 
