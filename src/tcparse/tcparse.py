@@ -366,7 +366,8 @@ class TCParser():
     def _init_cas_data(self, line):
         self._n_singlets = int(line.split()[-1])
         n = self._n_singlets
-        n_combos = int(n*(n+1)/2)
+        n_combos = int(n*(n-1)/2)
+        print('CAS N COMBOS: ', n_combos)
 
         data = self._current_frame
         data['cas_singlet_states'] =              n
@@ -377,6 +378,19 @@ class TCParser():
         data['cas_dipoles'] =                    [None]*n
         data['cas_dipole_deriv'] =               [None]*n
         
+    def _parse_cas_transition_dipoles(self, line):
+        n = self._n_singlets
+        n_combos = int(n*(n-1)/2)
+        vals = self._parse_columned_section(3, n_combos, [0, 2, 3, 4, 5])
+        for i, j, x, y, z in vals:
+            index = self._cas_state_pair_to_index(int(i-1), int(j-1))
+            print('IDX: ', i, j, index)
+            self._current_frame['cas_transition_dipoles'][index] = [x, y, z]
+
+    def _parse_cas_dipoles(self, line):
+        vecs = self._parse_columned_section(3, self._n_singlets, [1, 2, 3], conv_factor=DEBYE_2_AU)
+        for i, vec in enumerate(vecs):
+            self._current_frame['cas_dipoles'][i] = vec
 
     def _parse_cas_section(self):
         self._ex_type = 'cas'
@@ -398,10 +412,10 @@ class TCParser():
                 data['cas_states'] = n_states
 
             elif 'Singlet state dipole moments' in line:
-                self._parse_columned_section(3, n_states, [1, 2, 3], 'cas_dipoles', DEBYE_2_AU)
+                self._parse_cas_dipoles(line)
 
             elif 'Singlet state electronic transitions:' in line:
-                self._parse_columned_section(3, n_states**2, [3,4,5], 'cas_transition_dipoles')
+                self._parse_cas_transition_dipoles(line)
 
             elif 'Running Resp charge analysis...' in line:
                 self._parse_charge_info(prev_line)
@@ -494,7 +508,7 @@ class TCParser():
             vals = list(reversed(vals))
             for i in range(1, n_states + 1):
                 for j in range(i+1, n_states + 1):
-                    index = self._state_pair_to_index(i, j)
+                    index = self._cis_state_pair_to_index(i, j)
                     self._current_frame['cis_transition_dipoles'][index] = vals.pop()
 
         elif 'Relaxed transition dipole moments' in line:
@@ -543,10 +557,16 @@ class TCParser():
         data['cis_transition_dots'] =            [None]*n
 
 
-    def _state_pair_to_index(self, i, j):
+    def _cis_state_pair_to_index(self, i, j):
         if i > j:
             i, j = j, i
         n_states = self._n_cis_states
+        return int((i*n_states) + (j - 1 - (i*(i+1)/2)))
+    
+    def _cas_state_pair_to_index(self, i, j):
+        if i > j:
+            i, j = j, i
+        n_states = self._n_singlets - 1
         return int((i*n_states) + (j - 1 - (i*(i+1)/2)))
 
     def _parse_cis_section(self):
@@ -749,7 +769,7 @@ class TCParser():
             state_1 = 0
             state_2 = int(sp[-2])
             vals = self._parse_columned_section(4, self._n_atoms, [1,2,3])
-            index = self._state_pair_to_index(state_1, state_2)
+            index = self._cis_state_pair_to_index(state_1, state_2)
             self._current_frame['cis_couplings'][index] = vals
 
         else:    
@@ -757,7 +777,7 @@ class TCParser():
             for i in range(1, n_states + 1):
                 for j in range(i+1, n_states + 1):
                     if f'excited state {i}' in current_line and f'excited state {j}' in current_line:
-                        idx = self._state_pair_to_index(i, j)
+                        idx = self._cis_state_pair_to_index(i, j)
                         vals = self._parse_columned_section(4, self._n_atoms, [1,2,3])
                         self._current_frame['cis_couplings'][idx] = vals
 
@@ -804,14 +824,14 @@ class TCParser():
                     dMuX = self._parse_columned_section(3, self._n_atoms, [1,2,3])
                     dMuY = self._parse_columned_section(3, self._n_atoms, [1,2,3])
                     dMuZ = self._parse_columned_section(3, self._n_atoms, [1,2,3])
-                    idx = self._state_pair_to_index(state_1, state_2)
+                    idx = self._cis_state_pair_to_index(state_1, state_2)
                     data['cis_transition_dipole_deriv'][idx] = [dMuX, dMuY, dMuZ]
                     current_line = self._next(2)
             else:
                     dMuX = self._parse_columned_section(3, self._n_atoms, [1,2,3])
                     dMuY = self._parse_columned_section(3, self._n_atoms, [1,2,3])
                     dMuZ = self._parse_columned_section(3, self._n_atoms, [1,2,3])
-                    idx = self._state_pair_to_index(state_1, state_2)
+                    idx = self._cis_state_pair_to_index(state_1, state_2)
                     data['cis_transition_dipole_deriv'][idx] = [dMuX, dMuY, dMuZ]
 
 
@@ -844,7 +864,7 @@ class TCParser():
         elif 'transition dipole' in dipole_type_line:
             state_1 = int(sp[0])
             state_2 = int(sp[1])
-            index = self._state_pair_to_index(state_1, state_2)
+            index = self._cis_state_pair_to_index(state_1, state_2)
             self._current_frame['cis_transition_dipole_deriv'][index] = [dMuX, dMuY, dMuZ]
         else:
             self._current_frame['cis_unrelaxed_dipole_deriv'][state - 1] = [dMuX, dMuY, dMuZ]
@@ -878,7 +898,7 @@ class TCParser():
             state_1 = int(dipole_line.split()[2])
             state_2 = int(dipole_line.split()[4])
             key = f'cas_transition_dipole_deriv'
-            index = self._state_pair_to_index(state_1, state_2)
+            index = self._cas_state_pair_to_index(state_1, state_2)
             self._current_frame[key][index] = [dMuX, dMuY, dMuZ]
 
 
