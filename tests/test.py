@@ -13,7 +13,7 @@ from tcparse import parse_from_list, parse_from_file
     
 
 #   turn on to print which keys and frames are being checked
-PRINT_ASSERT = False
+PRINT_ASSERT = True
 
 #   ignore these keys, usefull when debugging specific parsers
 IGNORE_KEYS = []
@@ -51,12 +51,15 @@ class TestParser(unittest.TestCase):
 
     def _test_MD_data(self, ref_data, tst_data):
         #   make sure the same frame data is present
-        ref_frames = list(ref_data.keys())
-        tst_frames = list(tst_data.keys())
-        self.assertListEqual(ref_frames, tst_frames)
+
+        if not isinstance(ref_data, list):
+            ref_data = [ref_data]
+        if not isinstance(tst_data, list):
+            tst_data = [tst_data]
+
         
         #   check each frame
-        for frame in ref_frames:
+        for frame in range(len(ref_data)):
             if PRINT_ASSERT: print("ASSERTING FRAME: ", frame)
             ref_job = ref_data[frame]
             tst_job = tst_data[frame]
@@ -70,14 +73,8 @@ class TestParser(unittest.TestCase):
 
             self.assertSetEqual(ref_keys, tst_keys)
 
-
             #   check each object in the job
             for key in ref_keys:
-                # if PRINT_ASSERT: print(" - ASSERTING KEY: ", key)
-                # print(f"    {key} REFERENCE: ")
-                # print(ref_job[key])
-                # print(f"    {key} TEST: ")
-                # print(tst_job[key])
                 self.assertAlmostEqual(ref_job[key], tst_job[key], places=14)
 
 
@@ -99,6 +96,8 @@ class TestParser(unittest.TestCase):
             _recursive_compare_no_trace(self, tst_job[key], ref_job[key])
 
         for key in tst_job:
+            if tst_job[key] is None:
+                continue
             if key not in ref_keys:
                 raise KeyError(f"Key {key} not found in reference data")
 
@@ -128,7 +127,8 @@ class TestParser(unittest.TestCase):
         os.chdir(self._orig_dir)
         os.chdir('jobs/md')
         tst_data = parse_from_file('tc.out')
-        tst_data = json.loads(json.dumps(tst_data))
+        tst_data = [x.model_dump(mode='json', exclude_none=True) for x in tst_data]
+        # tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
 
@@ -138,7 +138,7 @@ class TestParser(unittest.TestCase):
         os.chdir(self._orig_dir)
         os.chdir('jobs/dipole_deriv_cas')
         tst_data = parse_from_file('tc.out')
-        tst_data = json.loads(json.dumps(tst_data))
+        tst_data = [x.model_dump(mode='json', exclude_none=True) for x in tst_data]
         with open('tc.json') as file:
             ref_data = json.load(file)
 
@@ -148,9 +148,12 @@ class TestParser(unittest.TestCase):
         os.chdir(self._orig_dir)
         os.chdir('jobs/dipole_deriv_cis')
         tst_data = parse_from_file('tc.out')
-        tst_data = json.loads(json.dumps(tst_data))
+        tst_data = [x.model_dump(mode='json', exclude_none=True) for x in tst_data]
         with open('tc.json') as file:
             ref_data = json.load(file)
+
+        with open('tst.json', 'w') as file:
+            json.dump(tst_data, file, indent=4)
 
         self._test_MD_data(ref_data, tst_data)
 
@@ -158,7 +161,8 @@ class TestParser(unittest.TestCase):
         os.chdir(self._orig_dir)
         os.chdir('jobs/geom_import')
         tst_data = parse_from_file('tc.out', coords_file='geom_custom.xyz')
-        tst_data = json.loads(json.dumps(tst_data))
+        tst_data = tst_data.model_dump(mode='json', exclude_none=True)
+        # tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
 
@@ -168,7 +172,7 @@ class TestParser(unittest.TestCase):
         os.chdir(self._orig_dir)
         os.chdir('jobs/cis')
         tst_data = parse_from_file('tc.out')
-        tst_data = json.loads(json.dumps(tst_data))
+        tst_data = tst_data.model_dump(mode='json')
         with open('tc.json') as file:
             ref_data = json.load(file)
         

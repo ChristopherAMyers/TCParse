@@ -77,7 +77,7 @@ class CISParser:
             elif 'Largest CI coefficients:' in line:
                 self._parse_cis_coefficients(line)
 
-            elif 'Computing ESP on molecular grid' in line:
+            elif 'Computing ESP on molecular grid' in line or 'Running Resp charge analysis...' in line:
                 self.root._parse_charge_info(prev_line)
 
             elif 'Final Excited State Results' in line:

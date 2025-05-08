@@ -5,7 +5,7 @@ import numpy as np
 import io
 from pprint import pprint
 
-from pydantic import BaseModel, ValidationError
+from pydantic import ValidationError
 from typing import Optional
 
 from .units import *
@@ -204,8 +204,8 @@ def parse_from_file(tc_output_file: str, coords_file : str=None, data_output_fil
     return _dict_to_object(data)
 
 def _dict_to_object(data: dict) -> TCJobData:
-    if 0 in data:
-        new_obj = [_validate_dict(x) for x in data.values()]
+    if isinstance(data, list):
+        new_obj = [_validate_dict(x) for x in data]
     else:
         new_obj = _validate_dict(data)
 
@@ -213,7 +213,7 @@ def _dict_to_object(data: dict) -> TCJobData:
 
 def _validate_dict(data: dict) -> TCJobData:
     try:
-        new_obj = TCJobData.parse_obj(data)
+        new_obj = TCJobData.model_validate(data)
     except ValidationError as e:
         for error in e.errors():
             if error['type'] == 'missing' and error['msg'].lower() == 'field required':
@@ -288,6 +288,8 @@ class TCParser():
             state = 0
             key = f"esp_analysis_S{state}"
 
+        #   the description of the charge section
+        #   has changed across TeraChem versions
         while "atom   " not in chg_line.lower():
             chg_line = next(self._file)
         next(self._file)
@@ -366,7 +368,6 @@ class TCParser():
 
         prev_line = ''
         for line in self._file:
-
             if end_phrase is not None:
                 if end_phrase in line:
                     self._post_process_data()
@@ -399,7 +400,7 @@ class TCParser():
 
             # elif 'Running Resp charge analysis...' in line:
             
-            elif 'Computing ESP on molecular grid' in line:
+            elif 'Computing ESP on molecular grid' in line or 'Running Resp charge analysis...' in line:
                 self._parse_charge_info(prev_line)
 
             elif 'Dipole X' in line or 'Dipole Derivative X' in line:
@@ -417,17 +418,30 @@ class TCParser():
 
     def _post_process_data(self):
         data = self._current_frame
-        ex_type = 'cas'
-        if 'cis_states' in data:
-            ex_type = 'cis'
 
+        if len(data) == 0:
+            return
+        reorder_charge_info(data)
 
-        for key, val in data.items():
-            
-            #   check to make sure all values are not None
-            if isinstance(val, list):
+        #   reorder keys in same order from TCJobData
+        #   and remove empty or None values
+        ordered_data = {}
+        for key in TCJobData.model_fields.keys():
+            if key == 'velocities':
+                print('vels: ', val)
+            val = data.get(key, None)
+            if val is None:
+                continue
+            elif isinstance(val, list):
                 if not any(val):
-                    data[key] = None
+                    continue
+                elif len(val) == 0:
+                    continue
+
+            data.pop(key)
+            ordered_data[key] = val
+
+        self._data[self._current_frame_num] = ordered_data.copy()
 
     def _parse_dipole_deriv_numerical(self, current_line):
         if self._ex_type == 'cis':
@@ -639,11 +653,10 @@ class TCParser():
                 self._print("Scratch directory not found: cannot import coordinates and velocities")
 
         if is_md or is_num_deriv:
-            for frame in self._data:
-                reorder_charge_info(self._data[frame])
+            return_data = [x for x in self._data.values()]
         else:
-            self._data = self._data[0]
-            reorder_charge_info(self._data)
+            return_data= self._data[0]
+            # reorder_charge_info(self._data)
 
         # reorder_charge_info(self._data)
         # raise ValueError()
@@ -652,7 +665,7 @@ class TCParser():
         if data_output_file is not None:
             self._print("Writing data to ", data_output_file)
             with open(data_output_file, 'w') as file:
-                json.dump(self._data, file, indent=4)
+                json.dump(return_data, file, indent=4)
 
-        return self._data
+        return return_data
 

@@ -8,8 +8,6 @@ TCParse is a Python parser for TeraChem output files. It extracts various molecu
   Contains the main parser logic in [`tcparse.py`](src/tcparse/tcparse.py).
 - **tests/**  
   Holds test scripts and sample jobs to validate the functionality.
-- **debug/**  
-  Contains debug files produced during development.
 - **pyproject.toml**  
   Project configuration.
 - **README.md**  

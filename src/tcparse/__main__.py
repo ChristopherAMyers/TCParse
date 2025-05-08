@@ -11,12 +11,7 @@ def main():
 
     data = parse_from_file(args.t, args.x, args.j)
 
-    if 0 in data:
-        new_obj = [TCJobData.parse_obj(x) for x in data.values()]
-    else:
-        new_obj = TCJobData.parse_obj(data)
-
-    return new_obj
+    return data
 
 if __name__ == '__main__':
     res = main()
