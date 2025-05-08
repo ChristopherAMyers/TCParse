@@ -24,10 +24,10 @@ class TCJobData(BaseModel):
     cas_states                    : Optional[int] = None
     cas_transition_dipole_deriv   : Optional[list] = None
     cas_transition_dipoles        : Optional[list] = None
-    cis_dipole_deriv              : Optional[list] = None
+    cis_unrelaxed_dipole_deriv    : Optional[list] = None
     cis_ex_energies               : Optional[list] = None
     cis_excitations               : Optional[list] = None
-    cis_gradient_2                : Optional[list] = None
+    cis_gradients                 : Optional[list] = None
     cis_osc_strengths             : Optional[list] = None
     cis_relaxed_dipole_deriv      : Optional[list] = None
     cis_relaxed_dipoles           : Optional[list] = None
@@ -244,9 +244,11 @@ class TCParser():
 
         self._atoms = None
         self._n_atoms = None
+        self._n_cis_states = 0
         self._current_frame_num = 0
 
         self._job_type = 'energy'
+        self._ex_type = None
         self._file = None
 
         self._vels_univ = None
@@ -255,6 +257,8 @@ class TCParser():
         self._data = {}
         self._add_frame_to_data()
         self._resp_version = resp_version
+
+        self._n_singlets = 0
 
         if print_console:
             self._print = print
@@ -295,8 +299,9 @@ class TCParser():
             state = 0
             key = f"esp_analysis_S{state}"
 
-        for n in range(5):
-            next(self._file)
+        while "atom   " not in chg_line.lower():
+            chg_line = next(self._file)
+        next(self._file)
 
         n_atoms = self._n_atoms
         coords = np.zeros((n_atoms, 3))
@@ -308,9 +313,9 @@ class TCParser():
             x, y, z, q, ex = [float(x) for x in sp[1:]]
             esp_charges[n] = q
 
-        #   skip ahead ot next charge section
+        #   skip ahead to next charge section
         next(self._file)
-        while "atom" not in line.lower():
+        while "atom   " not in line.lower():
             line = next(self._file)
         next(self._file)
         for n in range(n_atoms):
@@ -337,9 +342,11 @@ class TCParser():
             'resp_dipole': resp_dipole_au.tolist()
         }
 
-    def _parse_columned_section(self, n_skip: int, n_lines: int, columns: int, key: str, conv_factor=1.0):
+    def _parse_columned_section(self, n_skip: int, n_lines: int, columns: int, key: Optional[str] = None, conv_factor=1.0):
         for i in range(n_skip): 
             next(self._file)
+
+        all_vals = []
         for i in range(n_lines):
             line = next(self._file)
             sp = line.split()
@@ -349,15 +356,35 @@ class TCParser():
                 vals = float(sp[columns[0]])*conv_factor
             else:
                 vals = [float(sp[n])*conv_factor for n in columns]
-            self._current_frame.setdefault(key, []).append(vals)
+
+            if key is not None:
+                self._current_frame.setdefault(key, []).append(vals)
+            all_vals.append(vals)
+
+        return all_vals
+
+    def _init_cas_data(self, line):
+        self._n_singlets = int(line.split()[-1])
+        n = self._n_singlets
+        n_combos = int(n*(n+1)/2)
+
+        data = self._current_frame
+        data['cas_singlet_states'] =              n
+        data['cas_gradients'] =                  [None]*n
+        data['cas_couplings'] =                  [None]*n_combos
+        data['cas_transition_dipole_deriv'] =    [None]*n_combos
+        data['cas_transition_dipoles'] =         [None]*n_combos
+        data['cas_dipoles'] =                    [None]*n
+        data['cas_dipole_deriv'] =               [None]*n
+        
 
     def _parse_cas_section(self):
+        self._ex_type = 'cas'
         data = self._current_frame
         n_states = 0
-        coefficients = []
         for line in self._file:
-            # if '' in line:
-            #     return
+            if 'Number of singlet CSFs' in line:
+                self._init_cas_data(line)
             
             if 'Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)' in line:
                 line = next(self._file)
@@ -451,36 +478,98 @@ class TCParser():
         self._current_frame['cis_ex_energies'] = ex_energies
         self._current_frame['cis_osc_strengths'] = oscillators
 
-    def _parse_cis_section(self):
+    def _parse_cis_transition_dipoles(self, line):
+        n_states = self._n_cis_states
+
+        #   Ground state transition dipoles
+        if 'Transition dipole moments:' in line:
+            vals = self._parse_columned_section(3, n_states, [1,2,3])
+            for i in range(n_states):
+                self._current_frame['cis_transition_dipoles'][i] = vals[i]
+
+
+        elif 'Transition dipole moments between' in line:
+            n_lines = int(n_states*(n_states - 1)/2)
+            vals = self._parse_columned_section(3, n_lines, [3, 4, 5])
+            vals = list(reversed(vals))
+            for i in range(1, n_states + 1):
+                for j in range(i+1, n_states + 1):
+                    index = self._state_pair_to_index(i, j)
+                    self._current_frame['cis_transition_dipoles'][index] = vals.pop()
+
+        elif 'Relaxed transition dipole moments' in line:
+            #   Note: Relaxed transition moments are not computed between excited states
+            vals = self._parse_columned_section(3, n_states, [1,2,3])
+            for i in range(n_states):
+                self._current_frame['cis_relaxed_transition_dipoles'][i] = vals[i]
+
+    def _parse_cis_dipoles(self, line):
+        vals = self._parse_columned_section(3, self._n_cis_states, [1,2,3])
+        for i in range(self._n_cis_states):
+            if 'Relaxed' in line:
+                self._current_frame['cis_relaxed_dipoles'][i] =  list(np.array(vals[i])*DEBYE_2_AU)
+            else:
+                self._current_frame['cis_unrelaxed_dipoles'][i] = list(np.array(vals[i])*DEBYE_2_AU)
+
+    def _parse_cis_gradients(self, line):
+        root = int(line.split()[1].replace(':', ''))
+        self._current_frame['cis_gradients'][root-1] = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+
+    def _parse_cis_energy(self, line):
+        self._parse_columned_section(1, self._n_cis_states, [1], 'energy')
+
+    def _init_cis_data(self, line):
+
+        if 'Number of roots' in line:
+            n_states = int(line.split()[-1])
+            self._n_cis_states = n_states
+
+        n = self._n_cis_states
+        n_combos = int(n*(n+1)/2)
+
         data = self._current_frame
-        n_states = 0
+        data['cis_states'] =                     n_states
+        data['cis_excitations'] =                [None]*n
+        data['cis_osc_strengths'] =              [None]*n
+        data['cis_gradients'] =                  [None]*n
+        data['cis_couplings'] =                  [None]*n_combos
+        data['cis_transition_dipole_deriv'] =    [None]*n_combos
+        data['cis_transition_dipoles'] =         [None]*n_combos
+        data['cis_relaxed_transition_dipoles'] = [None]*n
+        data['cis_unrelaxed_dipoles'] =          [None]*n
+        data['cis_relaxed_dipoles'] =            [None]*n
+        data['cis_unrelaxed_dipole_deriv'] =     [None]*n
+        data['cis_relaxed_dipole_deriv'] =       [None]*n
+        data['cis_transition_dots'] =            [None]*n
+
+
+    def _state_pair_to_index(self, i, j):
+        if i > j:
+            i, j = j, i
+        n_states = self._n_cis_states
+        return int((i*n_states) + (j - 1 - (i*(i+1)/2)))
+
+    def _parse_cis_section(self):
+        self._ex_type = 'cis'
+
         for line in self._file:
             if 'Number of roots' in line:
-                n_states = int(line.split()[-1])
-                data['cis_states'] = n_states
+                self._init_cis_data(line)
             
             elif 'Excited State Gradient' in line:
-                root = int(line.split()[1].replace(':', ''))
-                self._parse_columned_section(3, self._n_atoms, [1,2,3], f'cis_gradient_{root}')
+                self._parse_cis_gradients(line)
 
             elif 'moment derivatives' in line:
-                self._parse_dipole_deriv_analytical(line)
+                self._parse_cis_dipole_deriv_analytical(line)
             
             elif 'Total Energy (a.u.)   Ex. Energy (a.u.)     Ex. Energy (eV)' in line:
-                self._parse_columned_section(1, n_states, [1], 'energy')
+                self._parse_cis_energy(line)
 
-            elif 'Unrelaxed excited state dipole moments' in line:
-                self._parse_columned_section(3, n_states, [1, 2, 3], 'cis_unrelaxed_dipoles', DEBYE_2_AU)
-                
-            elif 'Relaxed excited state dipole moments:' in line:
-                self._parse_columned_section(3, n_states, [1, 2, 3], 'cis_relaxed_dipoles')
+            elif 'excited state dipole moments' in line:
+                self._parse_cis_dipoles(line)
 
-            elif 'Transition dipole moments:' in line:
-                self._parse_columned_section(3, n_states, [1, 2, 3], 'cis_transition_dipoles')       
-                
-            elif 'Transition dipole moments between excited states' in line:
-                n_lines = int(n_states*(n_states - 1)/2)
-                self._parse_columned_section(3, n_lines, [3, 4, 5], 'cis_transition_dipoles')
+            elif 'transition dipole moments' in line.lower():
+                self._parse_cis_transition_dipoles(line)
 
             elif 'Nonadiabatic coupling between' in line:
                 self._parse_cis_couplings(line)
@@ -488,8 +577,12 @@ class TCParser():
             elif 'Largest CI coefficients:' in line:
                 self._parse_cis_coefficients(line)
             
-            elif 'Running Resp charge analysis...' in line:
+            # elif 'Running Resp charge analysis...' in line:
+            #     self._parse_charge_info(prev_line)
+
+            elif 'Computing ESP on molecular grid' in line:
                 self._parse_charge_info(prev_line)
+
 
             elif 'Final Excited State Results' in line:
                 self._parse_final_cis_results(line)
@@ -514,6 +607,7 @@ class TCParser():
 
             if end_phrase is not None:
                 if end_phrase in line:
+                    self._post_process_data()
                     if self._current_frame_num % 100 == 0:
                         self._print("Parsing frame ", self._current_frame_num)
                     self._current_frame_num += 1
@@ -537,7 +631,9 @@ class TCParser():
             elif 'Gradient units are Hartree/Bohr' in line:
                 self._parse_gradient()
 
-            elif 'Running Resp charge analysis...' in line:
+            # elif 'Running Resp charge analysis...' in line:
+            
+            elif 'Computing ESP on molecular grid' in line:
                 self._parse_charge_info(prev_line)
 
             elif 'Dipole X' in line or 'Dipole Derivative X' in line or 'moment derivatives' in line:
@@ -552,7 +648,7 @@ class TCParser():
 
         return self._current_frame
     
-    def _post_process_data(self):
+    def _post_process_data_OLD(self):
         data = self._current_frame
         ex_type = 'cas'
         if 'cis_states' in data:
@@ -599,29 +695,86 @@ class TCParser():
                 data.setdefault(f'{ex_type}_relaxed_dipole_deriv', []).append(mat.tolist())
                 data.pop(key)
 
+    def _post_process_data(self):
+        data = self._current_frame
+        ex_type = 'cas'
+        if 'cis_states' in data:
+            ex_type = 'cis'
+
+
+        #   CIS Unrelaxed Dipole and CAS Excited Dipole Derivs
+        # n_states = 0
+        # while f'_S{n_states+1}_unrelaxed_dipole_deriv' in data:
+        #     n_states += 1
+        #     key = f'_S{n_states}_unrelaxed_dipole_deriv'
+        #     mat = np.array(data[key]).reshape((3, -1, 3))
+        #     data.setdefault(f'{ex_type}_unrelaxed_dipole_deriv', []).append(mat.tolist())
+        #     data.pop(key)
+        # while f'_S{n_states+1}_dipole_deriv' in data:
+        #     n_states += 1
+        #     key = f'_S{n_states}_dipole_deriv'
+        #     mat = np.array(data[key]).reshape((3, -1, 3))
+        #     data.setdefault(f'{ex_type}_dipole_deriv', []).append(mat.tolist())
+        #     data.pop(key)
+
+
+    # def _parse_cis_couplings_OLD(self, current_line):
+    #     current_line = current_line.lower()
+    #     if 'ground' in current_line:
+    #         sp = current_line.split()
+    #         state_1 = 0
+    #         state_2 = int(sp[-2])
+    #         key = f'cis_S{state_1}_S{state_2}_coupling'
+    #         self._parse_columned_section(4, self._n_atoms, [1,2,3], key)
+        
+    #     n_states = self._current_frame['cis_states']
+    #     for i in range(1, n_states + 1):
+    #         for j in range(i+1, n_states + 1):
+    #             if f'excited state {i}' in current_line and f'excited state {j}' in current_line:
+    #                 key = f'cis_S{i}_S{j}_coupling'
+    #                 self._parse_columned_section(4, self._n_atoms, [1,2,3], key)
+
+
+        for key, val in data.items():
+            
+            #   check to make sure all values are not None
+            if isinstance(val, list):
+                if not any(val):
+                    data[key] = None
+
     def _parse_cis_couplings(self, current_line):
         current_line = current_line.lower()
         if 'ground' in current_line:
             sp = current_line.split()
             state_1 = 0
             state_2 = int(sp[-2])
-            key = f'cis_S{state_1}_S{state_2}_coupling'
-            self._parse_columned_section(4, self._n_atoms, [1,2,3], key)
-        
-        n_states = self._current_frame['cis_states']
-        for i in range(1, n_states + 1):
-            for j in range(i+1, n_states + 1):
-                if f'excited state {i}' in current_line and f'excited state {j}' in current_line:
-                    key = f'cis_S{i}_S{j}_coupling'
-                    self._parse_columned_section(4, self._n_atoms, [1,2,3], key)
+            vals = self._parse_columned_section(4, self._n_atoms, [1,2,3])
+            index = self._state_pair_to_index(state_1, state_2)
+            self._current_frame['cis_couplings'][index] = vals
 
+        else:    
+            n_states = self._current_frame['cis_states']
+            for i in range(1, n_states + 1):
+                for j in range(i+1, n_states + 1):
+                    if f'excited state {i}' in current_line and f'excited state {j}' in current_line:
+                        idx = self._state_pair_to_index(i, j)
+                        vals = self._parse_columned_section(4, self._n_atoms, [1,2,3])
+                        self._current_frame['cis_couplings'][idx] = vals
 
-    def _parse_dipole_deriv_analytical(self, current_line):
+    def _parse_dipole_deriv_numerical(self, current_line):
+        if self._ex_type == 'cis':
+            self._parse_cis_dipole_deriv_numerical(current_line)
+        elif self._ex_type == 'cas':
+            self._parse_cas_dipole_deriv_numerical(current_line)
+        else:
+            raise ValueError(f'Unknown excited state type: {self._ex_type}')
+
+    def _parse_cis_dipole_deriv_analytical(self, current_line):
         data = self._current_frame
         current_line = current_line.lower()
 
         if 'ground' in current_line:
-            key = f'_S0_dipole_deriv'
+            key = 'dipole_deriv'
             self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
             self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
             self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
@@ -632,11 +785,12 @@ class TCParser():
             while current_line.split()[1].isnumeric():
                 sp = current_line.split()
                 state = int(sp[1])
-                key = f'_S{state}_dipole_deriv'
-                self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-                self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-                self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                dMuX = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                dMuY = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                dMuZ = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                data['cis_unrelaxed_dipole_deriv'][state - 1] = [dMuX, dMuY, dMuZ]
                 current_line = self._next(2).lower()
+
 
         if 'transition dipole moment derivative' in current_line:
             current_line = self._next(2)
@@ -646,56 +800,87 @@ class TCParser():
             if state_1 == 0:
                 while current_line.split()[0].isnumeric():
                     sp = current_line.split()
-                    state_1 = int(sp[0])
                     state_2 = int(sp[2])
-                    key = f'_S{state_1}_S{state_2}_dipole_deriv'
-                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                    dMuX = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                    dMuY = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                    dMuZ = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                    idx = self._state_pair_to_index(state_1, state_2)
+                    data['cis_transition_dipole_deriv'][idx] = [dMuX, dMuY, dMuZ]
                     current_line = self._next(2)
             else:
-                    key = f'_S{state_1}_S{state_2}_dipole_deriv'
-                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-                    self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+                    dMuX = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                    dMuY = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                    dMuZ = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+                    idx = self._state_pair_to_index(state_1, state_2)
+                    data['cis_transition_dipole_deriv'][idx] = [dMuX, dMuY, dMuZ]
 
 
-
-    def _parse_dipole_deriv_numerical(self, current_line):
+    def _parse_cis_dipole_deriv_numerical(self, current_line):
 
         #   analytical derivatives
         columns = [0,1,2]
         skips = [4,7,7]
-        if 'moment derivatives' in current_line:
-            #   numerical derivatives
-            columns = [1,2,3]
-            skips = [3,3,3]
 
         #   figure out what derivatives these are
         for x in [':', 'Root', 'State', '->', 'Singlet', 'Doublet', 'Tripplet', '-']:
             current_line = current_line.replace(x, '')
         current_line = current_line.lower()
 
-        sp = current_line.split()
-        if 'ground' in current_line or '0 Dipole' in current_line:
-            key = f'_S0_dipole_deriv'
-        elif 'unrelaxed' in current_line:
+        dipole_type_line = current_line
+        
+        dMuX = self._parse_columned_section(skips[0], self._n_atoms, columns)
+        dMuY = self._parse_columned_section(skips[1], self._n_atoms, columns)
+        dMuZ = self._parse_columned_section(skips[2], self._n_atoms, columns)
+
+        sp = dipole_type_line.split()
+        if 'ground' in dipole_type_line or '0 Dipole' in dipole_type_line:
+            self._current_frame['dipole_deriv'] = [dMuX, dMuY, dMuZ]
+        elif 'unrelaxed' in dipole_type_line:
             state = int(sp[0])
-            key = f'_S{state}_unrelaxed_dipole_deriv'
-        elif 'relaxed' in current_line:
+            self._current_frame['cis_unrelaxed_dipole_deriv'][state - 1] = [dMuX, dMuY, dMuZ]
+        elif 'relaxed' in dipole_type_line:
             state = int(sp[0])
-            key = f'_S{state}_relaxed_dipole_deriv'
-        elif 'transition dipole' in current_line:
+            self._current_frame['cis_relaxed_dipole_deriv'][state - 1] = [dMuX, dMuY, dMuZ]
+        elif 'transition dipole' in dipole_type_line:
             state_1 = int(sp[0])
             state_2 = int(sp[1])
-            key = f'_S{state_1}_S{state_2}_dipole_deriv'
+            index = self._state_pair_to_index(state_1, state_2)
+            self._current_frame['cis_transition_dipole_deriv'][index] = [dMuX, dMuY, dMuZ]
         else:
-            state = int(sp[0])
-            key = f'_S{state}_dipole_deriv'
+            self._current_frame['cis_unrelaxed_dipole_deriv'][state - 1] = [dMuX, dMuY, dMuZ]
 
-        self._parse_columned_section(skips[0], self._n_atoms, columns, key)
-        self._parse_columned_section(skips[1], self._n_atoms, columns, key)
-        self._parse_columned_section(skips[2], self._n_atoms, columns, key)
+    def _parse_cas_dipole_deriv_numerical(self, current_line):
+
+        #   analytical derivatives
+        columns = [0,1,2]
+        skips = [4,7,7]
+
+        dipole_line = current_line
+
+        dMuX = self._parse_columned_section(skips[0], self._n_atoms, columns)
+        dMuY = self._parse_columned_section(skips[1], self._n_atoms, columns)
+        dMuZ = self._parse_columned_section(skips[2], self._n_atoms, columns)
+
+        for x in [':', '->', '-']:
+            dipole_line = dipole_line.replace(x, '')
+        dipole_line = dipole_line.lower()
+
+        #TODO: Add explicit fields for Singlet, Doublet, Triplet, etc.
+        state_type = dipole_line.split()[0]
+        n_states = dipole_line.count('state')
+        if n_states == 1:
+            print('TEST: ', dipole_line)
+            state = int(dipole_line.split()[2])
+            key = f'cas_dipole_deriv'
+            self._current_frame[key][state] = [dMuX, dMuY, dMuZ]
+        elif n_states == 2:
+            print('TEST: ', dipole_line)
+            state_1 = int(dipole_line.split()[2])
+            state_2 = int(dipole_line.split()[4])
+            key = f'cas_transition_dipole_deriv'
+            index = self._state_pair_to_index(state_1, state_2)
+            self._current_frame[key][index] = [dMuX, dMuY, dMuZ]
+
 
     def _parse_gs_energy(self, line):
         self._current_frame['energy'].append(float(line.split()[2]))
