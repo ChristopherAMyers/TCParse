@@ -11,8 +11,6 @@ authors = [
 ]
 readme = "README.md"
 keywords = ["parsing", "science", "research"]
-homepage = "https://github.com/ChristopherAMyers/tcparse"
-repository = "https://github.com/ChristopherAMyers/tcparse"
 classifiers = [
   "Intended Audience :: Science/Research",
   "Operating System :: OS Independent",
@@ -24,7 +22,12 @@ classifiers = [
   "Development Status :: 4 - Beta"
 ]
 
-[project.dependencies]
-numpy = ">=1.23"
-pandas = ">=2.1.1"
-pydantic = "*"
+dependencies = [
+    "numpy>=1.23",
+    "pandas>=2.1.1",
+    "pydantic"
+]
+
+[project.urls]
+Homepage = "https://github.com/ChristopherAMyers/tcparse"
+Repository = "https://github.com/ChristopherAMyers/tcparse"
