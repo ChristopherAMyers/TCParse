@@ -5,13 +5,14 @@ import numpy as np
 import io
 from pprint import pprint
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from typing import Optional
 
 from .units import *
 from .cis import CISParser
 from .cas import CASParser
 from .job_data import TCJobData
+
 class XYZFile():
     def __init__(self, file_loc) -> None:
         self._atom_data = []
@@ -156,7 +157,7 @@ def correct_cis_signs(data: dict, compare_vecs=None):
             data['cis_transition_dipoles'][count] = (np.array(tr_dipole)*signs[i]*signs[j]).tolist()
             count += 1
     
-def parse_from_list(file_lines: list[str], coords_file: str=None, data_output_file=None) -> dict:
+def parse_from_list(file_lines: list[str], coords_file: str=None, data_output_file=None) -> TCJobData:
     '''
         Parse a list lines taken from a TeraChem output.
 
@@ -169,11 +170,17 @@ def parse_from_list(file_lines: list[str], coords_file: str=None, data_output_fi
             use the location specified in the TeraChem output.
         data_output_file: str
             final json file location to write the parsed data to.
+
+        Returns
+        -------
+        data: TCJobData
+            Parsed data from the TeraChem output.
     '''
     parser = TCParser()
-    return parser._parse_from_list(file_lines, coords_file, data_output_file)
+    data = parser._parse_from_list(file_lines, coords_file, data_output_file)
+    return _dict_to_object(data)
 
-def parse_from_file(tc_output_file: str, coords_file : str=None, data_output_file=None) -> dict:
+def parse_from_file(tc_output_file: str, coords_file : str=None, data_output_file=None) -> TCJobData:
     '''
         Parse a list lines taken from a TeraChem output.
 
@@ -186,9 +193,35 @@ def parse_from_file(tc_output_file: str, coords_file : str=None, data_output_fil
             use the location specified in the TeraChem output.
         data_output_file: str
             final json file location to write the parsed data to.
+
+        Returns
+        -------
+        data: TCJobData
+            Parsed data from the TeraChem output.
     '''
     parser = TCParser()
-    return parser._parse_from_file(tc_output_file, coords_file, data_output_file)
+    data = parser._parse_from_file(tc_output_file, coords_file, data_output_file)
+    return _dict_to_object(data)
+
+def _dict_to_object(data: dict) -> TCJobData:
+    if 0 in data:
+        new_obj = [_validate_dict(x) for x in data.values()]
+    else:
+        new_obj = _validate_dict(data)
+
+    return new_obj
+
+def _validate_dict(data: dict) -> TCJobData:
+    try:
+        new_obj = TCJobData.parse_obj(data)
+    except ValidationError as e:
+        for error in e.errors():
+            if error['type'] == 'missing' and error['msg'].lower() == 'field required':
+                print(f"Error: Missing key: {'.'.join(map(str, error['loc']))}")
+        print()
+        raise e
+        
+    return new_obj
 
 
 class TCParser():

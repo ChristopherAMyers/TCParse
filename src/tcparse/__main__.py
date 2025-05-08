@@ -19,4 +19,4 @@ def main():
     return new_obj
 
 if __name__ == '__main__':
-    main()
+    res = main()
