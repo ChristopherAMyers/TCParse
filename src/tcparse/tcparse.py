@@ -536,7 +536,7 @@ class TCParser():
 
     def _parse_coords(self, coords_file):
         if not os.path.isfile(coords_file):
-            raise FileNotFoundError(f'Could not find coordinate file {coords_file}')
+            print('Warning: Could not find coordinate file ', coords_file)
         else:
             coords_univ = XYZFile(coords_file)
             self._atoms = coords_univ.get_atoms()
