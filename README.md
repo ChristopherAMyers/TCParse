@@ -247,6 +247,11 @@ For this section, we define the number of excited states as `n_ex_states`, and t
     - Fourth level: The three Cartesian components of the atomic coordinates `[x, y, z]` for each entry  
   - *Example Shape:* `(n_ex_states, 3, n_atoms, 3)`
 
+- **`cis_relaxed_dipole_deriv`**  
+  - *Type:* Nested list (4-dimensional)  
+  - *Description:* Similar to `cis_relaxed_dipole_deriv`, but using the relaxed CIS densities.
+  - *Example Shape:* `(n_ex_states, 3, n_atoms, 3)`
+
 - **`cis_transition_dipole_deriv`**  
   - *Type:* Nested list (4-dimensional)  
   - *Description:* Derived dipole derivatives for the transitions between states. The dimensions mimic those of the unrelaxed dipole derivatives, `cis_unrelaxed_dipole_deriv`, except that there are `n_trans` entries.
