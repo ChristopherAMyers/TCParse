@@ -116,6 +116,8 @@ Values that involve multiple states (such as transition dipoles or nonadiabatic 
 
 When you parse a TeraChem output for a CIS job with TCParse, you receive a JSON object with the following keys. The example shown below (from `tests/jobs/cis/tc.json`) illustrates the structure and shape of many of the fields.
 
+Unless otherwise specified, all quantities are in atomic units. Notable exceptions are `geom` (units depend on the input job units), `dipole_moment` (Debye), and `dipole_vector` (Debye). The units are chosen to reflect those outputted in TeraChem Protobuffer outputs.
+
 ### Common Fields Across Job Types
 
 - **`atoms`**  
@@ -134,12 +136,15 @@ When you parse a TeraChem output for a CIS job with TCParse, you receive a JSON 
   - *Shape:* `(n_atoms, 3)`
 
 - **`dipole_moment`**  
-  - *Type:* Float  
+  - *Type:* Float (Debye)
   - *Description:* The ground state dipole moment magnitude of the system.
   
 - **`dipole_vector`**  
-  - *Type:* List of 3 floats  
+  - *Type:* List of 3 floats (Debye)
   - *Description:* The ground state dipole moment expressed as a vector `[mu_x, mu_y, mu_z]`.
+  - *Shape:* `(3,)`
+
+### Input Option Dependent Fields
 
 - **`dipole_deriv`**  
   - *Type:* Nested list (2-dimensional)  
@@ -163,6 +168,11 @@ When you parse a TeraChem output for a CIS job with TCParse, you receive a JSON 
   - *Type:* Nested list (2-dimensional)  
   - *Description:* The final gradient components printed in the TeraChem output. The output is controlled by the target state specified in the TeraChem input. For example, if one set `cistarget = 2`, then the gradient would be nuclear gradient of the second CIS excited state energy. Each vector is given as `[dE/dx, dE/dy, dE/dz]`.
   - *Shape:* `(n_atoms, 3)`
+
+- **`velocities`**  
+  - *Type:* Nested list (2-dimensional)  
+  - *Description:* If an `md` job is run and the parser can find the velocities files inficated in the output file (usually in the scratch directory), then each frame will have this field.
+  - *Shape:* `(n_atoms, n)` 
 
 ### CIS-Specific Fields
 
@@ -239,12 +249,12 @@ For this section, we define the number of excited states as `n_ex_states`, and t
 
 - **`cis_transition_dipole_deriv`**  
   - *Type:* Nested list (4-dimensional)  
-  - *Description:* Derived dipole derivatives for the transitions between states. The dimensions mimic those of the unrelaxed dipole derivatives, `cis_unrelaxed_dipole_deriv`, except that there are `n_trans` of them.
+  - *Description:* Derived dipole derivatives for the transitions between states. The dimensions mimic those of the unrelaxed dipole derivatives, `cis_unrelaxed_dipole_deriv`, except that there are `n_trans` entries.
   - *Shape:* `(n_trans, 3, n_atoms, 3)`.
 
 ### CAS-Specific Fields
 
-For now, these fields only correspond to SINGLET states. Higher order states are not parsed (yet).
+For now, these fields only correspond to SINGLET states and has only been tested with CAS-SCF (not CAS-CI). Higher order states are not parsed (yet).
 
 - **`cas_states`**  
   - *Type:* Integer  
@@ -259,6 +269,20 @@ For now, these fields only correspond to SINGLET states. Higher order states are
   - *Type:* Nested list (2-dimensional)  
   - *Description:* Transition dipole vectors between CAS states. Each vector is represented as `[dx, dy, dz]`. There are `n_trans = n_states (n_states + 1) / 2` possible transitions.
   - *Shape:* `(n_trans, 3)`.
+
+- **`cas_dipole_deriv`**  
+  - *Type:* Nested list (4-dimensional)  
+  - *Description:* These are the dipole derivatives resulting from the CAS calculations. The dimensions are organized as follows:  
+    - First level: Different CAS states `[mu_x, mu_y, mu_z]`
+    - Second level: The three dipole components that are differentiated
+    - Third level: Individual atoms indices
+    - Fourth level: The three Cartesian components of the atomic coordinates `[x, y, z]` for each entry  
+  - *Example Shape:* `(n_states, 3, n_atoms, 3)`
+
+- **`cis_transition_dipole_deriv`**  
+  - *Type:* Nested list (4-dimensional)  
+  - *Description:* Derived dipole derivatives for the transitions between states. The dimensions mimic those of the unrelaxed dipole derivatives, `cas_dipole_deriv`, except that there are `n_trans` entries.
+  - *Shape:* `(n_trans, 3, n_atoms, 3)`.
 
 ---
 
