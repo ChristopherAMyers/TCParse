@@ -244,6 +244,8 @@ For this section, we define the number of excited states as `n_ex_states`, and t
 
 ### CAS-Specific Fields
 
+For now, these fields only correspond to SINGLET states. Higher order states are not parsed (yet).
+
 - **`cas_states`**  
   - *Type:* Integer  
   - *Description:* Number of CAS states included.
