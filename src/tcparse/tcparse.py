@@ -427,8 +427,6 @@ class TCParser():
         #   and remove empty or None values
         ordered_data = {}
         for key in TCJobData.model_fields.keys():
-            if key == 'velocities':
-                print('vels: ', val)
             val = data.get(key, None)
             if val is None:
                 continue
@@ -572,15 +570,6 @@ class TCParser():
                 elif self._tc_output_file_path is not None:
                     coords_file = os.path.join(self._tc_output_file_path, line.split()[2])
                     self._parse_coords(coords_file)
-                    # if not os.path.isfile(coords_file):
-                    #     print("Could not find ", coords_file)
-                    #     print("    Coordinates will not be imported")
-                    # else:
-                    #     coords_univ = XYZFile(coords_file)
-                    #     self._atoms = coords_univ.get_atoms()
-                    #     coords = coords_univ.get_coords()
-                    #     self._data[self._current_frame]['geom'] = coords
-                    #     self._data[self._current_frame]['atoms'] = self._atoms 
                 else:
                     pass
                     # print("Could not import geometry")

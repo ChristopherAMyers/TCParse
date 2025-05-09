@@ -4,9 +4,10 @@ from pydantic import BaseModel
 from typing import Optional
 
 class TCJobData(BaseModel):
-    atoms                         : list
+
     energy                        : list
 
+    atoms                         : Optional[list] = None
     geom                          : Optional[list] = None
     cas_dipole_deriv              : Optional[list] = None
     cas_dipoles                   : Optional[list] = None

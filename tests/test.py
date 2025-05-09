@@ -2,7 +2,6 @@ import unittest
 import os
 import json
 import numpy as np
-import pickle
 
 TC_PARSE_LOC = os.environ.get('TCPARSE_LOC', False)
 if TC_PARSE_LOC:
@@ -13,7 +12,7 @@ from tcparse import parse_from_list, parse_from_file
     
 
 #   turn on to print which keys and frames are being checked
-PRINT_ASSERT = True
+PRINT_ASSERT = False
 
 #   ignore these keys, usefull when debugging specific parsers
 IGNORE_KEYS = []
@@ -57,7 +56,7 @@ class TestParser(unittest.TestCase):
         if not isinstance(tst_data, list):
             tst_data = [tst_data]
 
-        
+
         #   check each frame
         for frame in range(len(ref_data)):
             if PRINT_ASSERT: print("ASSERTING FRAME: ", frame)
@@ -107,6 +106,7 @@ class TestParser(unittest.TestCase):
         with open('tc.out') as file:
             lines = file.readlines()
         tst_data = parse_from_list(lines)
+        tst_data = tst_data.model_dump(mode='json', exclude_none=True)
         tst_data = json.loads(json.dumps(tst_data))
         with open('tc.json') as file:
             ref_data = json.load(file)
@@ -151,9 +151,6 @@ class TestParser(unittest.TestCase):
         tst_data = [x.model_dump(mode='json', exclude_none=True) for x in tst_data]
         with open('tc.json') as file:
             ref_data = json.load(file)
-
-        with open('tst.json', 'w') as file:
-            json.dump(tst_data, file, indent=4)
 
         self._test_MD_data(ref_data, tst_data)
 

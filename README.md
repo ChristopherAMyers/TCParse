@@ -48,8 +48,9 @@ Where:
 - `-j` is the output JSON file path.
 - `-x` is the (optional) coordinate file location.
 
-To display the help screen with all available options, use:
+The `-x` option is usefull when the coordinates are not included in the TeraChem output.
 
+To display the help screen with all available options, use:
 ```sh
 python -m tcparse -h
 ```
@@ -76,8 +77,22 @@ data_dict_json = data.model_dump('json)
 
 ```
 
+If the file that you parsed is from a numerical derivative or moolecular dynamics (MD) simulation with multiple energy calculations, then the returned data will be a list of `TCJobData`'s.
 
-### `parse_from_list(lines: list[str]) -> dict`
+**Example:**
+```python
+from tcparse import parse_from_file
+
+# import the data from a file
+data = parse_from_file("path/to/terachem_md.out")
+
+# convert to a python dictionary
+data_dict = [x.model_dump('json') for x in datal]
+
+```
+
+
+### `parse_from_list(lines: list[str]) -> TCJobData | list[TCJobData]`
 Parses TeraChem output provided as a list of strings (e.g., lines read from a file) and returns the same aforementioned data. This is usefull if the lines were already parsed from another python function.
 
 **Example:**
