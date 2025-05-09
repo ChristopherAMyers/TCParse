@@ -347,11 +347,11 @@ class TCParser():
 
         return all_vals
 
-    def _parse_gs_dipole_deriv(self, current_line):
-        key = 'dipole_deriv'
-        self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-        self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
-        self._parse_columned_section(3, self._n_atoms, [1,2,3], key)
+    def _parse_gs_dipole_deriv(self):
+        dMuX = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+        dMuY = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+        dMuZ = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+        self._current_frame['dipole_deriv'] = [dMuX, dMuY, dMuZ]
         return
 
 
@@ -407,7 +407,7 @@ class TCParser():
                 self._parse_dipole_deriv_numerical(line)
 
             elif 'Ground state dipole moment derivatives' in line:
-                self._parse_gs_dipole_deriv(line)
+                self._parse_gs_dipole_deriv()
 
             prev_line = line
 
