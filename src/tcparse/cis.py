@@ -153,12 +153,13 @@ class CISParser:
 
     def _parse_cis_dipoles(self, line):
         vals = self._parse_columned_section(3, self._n_cis_states, [0, 1,2,3])
-        for i, mu in enumerate(vals):
+        for i, mu_x, mu_y, mu_z in vals:
             i = int(i) - 1
+            mu = np.array([mu_x, mu_y, mu_z])*DEBYE_2_AU
             if 'Relaxed' in line:
-                self._current_frame['cis_relaxed_dipoles'][i] =  list(np.array(mu)*DEBYE_2_AU)
+                self._current_frame['cis_relaxed_dipoles'][i] =  list(mu)
             else:
-                self._current_frame['cis_unrelaxed_dipoles'][i] = list(np.array(mu)*DEBYE_2_AU)
+                self._current_frame['cis_unrelaxed_dipoles'][i] = list(mu)
 
     def _parse_cis_gradients(self, current_line: str):
         root = int(current_line.split()[1].replace(':', ''))

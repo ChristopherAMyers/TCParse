@@ -6,7 +6,7 @@ import io
 from pprint import pprint
 
 from pydantic import ValidationError
-from typing import Optional
+from typing import Optional, Union, get_args, get_origin
 
 from .units import *
 from .cis import CISParser
@@ -64,7 +64,7 @@ def _assign_charge_info(new_data: dict, old_data: dict, key):
     for x in ['esp_dipole', 'resp_dipole']:
         new_data.setdefault(f'{key}{x}s', []).append(old_data[x])
 
-def reorder_charge_info(data: dict):
+def _reorder_charge_info(data: dict):
     energies = data['energy']
     n_states = len(energies)
     new_esp_data = {}
@@ -75,8 +75,11 @@ def reorder_charge_info(data: dict):
 
     # all_esp_analysis_keys = [k for k in data if 'esp_analysis_' in k]
     if 'esp_analysis_S0' in data:
-        _assign_charge_info(new_esp_data, data['esp_analysis_S0'], '')
-        data.pop('esp_analysis_S0')
+        # _assign_charge_info(new_esp_data, data['esp_analysis_S0'], '')
+        new_esp_data['esp_charges'] = data['esp_analysis_S0']['esp_charges']
+        new_esp_data['resp_charges'] = data['esp_analysis_S0']['resp_charges']
+        new_esp_data['resp_dipole'] = data['esp_analysis_S0']['resp_dipole']
+        new_esp_data['esp_dipole'] = data['esp_analysis_S0']['esp_dipole']
         pass
         
 
@@ -223,7 +226,7 @@ def _validate_dict(data: dict) -> TCJobData:
         
     return new_obj
 
-
+                
 class TCParser():
     def __init__(self, resp_version=2, print_console=False) -> None:
         self._tc_output_file_path = None
@@ -421,7 +424,7 @@ class TCParser():
 
         if len(data) == 0:
             return
-        reorder_charge_info(data)
+        _reorder_charge_info(data)
 
         #   reorder keys in same order from TCJobData
         #   and remove empty or None values
