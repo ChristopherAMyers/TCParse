@@ -355,8 +355,10 @@ class TCParser():
         dMuY = self._parse_columned_section(3, self._n_atoms, [1,2,3])
         dMuZ = self._parse_columned_section(3, self._n_atoms, [1,2,3])
         self._current_frame['dipole_deriv'] = [dMuX, dMuY, dMuZ]
-        return
 
+    def _parse_gs_gradient(self):
+        vals = self._parse_columned_section(3, self._n_atoms, [1,2,3])
+        self._current_frame['gs_gradient'] = vals
 
     def _add_frame_to_data(self):
         if self._current_frame_num not in self._data:
@@ -391,17 +393,13 @@ class TCParser():
             elif 'CIS Parameters' in line:
                 self._ex_type = 'cis'
                 self._cis_parser.parse()
-                # self._parse_cis_section()
 
             elif 'CAS Parameters' in line:
                 self._ex_type = 'cas'
                 self._cas_parser.parse()
-                # self._parse_cas_section()
 
             elif 'Gradient units are Hartree/Bohr' in line:
                 self._parse_gradient()
-
-            # elif 'Running Resp charge analysis...' in line:
             
             elif 'Computing ESP on molecular grid' in line or 'Running Resp charge analysis...' in line:
                 self._parse_charge_info(prev_line)
@@ -411,6 +409,9 @@ class TCParser():
 
             elif 'Ground state dipole moment derivatives' in line:
                 self._parse_gs_dipole_deriv()
+
+            elif 'Total Ground State Gradient' in line:
+                self._parse_gs_gradient()
 
             prev_line = line
 

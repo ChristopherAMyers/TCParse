@@ -80,6 +80,9 @@ class CISParser:
             elif 'Computing ESP on molecular grid' in line or 'Running Resp charge analysis...' in line:
                 self.root._parse_charge_info(prev_line)
 
+            elif 'Total Ground State Gradient' in line:
+                self.root._parse_gs_gradient()
+
             elif 'Final Excited State Results' in line:
                 self._parse_final_cis_results(line)
                 #   this is the end of the CIS section, so leave the function

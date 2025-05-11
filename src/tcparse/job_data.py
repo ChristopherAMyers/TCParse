@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel
 from typing import List
-from typing import Optional, Union, get_args, get_origin
+from typing import Optional, Union, get_args, get_origin, TypeAlias
 import numpy as np
 
 class TCJobData(BaseModel):
@@ -15,6 +15,7 @@ class TCJobData(BaseModel):
 
     #   DFT dataInput Option Dependent Fields
     dipole_deriv                   : list[list | None]  | None = None
+    gs_gradient                    : list[list | None]  | None = None
     esp_charges                    : List[float]        | None = None
     esp_dipole                     : List[float]        | None = None
     gradient                       : list[list | None]  | None = None
