@@ -4,6 +4,7 @@ import json
 import numpy as np
 import io
 from pprint import pprint
+import sys
 
 from pydantic import ValidationError
 from typing import Optional, Union, get_args, get_origin
@@ -535,6 +536,10 @@ class TCParser():
                 final json file location to write the parsed data to.
         '''
         self._tc_output_file_path = os.path.split(tc_output_file)[0]
+        if not os.path.isfile(tc_output_file):
+            print(f"Could not find TeraChem output file: {tc_output_file}")
+            sys.exit(1)
+
         self._file = open(tc_output_file)
         return self._parse_all(coords_file, data_output_file)
 

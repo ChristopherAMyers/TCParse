@@ -115,7 +115,7 @@ class TCJobData(BaseModel):
                         if val[i] is None:
                             continue
                         combined_data[key][i] = val[i]
-                else:
+                elif val is not None:
                     combined_data[key] = val
 
         data = TCJobData.model_validate(combined_data)
