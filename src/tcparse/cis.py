@@ -20,6 +20,7 @@ class CISParser:
     _next =                     delegate_property('_next')
 
     def __init__(self, root_parser: TCParser):
+        self._is_rpa = False
         self.root = root_parser
     
     def _init_cis_data(self, current_line: str):
@@ -46,10 +47,14 @@ class CISParser:
         data['cis_relaxed_dipole_deriv'] =       [None]*n
         data['cis_transition_dots'] =            [None]*n
 
-    def parse(self):
+    def parse(self, line: str):
         '''
             Main parsing function. Should be called from the root parser.
         '''
+
+        if 'RPA' in line:
+            self._is_rpa = True
+
         self._ex_type = 'cis'
 
         for line in self._file:
@@ -74,7 +79,7 @@ class CISParser:
             elif 'Nonadiabatic coupling between' in line:
                 self._parse_cis_couplings(line)
 
-            elif 'Largest CI coefficients:' in line:
+            elif 'Largest CI coefficients:' in line and not self._is_rpa:
                 self._parse_cis_coefficients(line)
 
             elif 'Computing ESP on molecular grid' in line or 'Running Resp charge analysis...' in line:
@@ -232,7 +237,8 @@ class CISParser:
         oscillators = []
         for i in range(n_states):
             sp = next(self._file).split()
-            excitations.append([int(sp[6]), int(sp[8])])
+            if not self._is_rpa:
+                excitations.append([int(sp[6]), int(sp[8])])
             ex_energies.append(float(sp[2]))
             oscillators.append(float(sp[3]))
         # data['cis_excitations'] = excitations

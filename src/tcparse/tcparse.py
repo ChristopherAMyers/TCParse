@@ -391,9 +391,9 @@ class TCParser():
             elif 'DIPOLE MOMENT' in line:
                 self._parse_gs_dipole(line)
 
-            elif 'CIS Parameters' in line:
+            elif 'CIS Parameters' in line or '(RPA) Parameters' in line:
                 self._ex_type = 'cis'
-                self._cis_parser.parse()
+                self._cis_parser.parse(line)
 
             elif 'CAS Parameters' in line:
                 self._ex_type = 'cas'
