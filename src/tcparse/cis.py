@@ -208,8 +208,16 @@ class CISParser:
 
 
         if 'transition dipole moment derivative' in current_line:
+            position = self._file.tell()
+
             current_line = self._next(2)
             sp = current_line.split()
+
+            #   the next section should have two state numbers
+            if (not sp[0].isdigit()) or (not sp[2].isdigit()):
+                self._file.seek(position)
+                return
+
             state_1 = int(sp[0])
             state_2 = int(sp[2])
             if state_1 == 0:
