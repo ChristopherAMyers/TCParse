@@ -104,8 +104,11 @@ class TCJobData(BaseModel):
         combined_data = {}
         for dataset in (self,) + datasets:
             for key, val in dataset.model_dump().items():
-
                 if key not in combined_data:
+                    combined_data[key] = val
+                    continue
+
+                if combined_data[key] is None:
                     combined_data[key] = val
                     continue
 
