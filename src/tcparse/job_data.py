@@ -114,6 +114,9 @@ class TCJobData(BaseModel):
 
                 #   for all list fields, we don't overwrite with None values
                 if isinstance(val, list):
+                    if combined_data[key] is None:
+                        combined_data[key] = [None for _ in range(len(val))]
+
                     for i in range(len(val)):
                         if val[i] is None:
                             continue

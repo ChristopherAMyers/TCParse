@@ -209,7 +209,14 @@ def parse_from_file(tc_output_file: str, coords_file : str=None, data_output_fil
 
 def _dict_to_object(data: dict) -> TCJobData:
     if isinstance(data, list):
-        new_obj = [_validate_dict(x) for x in data]
+        new_obj = []
+        n_calcs = len(data)
+        for i, x in enumerate(data):
+            try:
+                validated = TCJobData.model_validate(x)
+                new_obj.append(validated)
+            except ValidationError as e:
+                print(f'ValidationError: Could not valid calculation {i + 1}/{n_calcs}')
     else:
         new_obj = _validate_dict(data)
 
