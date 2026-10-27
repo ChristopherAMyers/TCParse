@@ -643,13 +643,33 @@ class TCParser():
                 vels_file = os.path.join(scr_dir, 'velocities.xyz')
                 vels_univ = XYZFile(vels_file)
 
+                #   Match XYZ energies to support both initial-frame and propagated-frame numbering.
+                frame_offset = 0
+                best_error = float('inf')
+                for offset in (0, 1):
+                    energy_error = 0.0
+                    for n in range(coords_univ.n_frames):
+                        frame = coords_univ.get_frame_num_from_comment(n) + offset
+                        data = self._data.get(frame)
+                        if data is None or not data.get('energy'):
+                            energy_error = float('inf')
+                            break
+
+                        comment = coords_univ.get_comment(n)
+                        xyz_energy = float(comment.split()[0])
+                        energy_error += abs(data['energy'][0] - xyz_energy)
+
+                    if energy_error < best_error:
+                        frame_offset = offset
+                        best_error = energy_error
+
                 for n in range(coords_univ.n_frames):
                     frame = coords_univ.get_frame_num_from_comment(n)
-                    self._data[frame + 1]['geom'] = coords_univ.get_coords(n)
+                    self._data[frame + frame_offset]['geom'] = coords_univ.get_coords(n)
 
                 for n in range(vels_univ.n_frames):
                     frame = vels_univ.get_frame_num_from_comment(n)
-                    self._data[frame + 1]['velocities'] = vels_univ.get_coords(n)
+                    self._data[frame + frame_offset]['velocities'] = vels_univ.get_coords(n)
                 for frame in self._data:
                     if 'velocities' not in self._data[frame]:
                         self._data[frame]['velocities'] = None
